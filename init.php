@@ -1,7 +1,8 @@
 <?php
-define("APP_ROOT", dirname(__FILE__));
 
-require APP_ROOT.'/library/Autoloader.php';
+require __DIR__.'/src/Autoload/SimpleAutoloader.php';
 
-Autoloader::getInstance()
-    ->addBasePath('/', APP_ROOT.'/library');
+Autoload\SimpleAutoloader::get()
+    ->addPaths(array(
+        __DIR__.'/src',
+    ));

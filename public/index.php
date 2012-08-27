@@ -1,2 +1,3 @@
 <?php
 
+require '../init.php';
