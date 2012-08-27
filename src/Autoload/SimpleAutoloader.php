@@ -51,7 +51,7 @@ class SimpleAutoloader
      */
     public function setCustomAutoloadHandler($callable = null)
     {
-        if (!is_null($custom_auto_loader) && !is_callable($custom_auto_loader)) {
+        if (!is_null($callable) && !is_callable($callable)) {
             throw new RuntimeException("Expected non-null argument to be callable.");
         }
 
@@ -67,8 +67,8 @@ class SimpleAutoloader
     */
     protected function autoloadHandler($object)
     {
-        if (!is_null($customAutoloadHandler)) {
-            $customAutoloadHandler($object);
+        if (!is_null($this->customAutoloadHandler)) {
+            $this->customAutoloadHandler($object);
         } else {
             $this->defaultAutoloadHandler($object);
         }
