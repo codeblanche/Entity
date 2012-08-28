@@ -1,0 +1,21 @@
+{
+    "name": "mertenvg/php-dataobject",
+    "description": "A strict php data object",
+    "keywords": [
+        "php-dataobject",
+        "PHP DataObject",
+        "PHP",
+        "DataObject"
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "autoload" : {
+        "psr-0": {
+            "DataObject": "src/"
+        },
+        "classmap": [
+            "./"
+        ]
+    }
+}
