@@ -1,10 +1,10 @@
 <?php
 
-namespace UnitTest\DataObject;
+namespace DataObjectTest;
 
-use \UnitTest\DataObject\TestAsset\MyDataObject,
-    \UnitTest\DataObject\TestAsset\InvalidClassNameInDocType,
-    \UnitTest\DataObject\TestAsset\InvalidMixedPropertyIdentifier;
+use DataObjectTest\TestAsset\MyDataObject;
+use DataObjectTest\TestAsset\InvalidClassNameInDocType;
+use DataObjectTest\TestAsset\InvalidMixedPropertyIdentifier;
 
 class DataObjectTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,8 +17,8 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
 
     public function testSetValidInteger()
     {
-        self::$dataObject->integer = 13;
-        $this->assertEquals(13, self::$dataObject->integer);
+        self::$dataObject->testInteger = 13;
+        $this->assertEquals(13, self::$dataObject->testInteger);
     }
 
     /**
@@ -26,13 +26,13 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
     */
     public function testSetInvalidInteger()
     {
-        self::$dataObject->integer = 'im_invalid';
+        self::$dataObject->testInteger = 'im_invalid';
     }
 
     public function testSetValidString()
     {
-        self::$dataObject->string = 'im_a_string';
-        $this->assertEquals('im_a_string', self::$dataObject->string);
+        self::$dataObject->testString = 'im_a_string';
+        $this->assertEquals('im_a_string', self::$dataObject->testString);
     }
 
     /**
@@ -40,16 +40,16 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
     */
     public function testSetInvalidString()
     {
-        self::$dataObject->string = array('This is an array');
+        self::$dataObject->testString = array('This is an array');
         exit;
     }
 
     public function testSetValidArray()
     {
-        self::$dataObject->array = array('This is an array');
-        $this->assertInternalType('array', self::$dataObject->array);
-        $this->assertArrayHasKey(0, self::$dataObject->array);
-        $this->assertEquals('This is an array', self::$dataObject->array[0]);
+        self::$dataObject->testArray = array('This is an array');
+        $this->assertInternalType('array', self::$dataObject->testArray);
+        $this->assertArrayHasKey(0, self::$dataObject->testArray);
+        $this->assertEquals('This is an array', self::$dataObject->testArray[0]);
     }
 
     /**
@@ -57,13 +57,13 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
     */
     public function testSetInvalidArray()
     {
-        self::$dataObject->array = 'im_a_string';
+        self::$dataObject->testArray = 'im_a_string';
     }
 
     public function testSetValidObject()
     {
-        self::$dataObject->object = new MyDataObject();
-        $this->assertInstanceOf('\UnitTest\DataObject\TestAsset\MyDataObject', self::$dataObject->object);
+        self::$dataObject->testObject = new MyDataObject();
+        $this->assertInstanceOf('\DataObjectTest\TestAsset\MyDataObject', self::$dataObject->testObject);
     }
 
     /**
@@ -71,24 +71,24 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
     */
     public function testSetInvalidObject()
     {
-        self::$dataObject->object = 123;
+        self::$dataObject->testObject = 123;
     }
 
     public function testSetMixed()
     {
-        self::$dataObject->mixed = 13;
-        $this->assertEquals(13, self::$dataObject->mixed);
+        self::$dataObject->testMixed = 13;
+        $this->assertEquals(13, self::$dataObject->testMixed);
 
-        self::$dataObject->mixed = 'im_a_string';
-        $this->assertEquals('im_a_string', self::$dataObject->mixed);
+        self::$dataObject->testMixed = 'im_a_string';
+        $this->assertEquals('im_a_string', self::$dataObject->testMixed);
 
-        self::$dataObject->mixed = array('This is an array');
-        $this->assertInternalType('array', self::$dataObject->mixed);
-        $this->assertArrayHasKey(0, self::$dataObject->mixed);
-        $this->assertEquals('This is an array', self::$dataObject->mixed[0]);
+        self::$dataObject->testMixed = array('This is an array');
+        $this->assertInternalType('array', self::$dataObject->testMixed);
+        $this->assertArrayHasKey(0, self::$dataObject->testMixed);
+        $this->assertEquals('This is an array', self::$dataObject->testMixed[0]);
 
-        self::$dataObject->mixed = new MyDataObject();
-        $this->assertInstanceOf('\UnitTest\DataObject\TestAsset\MyDataObject', self::$dataObject->mixed);
+        self::$dataObject->testMixed = new MyDataObject();
+        $this->assertInstanceOf('\DataObjectTest\TestAsset\MyDataObject', self::$dataObject->testMixed);
     }
 
     /**
@@ -124,7 +124,7 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
     public function testUnSerialize()
     {
         $serialize = self::$dataObject->serialize();
-        $this->assertInstanceOf('\UnitTest\DataObject\TestAsset\MyDataObject', self::$dataObject->unserialize($serialize));
+        $this->assertInstanceOf('\DataObjectTest\TestAsset\MyDataObject', self::$dataObject->unserialize($serialize));
     }
 
     public function testExport()
@@ -141,7 +141,7 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
     public function testImport()
     {
         $export = self::$dataObject->export();
-        self::$dataObject->import($export); // import breaks any following exports.
+        self::$dataObject->import($export);
     }
 
     public function testExportCache()
@@ -176,3 +176,9 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
     }
 
 }
+
+
+
+
+
+

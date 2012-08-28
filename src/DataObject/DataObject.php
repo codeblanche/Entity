@@ -439,7 +439,7 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
                 $val = $this->$key;
             }
 
-            if ($val instanceof DataObject) {
+            if ($val instanceof self) {
                 $result[$key] = $val->json(false);
             } elseif (is_array($val) || is_object($val)) {
                 $val = (array) $val;
@@ -487,19 +487,20 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
             if ($unserialized !== false) {
                 return $this->import($decoded);
             }
-        }
+
         // handle data as an array.
-        elseif (is_array($data)) {
+        } elseif (is_array($data)) {
+
             foreach ($this->definition_keys as $key) {
                 $val = $this->definition_defaults[$key];
-                if (is_array($data) && array_key_exists($key, $data)) {
+                if (array_key_exists($key, $data)) {
                     $val = $data[$key];
                 }
                 $this->_set($key, $val, true);
             }
-        }
+
         // handle data as a instance/child of DataObject.
-        elseif ($data instanceof DataObject) {
+        } elseif ($data instanceof DataObject) {
             foreach ($this->definition_keys as $key) {
                 $val = $this->definition_defaults[$key];
                 if ($data instanceof DataObject && isset($data->$key)) {

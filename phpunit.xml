@@ -8,5 +8,5 @@
     stopOnFailure="false"
     stopOnSkipped="false"
     stopOnIncomplete="false"
-    bootstrap="init.php"
+    bootstrap="tests/Bootstrap.php"
 />

@@ -1,8 +1,8 @@
 <?php
 
-namespace UnitTest\DataObject\TestAsset;
+namespace DataObjectTest\TestAsset;
 
-use \DataObject\DataObject;
+use DataObject\DataObject;
 
 /**
  * A sample DataObject using all known property types.

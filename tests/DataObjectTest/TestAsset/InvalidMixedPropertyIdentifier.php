@@ -1,11 +1,11 @@
 <?php
 
-namespace UnitTest\DataObject\TestAsset;
+namespace DataObjectTest\TestAsset;
 
-use \DataObject\DataObject;
+use DataObject\DataObject;
 
 class InvalidMixedPropertyIdentifier extends DataObject
 {
     /** @var string|integer */
-    public $mixed;
+    public $testMixed;
 }

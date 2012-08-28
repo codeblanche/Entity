@@ -1,11 +1,12 @@
 <?php
 
-namespace UnitTest\DataObject\TestAsset;
+namespace DataObjectTest\TestAsset;
 
-use \DataObject\DataObject;
+use DataObject\DataObject;
 
 class InvalidClassNameInDocType extends DataObject
 {
     /** @var ThisClassDoesNotExistsReally */
-    public $object;
+    public $testObject;
 }
+
