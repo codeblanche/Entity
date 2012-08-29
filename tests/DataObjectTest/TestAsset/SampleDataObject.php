@@ -16,96 +16,96 @@ class SampleDataObject extends DataObject
     /**
      * @var bool
      */
-    public $t_bool = false;
+    public $testBool = false;
 
     /**
      * @var boolean Alias of bool
      */
-    public $t_boolean = true;
+    public $testBoolean = true;
 
     /**
      * @var integer Alias of int
      */
-    public $t_integer = 12345;
+    public $testInteger = 12345;
 
     /**
      * @var int
      */
-    public $t_int = 67890;
+    public $testInt = 67890;
 
     /**
      * @var float
      */
-    public $t_float = 12.123;
+    public $testFloat = 12.123;
 
     /**
      * @var double Alias of float
      */
-    public $t_double = 34.345;
+    public $testDouble = 34.345;
 
     /**
      * @var numeric
      */
-    public $t_numeric = 34567;
+    public $testNumeric = 34567;
 
     /**
      * @var long Alias of int
      */
-    public $t_long = 23456;
+    public $testLong = 23456;
 
     /**
      * @var real Aliss of float
      */
-    public $t_real = 56.567;
+    public $testReal = 56.567;
 
     /**
      * @var resource
      */
-    public $t_resource;
+    public $testResource;
 
     /**
      * @var scalar Basix data type including int, float, string, bool
      */
-    public $t_scalar;
+    public $testScalar;
 
     /**
      * @var string
      */
-    public $t_string = "test string";
+    public $testString = "test string";
 
     /**
      * @var mixed
      */
-    public $t_mixed ;
+    public $testMixed ;
 
     /**
      * @var array
      */
-    public $t_array = array('1', '2', '3');
+    public $testArray = array('1', '2', '3');
 
     /**
      * @var stdClass
      */
-    public $t_stdclass;
+    public $testStdClass;
 
     /**
-     * @var DataObject
+     * @var \DataObject\DataObject
      */
-    public $t_dataobject;
+    public $testDataObject;
 
     /**
      * @var object
      */
-    public $t_object;
+    public $testObject;
 
     /**
      * @var null
      */
-    public $t_null;
+    public $testNull;
 
     /**
      * @var callable
      */
-    public $t_callable;
+    public $testCallable;
 
 }
