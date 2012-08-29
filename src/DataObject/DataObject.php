@@ -617,8 +617,9 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
             }
 
             if ($expected_type !== 'mixed' && (!call_user_func("is_$mapped_type", $value) ||
-                ($mapped_type == 'object' && !$value instanceof $expected_type))) {
+                ($mapped_type == 'object' && $expected_type !== 'object' && !$value instanceof $expected_type))) {
                 $value_type = gettype($value);
+
                 throw new RuntimeException(
                     sprintf(self::$exceptions[8],
                             $name, $this->called_class, $expected_type,
