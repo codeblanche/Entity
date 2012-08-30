@@ -2,7 +2,7 @@
 
 namespace DataObjectTest;
 
-use DataObjectTest\TestAsset\SampleDataObject;
+use DataObject\SampleDataObject;
 use DataObjectTest\TestAsset\InvalidClassNameInDocType;
 use DataObjectTest\TestAsset\InvalidMixedPropertyIdentifier;
 
@@ -19,48 +19,50 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
      * Some test data
      * @return array
      */
-    static protected function makeTestDataArray($recursionLimit = 1)
+    static protected function makeTestDataArray()
     {
-        $stdObj = new \StdClass();
-        $stdObj->testBool = true;
+        $stdObj            = new \StdClass();
+        $stdObj->testBool  = true;
 
-        if (static::$recursionCount < $recursionLimit) {
-            static::$recursionCount++;
-            $dataObj = new SampleDataObject(static::makeTestDataArray($recursionLimit));
-
-        } else {
-            $dataObj = new SampleDataObject();
-        }
+        $dataObj           = new SampleDataObject();
 
         return array (
-            'testBool' => false,
-            'testBoolean' => true,
-            'testInteger' => 52545,
-            'testInt' => 87898,
-            'testFloat' => 13.123,
-            'testDouble' => 35.345,
-            'testNumeric' => 54565,
-            'testLong' => 43454,
-            'testReal' => 57.567,
-            'testResource' => null,
-            'testScalar' => 'test scalar',
-            'testString' => 'test string',
-            'testMixed' => null,
-            'testArray' => array ('1', '2', '3'),
-            'testStdClass' => $stdObj,
-            'testDataObject' => $dataObj,
-            'testObject' => $stdObj,
-            'testNull' => null,
-            'testCallable' => array('DataObjectIndex', 'testCallable'),
+            'testBool'        => false,
+            'testBoolean'     => true,
+            'testInteger'     => 52545,
+            'testInt'         => 87898,
+            'testFloat'       => 13.123,
+            'testDouble'      => 35.345,
+            'testNumeric'     => 54565,
+            'testLong'        => 43454,
+            'testReal'        => 57.567,
+            'testResource'    => null,
+            'testScalar'      => 'test scalar',
+            'testString'      => 'test string',
+            'testMixed'       => null,
+            'testArray'       => array ('1', '2', '3'),
+            'testStdClass'    => $stdObj,
+            'testDataObject'  => $dataObj,
+            'testObject'      => $stdObj,
+            'testNull'        => null,
+            'testCallable'    => array(__CLASS__, 'testCallable'),
+            'testTypedArray1' => array($dataObj),
+            'testTypedArray2' => array(null, null),
+            'testTypedArray3' => array(array('1231231','asdasa',12312), array('1231231','asdasa',12312)),
+            'testTypedArray4' => array(12345, 23456, 34567, '1231'),
+            'blah'            => 1,
+            'flunnieline'     => 'asdasassaas',
         );
     }
 
-    static protected function makeSampleDataObject($recursionLimit = 1)
+    static protected function makeSampleDataObject($data = null)
     {
-        static::$recursionCount = 0;
-        $dataObj = new SampleDataObject(static::makeTestDataArray($recursionLimit));
+        return new SampleDataObject($data);
+    }
 
-        return $dataObj;
+    static public function testCallable()
+    {
+        // callable method
     }
 
     public static function setUpBeforeClass()
@@ -116,7 +118,7 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
     public function testSetValidObject()
     {
         static::$dataObject->testObject = static::$dataObject;
-        $this->assertInstanceOf('\DataObjectTest\TestAsset\SampleDataObject', static::$dataObject->testObject);
+        $this->assertInstanceOf('\DataObject\SampleDataObject', static::$dataObject->testObject);
     }
 
     /**
@@ -141,7 +143,7 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('This is an array', static::$dataObject->testMixed[0]);
 
         static::$dataObject->testMixed = static::makeSampleDataObject();
-        $this->assertInstanceOf('\DataObjectTest\TestAsset\SampleDataObject', static::$dataObject->testMixed);
+        $this->assertInstanceOf('\DataObject\SampleDataObject', static::$dataObject->testMixed);
     }
 
     /**
@@ -177,7 +179,7 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
     public function testUnSerialize()
     {
         $serialize = static::$dataObject->serialize();
-        $this->assertInstanceOf('\DataObjectTest\TestAsset\SampleDataObject', static::$dataObject->unserialize($serialize));
+        $this->assertInstanceOf('\DataObject\SampleDataObject', static::$dataObject->unserialize($serialize));
     }
 
     public function testExport()
