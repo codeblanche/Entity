@@ -27,7 +27,7 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
         if (static::$recursionCount < $recursionLimit) {
             static::$recursionCount++;
             $dataObj = new SampleDataObject(static::makeTestDataArray($recursionLimit));
-            
+
         } else {
             $dataObj = new SampleDataObject();
         }
@@ -59,7 +59,7 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
     {
         static::$recursionCount = 0;
         $dataObj = new SampleDataObject(static::makeTestDataArray($recursionLimit));
-        
+
         return $dataObj;
     }
 
