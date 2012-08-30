@@ -23,7 +23,7 @@ use DataObject\Exception\RuntimeException;
  */
 abstract class DataObject extends Cloneable implements Iterator, Serializable
 {
-    protected static $do_cache = array();
+    private static $do_cache = array();
 
     /**
      * Pipe seperated list of supported native (is_*) types for validation.
@@ -47,7 +47,7 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
      *
      * @var string
      */
-    protected $called_class;
+    private $called_class;
 
     /**
      * Maps phpdoc types to native (is_*) and/or user defined (instancof) types
@@ -55,7 +55,7 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
      *
      * @var array
      */
-    protected $type_map = array(
+    private $type_map = array(
         'boolean' => 'bool',
         'int' => 'numeric',
         'integer' => 'numeric',
@@ -69,7 +69,7 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
      *
      * @var array
      */
-    protected $cast_map = array(
+    private $cast_map = array(
         'null' => 'unset',
     );
 
@@ -78,50 +78,50 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
      *
      * @var array
      */
-    protected $definition_keys = array();
+    private $definition_keys = array();
 
     /**
      * Keys of undeclared dynamic public properties.
      */
-    protected $dynamic_keys = array();
+    private $dynamic_keys = array();
 
     /**
      * Types of public properties declared within DataObject extendor.
      *
      * @var array
      */
-    protected $definition_types = array();
+    private $definition_types = array();
 
     /**
      * Generic types of public array/list properties declared within DataObject extendor.
      *
      * @var array
      */
-    protected $definition_generics = array();
+    private $definition_generics = array();
 
     /**
      * Types of undeclared dynamic public properties.
      */
-    protected $dynamic_types = array();
+    private $dynamic_types = array();
 
     /**
      * Values of public properties declared within DataObject extendor.
      *
      * @var array
      */
-    protected $definition_values = array();
+    private $definition_values = array();
 
     /**
      * Values of undeclared dynamic public properties.
      */
-    protected $dynamic_values = array();
+    private $dynamic_values = array();
 
     /**
      * Default property values declared within DataObject extender.
      *
      * @var array
      */
-    protected $definition_defaults = array();
+    private $definition_defaults = array();
 
     /**
      * Iterator implementation placeholder.
@@ -150,7 +150,7 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
      *
      * @return string Serialized cache array.
      */
-    final public static function ExportCache()
+    final public static function exportCache()
     {
         return serialize(self::$do_cache);
     }
@@ -163,7 +163,7 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
      * @return TRUE             on success
      * @throws RuntimeException
      */
-    final public static function ImportCache($cache)
+    final public static function importCache($cache)
     {
         $unserialize = @unserialize($cache);
         if ($unserialize === false) {
@@ -180,10 +180,13 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
      *
      * @param array|DataObject $data array of key/value pairs matching properties of data object or a parent DataObject.
      */
-    public function __construct($data = array())
+    final public function __construct($data = null)
     {
         $this->initialize();
-        $this->import($data);
+        
+        if (!empty($data)) {
+            $this->import($data);
+        }
     }
 
     /**
@@ -191,11 +194,11 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
      *
      * @throws RuntimeException
      */
-    protected function initialize()
+    private function initialize()
     {
         $this->iterator_pos = 0;
         $this->called_class = get_called_class();
-
+        
         if (isset(self::$do_cache[$this->called_class])) {
             $cache                      = self::$do_cache[$this->called_class];
             $this->type_map             = $cache['type_map'];
@@ -213,13 +216,7 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
             return;
         }
 
-        foreach (explode('|', self::TYPE_MAP_ALLOWED) as $type) {
-            $this->type_map[$type] = $type;
-        }
-
-        foreach (explode('|', self::CAST_MAP_ALLOWED) as $cast) {
-            $this->cast_map[$cast] = $cast;
-        }
+        $this->initializeMaps();
 
         $reflection = new ReflectionClass($this->called_class);
         $public_vars = $reflection->getProperties(ReflectionProperty::IS_PUBLIC);
@@ -293,6 +290,20 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
             'definition_generics' => $this->definition_generics,
             'definition_values'   => $this->definition_values,
         );
+    }
+
+    /**
+     * Initialize the map collections
+     */
+    private function initializeMaps()
+    {
+        foreach (explode('|', self::TYPE_MAP_ALLOWED) as $type) {
+            $this->type_map[$type] = $type;
+        }
+
+        foreach (explode('|', self::CAST_MAP_ALLOWED) as $cast) {
+            $this->cast_map[$cast] = $cast;
+        }
     }
 
     /**

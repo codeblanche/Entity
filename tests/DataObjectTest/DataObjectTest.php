@@ -176,7 +176,7 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
         $this->assertNotEquals(false, @unserialize($serialize));
     }
 
-    public function testUnSerialize()
+    public function testUnserialize()
     {
         $serialize = static::$dataObject->serialize();
         $this->assertInstanceOf('\DataObject\SampleDataObject', static::$dataObject->unserialize($serialize));
