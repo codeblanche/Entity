@@ -1,11 +1,13 @@
 php-dataobject
 ==============
 
-A strict php data object
+A strict php data object.
+
+See src/DataObject/SampleDataObject.php for an example of how to create your own data objects.
 
 
 Known Issues
 ============
 
-* Running an export after an import causes unstabled results.
+* Circular referencing can cause unexpected results
 
