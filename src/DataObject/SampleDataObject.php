@@ -1,6 +1,6 @@
 <?php
 
-namespace DataObjectTest\TestAsset;
+namespace DataObject;
 
 use DataObject\DataObject;
 
@@ -89,7 +89,7 @@ class SampleDataObject extends DataObject
     public $testStdClass;
 
     /**
-     * @var \DataObject\DataObject
+     * @var DataObject\SampleDataObject
      */
     public $testDataObject;
 
@@ -107,5 +107,26 @@ class SampleDataObject extends DataObject
      * @var callable
      */
     public $testCallable;
+
+    /**
+     * @var DataObject\SampleDataObject[]
+     */
+    public $testTypedArray1;
+
+    /**
+     * @var array<DataObject\SampleDataObject>
+     */
+    public $testTypedArray2;
+
+    /**
+     * @var array[]
+     */
+    public $testTypedArray3;
+
+    /**
+     * @var integer[]
+     */
+    public $testTypedArray4;
+
 
 }
