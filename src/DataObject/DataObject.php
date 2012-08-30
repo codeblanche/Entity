@@ -2,12 +2,14 @@
 
 namespace DataObject;
 
-use \Iterator,
-    \Serializable,
-    \ReflectionClass,
-    \ReflectionProperty,
-    \Cloneable\Cloneable,
-    \DataObject\Exception\RuntimeException;
+use stdClass;
+use Iterator;
+use Serializable;
+use ReflectionClass;
+use ReflectionProperty;
+use Traversable;
+use Cloneable\Cloneable;
+use DataObject\Exception\RuntimeException;
 
 /**
  * This class is intended to be used as a base for pure data object classes
@@ -33,6 +35,10 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
      * Pipe seperated list of supported native $var = (*) $var cast types.
      */
     const CAST_MAP_ALLOWED = 'int|integer|bool|boolean|float|double|real|string|unset';
+
+    /**
+    * Supported Hash types
+    */
     const HASH_TYPE_SHA256 = 'sha256';
     const HASH_TYPE_MD5 = 'md5';
 
@@ -85,6 +91,13 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
      * @var array
      */
     protected $definition_types = array();
+
+    /**
+     * Generic types of public array/list properties declared within DataObject extendor.
+     *
+     * @var array
+     */
+    protected $definition_generics = array();
 
     /**
      * Types of undeclared dynamic public properties.
@@ -190,6 +203,7 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
             $this->definition_defaults  = $cache['definition_defaults'];
             $this->definition_keys      = $cache['definition_keys'];
             $this->definition_types     = $cache['definition_types'];
+            $this->definition_generics  = $cache['definition_generics'];
             $this->definition_values    = $cache['definition_values'];
 
             foreach ($this->definition_keys as $key) {
@@ -212,8 +226,8 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
         $this->definition_defaults = $reflection->getDefaultProperties();
 
         foreach ($public_vars as $public_var) { /* @var ReflectionProperty $public_var */
-            $doc = $public_var->getDocComment();
-            $key = $public_var->getName();
+            $doc       = $public_var->getDocComment();
+            $key       = $public_var->getName();
             $is_static = $public_var->isStatic();
 
             if ($is_static) {
@@ -221,18 +235,46 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
                 continue;
             }
 
-            $type = preg_match('/@var\s+([^\s]+)/i', $doc, $matches) ? $matches[1] : 'mixed';
+            $type    = preg_match('/@var\s+([^\s]+)/i', $doc, $matches) ? $matches[1] : 'mixed';
+            $subType = null;
 
             if (strpos($type, '|')) {
-                throw new RuntimeException(
-                    sprintf(self::$exceptions[1], $type, $key, $this->called_class), 1
-                );
+                throw new RuntimeException(sprintf(
+                    self::$exceptions[1],
+                    $type,
+                    $key,
+                    $this->called_class
+                ), 1);
+            }
+
+            if (substr($type, -2) === '[]') {
+                $subType = substr($type, 0, -2);
+                $type = 'array';
+            } elseif (strtolower(substr($type, 0, 5)) === 'array' && substr($type, -1) === '>') {
+                $subType = preg_replace('/^array<([^>]+)>$/i', '$1', $type);
+                $type = 'array';
             }
 
             if (!isset($this->type_map[$type]) && $type !== 'mixed' && !class_exists($type)) {
-                throw new RuntimeException(
-                    sprintf(self::$exceptions[2], $type, $key, $this->called_class), 2
-                );
+                throw new RuntimeException(sprintf(
+                    self::$exceptions[2],
+                    $type,
+                    $key,
+                    $this->called_class
+                ), 2);
+            }
+
+            if (!is_null($subType)) {
+                if (!isset($this->type_map[$subType]) && $subType !== 'mixed' && !class_exists($subType)) {
+                    throw new RuntimeException(sprintf(
+                        self::$exceptions[2],
+                        $subType,
+                        $key,
+                        $this->called_class
+                    ), 2);
+                }
+
+                $this->definition_generics[$key] = $subType;
             }
 
             $this->definition_keys[]        = $key;
@@ -243,12 +285,13 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
         }
 
         self::$do_cache[$this->called_class] = array(
-            'type_map' => $this->type_map,
-            'cast_map' => $this->cast_map,
+            'type_map'            => $this->type_map,
+            'cast_map'            => $this->cast_map,
             'definition_defaults' => $this->definition_defaults,
-            'definition_keys' => $this->definition_keys,
-            'definition_types' => $this->definition_types,
-            'definition_values' => $this->definition_values,
+            'definition_keys'     => $this->definition_keys,
+            'definition_types'    => $this->definition_types,
+            'definition_generics' => $this->definition_generics,
+            'definition_values'   => $this->definition_values,
         );
     }
 
@@ -359,7 +402,7 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
      *
      * return array
      */
-    final protected function dumpArray(&$array, $prefix = '')
+    final protected function dumpArray(&$array, $prefix = '', $generics_type = null)
     {
         $out = array();
         foreach ($array as $key => $val) {
@@ -368,7 +411,18 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
             }
 
             $type = gettype($val);
-            $defined_type = isset($this->definition_types[$key]) ? $this->definition_types[$key] : $type;
+
+            $defined_type     = isset($this->definition_types[$key]) ? $this->definition_types[$key] : $type;
+            $generics_subtype = null;
+
+            if (isset($this->definition_generics[$key])) {
+                $generics_subtype = $this->definition_generics[$key];
+                $defined_type = "{$generics_subtype}[]";
+            }
+
+            if (!is_null($generics_type)) {
+                $defined_type = $generics_type;
+            }
 
             if (in_array($type, array('array', 'object'))) {
                 $len = count($val);
@@ -385,7 +439,7 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
                     $out[] = "$prefix [<span style='color:#090;'>$key</span>] <span style='color:#00a;'>$defined_type</span> ($len) {";
                     $prefix .= str_pad('', 4);
 
-                    $sub = $this->dumpArray($val, $prefix);
+                    $sub = $this->dumpArray($val, $prefix, $generics_subtype);
                     $out = array_merge($out, $sub);
 
                     $out[] = "$prefix }";
@@ -474,6 +528,8 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
             return;
         }
 
+        $graceful = false;
+
         // handle data as a string.
         if (is_string($data)) {
             // looking for json
@@ -496,7 +552,7 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
                 if (array_key_exists($key, $data)) {
                     $val = $data[$key];
                 }
-                $this->_set($key, $val, true);
+                $this->_set($key, $val, $graceful);
             }
 
         // handle data as a instance/child of DataObject.
@@ -506,7 +562,7 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
                 if ($data instanceof DataObject && isset($data->$key)) {
                     $val = $data->$key;
                 }
-                $this->_set($key, $val, true);
+                $this->_set($key, $val, $graceful);
             }
         }
     }
@@ -596,40 +652,133 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
 
         if (!is_null($value) && isset($this->definition_types[$name])) {
             $expected_type = $this->definition_types[$name];
+            $generics_subtype  = isset($this->definition_generics[$name]) ?
+                $this->definition_generics[$name] : null;
 
-            if ($graceful) {
-                $expected_type = 'mixed';
+            $this->definition_values[$name] = $this->prepareValue(
+                $value,
+                $expected_type,
+                $generics_subtype,
+                $graceful,
+                $name
+            );
+        } else {
+            $this->definition_values[$name] = null;
+        }
+
+        return;
+    }
+
+    /**
+    * Prepare a value for storage according to required types.
+    *
+    * @param mixed $value
+    * @param string $expected_type
+    * @param string $generics_subtype
+    * @param boolean $graceful
+    * @param string $name
+    *
+    * @return mixed
+    *
+    * @throws RuntimeException
+    */
+    protected function prepareValue($value, $expected_type, $generics_subtype = null, $graceful = false, $name = '')
+    {
+        $defined_type = $expected_type;
+
+        if ($graceful) {
+            $expected_type = 'mixed';
+        }
+
+        $mapped_type = isset($this->type_map[$expected_type]) ?
+            $this->type_map[$expected_type] : $this->type_map['*'];
+
+        $cast_type = isset($this->cast_map[$expected_type]) ?
+            $this->cast_map[$expected_type] : null;
+
+        if (!is_null($cast_type) && is_scalar($value)) {
+            $casted = self::CastVar($value, $cast_type);
+
+            if ($value == $casted) {
+                $value = $casted;
             }
 
-            $mapped_type = isset($this->type_map[$expected_type]) ?
-                    $this->type_map[$expected_type] : $this->type_map['*'];
+            unset($casted);
+        }
 
-            $cast_type = isset($this->cast_map[$expected_type]) ?
-                    $this->cast_map[$expected_type] : null;
-
-            if (!is_null($cast_type) && is_scalar($value)) {
-                $casted = self::CastVar($value, $cast_type);
-
-                if ($value == $casted) {
-                    $value = $casted;
-                }
-                unset($casted);
-            }
-
-            if ($expected_type !== 'mixed' && (!call_user_func("is_$mapped_type", $value) ||
-                ($mapped_type == 'object' && $expected_type !== 'object' && !$value instanceof $expected_type))) {
-                $value_type = gettype($value);
-
-                throw new RuntimeException(
-                    sprintf(self::$exceptions[8],
-                            $name, $this->called_class, $expected_type,
-                            $value_type, var_export($value, true)
-                    ), 8
+        if (!is_null($generics_subtype) && (is_array($value) || $value instanceof Traversable)) {
+            foreach ($value as $key=>$val) {
+                $value[$key] = $this->prepareValue(
+                    $val,
+                    $generics_subtype,
+                    null,
+                    $graceful,
+                    "{$name}[{$key}]"
                 );
             }
         }
 
-        $this->definition_values[$name] = $value;
+        if (
+            $mapped_type === 'object' &&
+            !is_object($value) && (
+                is_array($value) ||
+                $value instanceof Traversable
+            )
+        ) {
+            $value = $this->convertArrayToObjectType($value, $defined_type);
+        }
+
+        if (
+            $expected_type !== 'mixed' &&
+            !is_null($value) && (
+                !call_user_func("is_$mapped_type", $value) || (
+                    $mapped_type    == 'object' &&
+                    $expected_type !== 'object' &&
+                    !($value instanceof $expected_type)
+                )
+            )
+        ) {
+
+            $value_type = gettype($value);
+
+            throw new RuntimeException(sprintf(
+                self::$exceptions[8],
+                $name,
+                $this->called_class,
+                $expected_type,
+                $value_type,
+                var_export($value, true)
+            ), 8);
+        }
+
+        return $value;
+    }
+
+    /**
+    * Convert a value to the specified object type.
+    *
+    * @param mixed $value
+    * @param mixed $defined_type
+    *
+    * return mixed
+    */
+    protected function convertArrayToObjectType($value, $defined_type)
+    {
+        if(!class_exists($defined_type) && $defined_type !== 'object') {
+            return $value;
+        }
+
+        if (class_exists($defined_type) && is_subclass_of($defined_type, __CLASS__)) {
+            $value = new $defined_type($value);
+        } else {
+            $obj = $defined_type === 'object' ? new stdClass() : new $defined_type();
+            foreach($value as $key=>$val) {
+                $obj->$key = $val;
+            }
+            $value = $obj;
+        }
+
+        return $value;
     }
 
     /**
@@ -812,3 +961,4 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
     }
 
 }
+
