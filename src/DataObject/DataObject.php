@@ -17,8 +17,8 @@ use DataObject\Exception\RuntimeException;
  * properties is deferred to DataObject in order to validate inputs and auto-
  * matically cast values to the correct types.
  *
- * @author      Merten van Gerven
- * @package     DataObject
+ * @author     Merten van Gerven
+ * @package    DataObject
  * @dependency  Cloneable
  */
 abstract class DataObject extends Cloneable implements Iterator, Serializable
@@ -599,18 +599,6 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
     }
 
     /**
-     * Magic getter.
-     *
-     * @param string $name
-     *
-     * @return mixed
-     */
-    public function &__get($name)
-    {
-        return $this->_get($name);
-    }
-
-    /**
      * Method for magic getter and private use.
      *
      * @param string $name
@@ -628,17 +616,6 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
         }
 
         return $this->definition_values[$name];
-    }
-
-    /**
-     * Magic setter.
-     *
-     * @param string $name
-     * @param mixed  $value
-     */
-    public function __set($name, $value)
-    {
-        $this->_set($name, $value);
     }
 
     /**

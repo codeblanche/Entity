@@ -3,7 +3,8 @@
 namespace DataObject;
 
 /**
- *
+ * @author     Merten van Gerven
+ * @package    DataObject
  */
 interface ObjectPropertyAccessorInterface extends AccessorInterface
 {

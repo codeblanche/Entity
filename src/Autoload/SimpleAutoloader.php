@@ -7,7 +7,8 @@ use \Autoload\Exception\RuntimeException;
 /**
  * A simple autoloader following the PSR-0 standard.
  *
- * @package Autload
+ * @author     Merten van Gerven
+ * @package    Autoload
  */
 class SimpleAutoloader
 {

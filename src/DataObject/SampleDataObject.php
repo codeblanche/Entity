@@ -2,15 +2,13 @@
 
 namespace DataObject;
 
-use DataObject\DataObject;
-
 /**
  * A sample DataObject using all known property types.
  *
- * @author      Merten van Gerven
- * @package     DataObject
+ * @author     Merten van Gerven
+ * @package    DataObject
  */
-class SampleDataObject extends DataObject
+class SampleDataObject extends ObjectPropertyDataObject
 {
 
     /**

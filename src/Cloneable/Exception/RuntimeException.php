@@ -3,6 +3,7 @@
 namespace Cloneable\Exception;
 
 /**
+ * @author     Merten van Gerven
  * @package    Cloneable
  * @subpackage Exception
  */

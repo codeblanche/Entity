@@ -4,6 +4,10 @@ namespace Timer;
 
 use DataObject\DataObject;
 
+/**
+ * @author     Merten van Gerven
+ * @package    Timer
+ */
 final class Timer extends DataObject {
 
     /**

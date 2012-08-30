@@ -3,9 +3,8 @@
 namespace DataObject;
 
 /**
- * Description of ObjectPropertyDataObject
- *
- * @author merten
+ * @author     Merten van Gerven
+ * @package    DataObject
  */
 abstract class ObjectPropertyDataObject extends DataObject implements ObjectPropertyAccessorInterface
 {

@@ -3,9 +3,10 @@
 namespace DataObject;
 
 /**
- *
+ * @author     Merten van Gerven
+ * @package    DataObject
  */
-interface ClassMethodsAccessorInterface extends AccessorInterface
+interface ClassMethodAccessorInterface extends AccessorInterface
 {
 
     /**

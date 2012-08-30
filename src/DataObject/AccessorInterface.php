@@ -3,9 +3,8 @@
 namespace DataObject;
 
 /**
- * Description of AccessorInterface
- *
- * @author merten
+ * @author     Merten van Gerven
+ * @package    DataObject
  */
 interface AccessorInterface
 {

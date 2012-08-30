@@ -9,8 +9,8 @@ use Cloneable\Exception\RuntimeException;
  * properties is deferred to DataObject in order to validate inputs and auto-
  * matically cast values to the correct types.
  *
- * @author      Merten van Gerven
- * @package     Cloneable
+ * @author     Merten van Gerven
+ * @package    Cloneable
  */
 abstract class Cloneable
 {
