@@ -9,6 +9,4 @@ namespace DataObject;
 interface AccessorInterface
 {
 
-
-
 }

@@ -2,9 +2,9 @@
 
 namespace DataObjectTest\TestAsset;
 
-use DataObject\DataObject;
+use DataObject\ObjectPropertyDataObject;
 
-class InvalidMixedPropertyIdentifier extends DataObject
+class InvalidMixedPropertyIdentifier extends ObjectPropertyDataObject
 {
     /** @var string|integer */
     public $testMixed;

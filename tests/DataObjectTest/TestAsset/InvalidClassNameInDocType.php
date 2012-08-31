@@ -2,9 +2,9 @@
 
 namespace DataObjectTest\TestAsset;
 
-use DataObject\DataObject;
+use DataObject\ObjectPropertyDataObject;
 
-class InvalidClassNameInDocType extends DataObject
+class InvalidClassNameInDocType extends ObjectPropertyDataObject
 {
     /** @var ThisClassDoesNotExistsReally */
     public $testObject;

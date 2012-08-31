@@ -2,13 +2,13 @@
 
 namespace Timer;
 
-use DataObject\DataObject;
+use DataObject\ObjectPropertyDataObject;
 
 /**
  * @author     Merten van Gerven
  * @package    Timer
  */
-final class Timer extends DataObject {
+final class Timer extends ObjectPropertyDataObject {
 
     /**
      * Microtime at start.

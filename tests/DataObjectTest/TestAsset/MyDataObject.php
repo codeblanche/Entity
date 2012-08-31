@@ -2,9 +2,9 @@
 
 namespace DataObjectTest\TestAsset;
 
-use DataObject\DataObject;
+use DataObject\ObjectPropertyDataObject;
 
-class MyDataObject extends DataObject
+class MyDataObject extends ObjectPropertyDataObject
 {
     /** @var integer */
     public $testInteger;
