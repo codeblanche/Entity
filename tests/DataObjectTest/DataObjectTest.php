@@ -221,7 +221,6 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
 
     public function testQueryString()
     {
-        return;
         $string = static::$dataObject->queryString();
         $data = array();
         parse_str($string, $data);
@@ -229,6 +228,121 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
         $this->assertInternalType('array', $data);
         $this->assertNotEmpty($data);
     }
+
+    public function testSetScalarToEmptyString()
+    {
+        $properties = array (
+            'testBool',
+            'testBoolean',
+            'testInteger',
+            'testInt',
+            'testFloat',
+            'testDouble',
+            'testLong',
+            'testReal',
+            'testScalar',
+            'testString',
+            'testNull',
+        );
+
+        $do = self::$dataObject;
+
+        array_map(function ($key) use ($do) {
+            $do->$key = '';
+        }, $properties);
+    }
+
+    /**
+    * @expectedException \DataObject\Exception\RuntimeException
+    */
+    public function testSetArrayToEmptyString()
+    {
+        $properties = array (
+            'testArray',
+        );
+
+        $do = self::$dataObject;
+
+        array_map(function ($key) use ($do) {
+            $do->$key = '';
+        }, $properties);
+    }
+
+    /**
+    * @expectedException \DataObject\Exception\RuntimeException
+    */
+    public function testSetObjectToEmptyString()
+    {
+        $properties = array (
+            'testStdClass',
+            'testDataObject',
+            'testObject',
+        );
+
+        $do = self::$dataObject;
+
+        array_map(function ($key) use ($do) {
+            $do->$key = '';
+        }, $properties);
+    }
+
+    /**
+    * @expectedException \DataObject\Exception\RuntimeException
+    */
+    public function testSetCallableToEmptyString()
+    {
+        $properties = array (
+            'testCallable',
+        );
+
+        $do = self::$dataObject;
+
+        array_map(function ($key) use ($do) {
+            $do->$key = '';
+        }, $properties);
+    }
+
+    public function testSetAllToNull()
+    {
+        $properties = array (
+            'testBool',
+            'testBoolean',
+            'testInteger',
+            'testInt',
+            'testFloat',
+            'testDouble',
+            'testNumeric',
+            'testLong',
+            'testReal',
+            'testResource',
+            'testScalar',
+            'testString',
+            'testMixed',
+            'testArray',
+            'testStdClass',
+            'testDataObject',
+            'testObject',
+            'testNull',
+            'testCallable',
+            'testTypedArray1',
+            'testTypedArray2',
+            'testTypedArray3',
+            'testTypedArray4',
+        );
+
+        $do = self::$dataObject;
+
+        array_map(function ($key) use ($do) {
+            $do->$key = null;
+        }, $properties);
+
+        $self = $this;
+
+        array_map(function ($key) use ($do, $self) {
+            $self->assertEquals(null, $do->$key);
+        }, $properties);
+    }
+
 
 }
 

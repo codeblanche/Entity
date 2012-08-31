@@ -34,7 +34,7 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
     /**
      * Pipe seperated list of supported native $var = (*) $var cast types.
      */
-    const CAST_MAP_ALLOWED = 'int|integer|bool|boolean|float|double|real|string|unset';
+    const CAST_MAP_ALLOWED = 'int|integer|long|bool|boolean|float|double|real|string|unset';
 
     /**
     * Supported Hash types
@@ -687,7 +687,9 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
         if (!is_null($cast_type) && is_scalar($value)) {
             $casted = self::CastVar($value, $cast_type);
 
-            if ($value == $casted) {
+            if (empty($value)) {
+                $value = null;
+            } elseif ($value == $casted) {
                 $value = $casted;
             }
 
@@ -866,6 +868,7 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
         switch ($type) {
             case 'int':
             case 'integer':
+            case 'long':
                 if (is_numeric($value)) {
                     $value = (integer) $value;
                 }

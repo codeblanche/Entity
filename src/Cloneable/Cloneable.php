@@ -2,6 +2,7 @@
 namespace Cloneable;
 
 use Cloneable\Exception\RuntimeException;
+use Traversable;
 
 /**
  * This class is intended to be used as a base for pure data object classes
@@ -29,7 +30,8 @@ abstract class Cloneable
     */
     public static function cloneCollection(&$collection)
     {
-        if (!is_array($var) && !($var instanceof Traversable)) {
+        if (!is_array($collection) && !($collection instanceof Traversable)) {
+            var_dump($collection);
             throw new RuntimeException("Expected argument to be an array or implement Traversable interface.");
         }
 

@@ -53,13 +53,6 @@ final class Timer extends DataObject {
     public $microseconds = 0;
 
     /**
-     * Constructor override.
-     */
-    public function __construct() {
-        parent::__construct();
-    }
-
-    /**
      * Start the timer.
      *
      * @return Timer
