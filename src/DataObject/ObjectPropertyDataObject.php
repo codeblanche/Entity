@@ -11,17 +11,22 @@ use ReflectionProperty;
  */
 abstract class ObjectPropertyDataObject extends DataObject implements ObjectPropertyAccessorInterface
 {
-    
+
     protected function getDefaultPropertyType()
     {
         return 'mixed';
     }
 
-    protected function getPropertiesAndTypes($calledClass)
+    protected function getCalledClassName()
+    {
+        return get_called_class();
+    }
+
+    protected function getPropertiesAndTypes()
     {
         $properties = array();
 
-        $reflection  = new ReflectionClass($calledClass);
+        $reflection  = new ReflectionClass($this->getCalledClassName());
         $publicVars = $reflection->getProperties(ReflectionProperty::IS_PUBLIC);
 
         foreach ($publicVars as $publicVar) { /* @var ReflectionProperty $public_var */
@@ -39,6 +44,11 @@ abstract class ObjectPropertyDataObject extends DataObject implements ObjectProp
         }
 
         return $properties;
+    }
+
+    protected function getDefaultValues()
+    {
+        return get_class_vars($this->getCalledClassName());
     }
 
     public function &__get($name)

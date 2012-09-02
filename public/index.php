@@ -3,45 +3,68 @@
 require '../init.php';
 
 use DataObject\SampleDataObject;
-use DataObject\DataObject;
 use Timer\Timer;
 
 class IndexPage
 {
-    const DO_CACHE = 'a:2:{s:11:"Timer\Timer";a:7:{s:8:"type_map";a:17:{s:7:"boolean";s:4:"bool";s:3:"int";s:3:"int";s:7:"integer";s:7:"integer";s:6:"double";s:6:"double";s:5:"float";s:5:"float";s:1:"*";s:6:"object";s:5:"array";s:5:"array";s:4:"bool";s:4:"bool";s:8:"callable";s:8:"callable";s:4:"long";s:4:"long";s:4:"null";s:4:"null";s:7:"numeric";s:7:"numeric";s:6:"object";s:6:"object";s:4:"real";s:4:"real";s:8:"resource";s:8:"resource";s:6:"scalar";s:6:"scalar";s:6:"string";s:6:"string";}s:8:"cast_map";a:11:{s:4:"null";s:5:"unset";s:3:"int";s:3:"int";s:7:"integer";s:7:"integer";s:4:"long";s:4:"long";s:4:"bool";s:4:"bool";s:7:"boolean";s:7:"boolean";s:5:"float";s:5:"float";s:6:"double";s:6:"double";s:4:"real";s:4:"real";s:6:"string";s:6:"string";s:5:"unset";s:5:"unset";}s:19:"definition_defaults";a:6:{s:6:"_start";N;s:4:"_end";N;s:5:"_diff";N;s:7:"seconds";i:0;s:12:"milliseconds";i:0;s:12:"microseconds";i:0;}s:15:"definition_keys";a:3:{i:0;s:7:"seconds";i:1;s:12:"milliseconds";i:2;s:12:"microseconds";}s:16:"definition_types";a:3:{s:7:"seconds";s:7:"integer";s:12:"milliseconds";s:7:"integer";s:12:"microseconds";s:7:"integer";}s:19:"definition_generics";a:0:{}s:17:"definition_values";a:3:{s:7:"seconds";i:0;s:12:"milliseconds";i:0;s:12:"microseconds";i:0;}}s:27:"DataObject\SampleDataObject";a:7:{s:8:"type_map";a:17:{s:7:"boolean";s:4:"bool";s:3:"int";s:3:"int";s:7:"integer";s:7:"integer";s:6:"double";s:6:"double";s:5:"float";s:5:"float";s:1:"*";s:6:"object";s:5:"array";s:5:"array";s:4:"bool";s:4:"bool";s:8:"callable";s:8:"callable";s:4:"long";s:4:"long";s:4:"null";s:4:"null";s:7:"numeric";s:7:"numeric";s:6:"object";s:6:"object";s:4:"real";s:4:"real";s:8:"resource";s:8:"resource";s:6:"scalar";s:6:"scalar";s:6:"string";s:6:"string";}s:8:"cast_map";a:11:{s:4:"null";s:5:"unset";s:3:"int";s:3:"int";s:7:"integer";s:7:"integer";s:4:"long";s:4:"long";s:4:"bool";s:4:"bool";s:7:"boolean";s:7:"boolean";s:5:"float";s:5:"float";s:6:"double";s:6:"double";s:4:"real";s:4:"real";s:6:"string";s:6:"string";s:5:"unset";s:5:"unset";}s:19:"definition_defaults";a:23:{s:8:"testBool";b:0;s:11:"testBoolean";b:1;s:11:"testInteger";i:12345;s:7:"testInt";i:67890;s:9:"testFloat";d:12.122999999999999;s:10:"testDouble";d:34.344999999999999;s:11:"testNumeric";i:34567;s:8:"testLong";i:23456;s:8:"testReal";d:56.567;s:12:"testResource";N;s:10:"testScalar";N;s:10:"testString";s:11:"test string";s:9:"testMixed";N;s:9:"testArray";a:3:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";}s:12:"testStdClass";N;s:14:"testDataObject";N;s:10:"testObject";N;s:8:"testNull";N;s:12:"testCallable";N;s:15:"testTypedArray1";N;s:15:"testTypedArray2";N;s:15:"testTypedArray3";N;s:15:"testTypedArray4";N;}s:15:"definition_keys";a:23:{i:0;s:8:"testBool";i:1;s:11:"testBoolean";i:2;s:11:"testInteger";i:3;s:7:"testInt";i:4;s:9:"testFloat";i:5;s:10:"testDouble";i:6;s:11:"testNumeric";i:7;s:8:"testLong";i:8;s:8:"testReal";i:9;s:12:"testResource";i:10;s:10:"testScalar";i:11;s:10:"testString";i:12;s:9:"testMixed";i:13;s:9:"testArray";i:14;s:12:"testStdClass";i:15;s:14:"testDataObject";i:16;s:10:"testObject";i:17;s:8:"testNull";i:18;s:12:"testCallable";i:19;s:15:"testTypedArray1";i:20;s:15:"testTypedArray2";i:21;s:15:"testTypedArray3";i:22;s:15:"testTypedArray4";}s:16:"definition_types";a:23:{s:8:"testBool";s:4:"bool";s:11:"testBoolean";s:7:"boolean";s:11:"testInteger";s:7:"integer";s:7:"testInt";s:3:"int";s:9:"testFloat";s:5:"float";s:10:"testDouble";s:6:"double";s:11:"testNumeric";s:7:"numeric";s:8:"testLong";s:4:"long";s:8:"testReal";s:4:"real";s:12:"testResource";s:8:"resource";s:10:"testScalar";s:6:"scalar";s:10:"testString";s:6:"string";s:9:"testMixed";s:5:"mixed";s:9:"testArray";s:5:"array";s:12:"testStdClass";s:8:"stdClass";s:14:"testDataObject";s:27:"DataObject\SampleDataObject";s:10:"testObject";s:6:"object";s:8:"testNull";s:4:"null";s:12:"testCallable";s:8:"callable";s:15:"testTypedArray1";s:5:"array";s:15:"testTypedArray2";s:5:"array";s:15:"testTypedArray3";s:5:"array";s:15:"testTypedArray4";s:5:"array";}s:19:"definition_generics";a:4:{s:15:"testTypedArray1";s:27:"DataObject\SampleDataObject";s:15:"testTypedArray2";s:27:"DataObject\SampleDataObject";s:15:"testTypedArray3";s:5:"array";s:15:"testTypedArray4";s:7:"integer";}s:17:"definition_values";a:23:{s:8:"testBool";b:0;s:11:"testBoolean";b:1;s:11:"testInteger";i:12345;s:7:"testInt";i:67890;s:9:"testFloat";d:12.122999999999999;s:10:"testDouble";d:34.344999999999999;s:11:"testNumeric";i:34567;s:8:"testLong";i:23456;s:8:"testReal";d:56.567;s:12:"testResource";N;s:10:"testScalar";N;s:10:"testString";s:11:"test string";s:9:"testMixed";N;s:9:"testArray";a:3:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";}s:12:"testStdClass";N;s:14:"testDataObject";N;s:10:"testObject";N;s:8:"testNull";N;s:12:"testCallable";N;s:15:"testTypedArray1";N;s:15:"testTypedArray2";N;s:15:"testTypedArray3";N;s:15:"testTypedArray4";N;}}}';
-
-    /**
-     * @var SampleDataObject
-     */
-    static private $do_instance;
-
     public function __construct()
     {
         $total = Timer::Make();
 
-        DataObject::importCache(self::DO_CACHE);
+        static::setUpBeforeClass();
 
-        $t = Timer::Make();
-        $dataObj1 = static::makeSampleDataObject();
-        $t->stop()->dump();
+        $this->testCallable();
+        $this->testExport();
 
-        $dataArray = static::makeTestDataArray();
+        $methods = get_class_methods($this);
 
-        $t = Timer::Make();
-        $dataObj2 = static::makeSampleDataObject($dataArray);
-        $t->stop()->dump();
+        $ignore = array (
+            'testCallable',
+            'testSetValidInteger',
+            'testSetValidString',
+            'testSetValidArray',
+            'testSetValidObject',
+            'testSetMixed',
+            'testSerialize',
+            'testUnserialize',
+            'testExport',
+            'testJSON',
+//            'testImport',
+            'testExportCache',
+            'testImportCache',
+            'testQueryString',
+            'testSetScalarToEmptyString',
+            'testSetAllToNull',
+        );
 
-        $serial = $dataObj2->serialize();
+        $filtered = array_filter($methods, function ($value) use ($ignore) {
+            return substr($value, 0, 4) === 'test' && !in_array($value, $ignore);
+        });
 
-        $dataObj3 = static::makeSampleDataObject();
-        $dataObj3->unserialize($serial);
+        var_dump('------------------------------------------------------');
+        static::$dataObject->dump();
 
-        $dataObj1->dump();
+        foreach($filtered as $method) {
+            $this->$method();
+        }
+
+        var_dump('------------------------------------------------------');
+        static::$dataObject->dump();
 
         $total->stop();
-
         $total->dump();
     }
+
+    public function __call($name, $arguments)
+    {
+        //;
+    }
+
+
+    /**
+     * @var SampleDataObject
+     */
+    static protected $dataObject;
 
     /**
      * Some test data
@@ -85,19 +108,175 @@ class IndexPage
 
     static protected function makeSampleDataObject($data = null)
     {
-        if(is_null(self::$do_instance)) {
-            self::$do_instance = new SampleDataObject($data);
-        }
-        //*/
-        return clone self::$do_instance;
-        /*/
         return new SampleDataObject($data);
-        //*/
     }
 
     static public function testCallable()
     {
         // callable method
+    }
+
+    public static function setUpBeforeClass()
+    {
+        $data = static::makeTestDataArray();
+        static::$dataObject = static::makeSampleDataObject($data);
+    }
+
+    public function testSetValidInteger()
+    {
+        static::$dataObject->testInteger = 13;
+        $this->assertEquals(13, static::$dataObject->testInteger);
+    }
+
+    public function testSetValidString()
+    {
+        static::$dataObject->testString = 'im_a_string';
+        $this->assertEquals('im_a_string', static::$dataObject->testString);
+    }
+
+    public function testSetValidArray()
+    {
+        static::$dataObject->testArray = array('This is an array');
+        $this->assertInternalType('array', static::$dataObject->testArray);
+        $this->assertArrayHasKey(0, static::$dataObject->testArray);
+        $this->assertEquals('This is an array', static::$dataObject->testArray[0]);
+    }
+
+    public function testSetValidObject()
+    {
+        static::$dataObject->testObject = static::makeSampleDataObject();
+        $this->assertInstanceOf('\DataObject\SampleDataObject', static::$dataObject->testObject);
+    }
+
+    public function testSetMixed()
+    {
+        static::$dataObject->testMixed = 13;
+        $this->assertEquals(13, static::$dataObject->testMixed);
+
+        static::$dataObject->testMixed = 'im_a_string';
+        $this->assertEquals('im_a_string', static::$dataObject->testMixed);
+
+        static::$dataObject->testMixed = array('This is an array');
+        $this->assertInternalType('array', static::$dataObject->testMixed);
+        $this->assertArrayHasKey(0, static::$dataObject->testMixed);
+        $this->assertEquals('This is an array', static::$dataObject->testMixed[0]);
+
+        static::$dataObject->testMixed = static::makeSampleDataObject();
+        $this->assertInstanceOf('\DataObject\SampleDataObject', static::$dataObject->testMixed);
+    }
+
+    public function testSerialize()
+    {
+        $serialize = static::$dataObject->serialize();
+        $this->assertNotEquals(false, @unserialize($serialize));
+    }
+
+    public function testUnserialize()
+    {
+        $serialize = static::$dataObject->serialize();
+        $this->assertInstanceOf('\DataObject\SampleDataObject', static::$dataObject->unserialize($serialize));
+    }
+
+    public function testExport()
+    {
+        $this->assertInternalType('array', static::$dataObject->export());
+    }
+
+    public function testJSON()
+    {
+        $json = static::$dataObject->json();
+        $this->assertNotEquals(false, json_decode($json));
+    }
+
+    public function testImport()
+    {
+        $export = static::$dataObject->export();
+        static::$dataObject->import($export);
+    }
+
+    public function testExportCache()
+    {
+        $this->assertNotEquals(false, @unserialize(static::$dataObject->ExportCache()));
+    }
+
+    public function testImportCache()
+    {
+        $serialized = static::$dataObject->ExportCache();
+        $this->assertEquals(true, static::$dataObject->ImportCache($serialized));
+    }
+
+    public function testQueryString()
+    {
+        $string = static::$dataObject->queryString();
+        $data = array();
+        parse_str($string, $data);
+
+        $this->assertInternalType('array', $data);
+        $this->assertNotEmpty($data);
+    }
+
+    public function testSetScalarToEmptyString()
+    {
+        $properties = array (
+            'testBool',
+            'testBoolean',
+            'testInteger',
+            'testInt',
+            'testFloat',
+            'testDouble',
+            'testLong',
+            'testReal',
+            'testScalar',
+            'testString',
+            'testNull',
+        );
+
+        $do = self::$dataObject;
+
+        array_map(function ($key) use ($do) {
+            $do->$key = '';
+        }, $properties);
+    }
+
+    public function testSetAllToNull()
+    {
+        $properties = array (
+            'testBool',
+            'testBoolean',
+            'testInteger',
+            'testInt',
+            'testFloat',
+            'testDouble',
+            'testNumeric',
+            'testLong',
+            'testReal',
+            'testResource',
+            'testScalar',
+            'testString',
+            'testMixed',
+            'testArray',
+            'testStdClass',
+            'testDataObject',
+            'testObject',
+            'testNull',
+            'testCallable',
+            'testTypedArray1',
+            'testTypedArray2',
+            'testTypedArray3',
+            'testTypedArray4',
+        );
+
+        $do = self::$dataObject;
+
+        array_map(function ($key) use ($do) {
+            $do->$key = null;
+        }, $properties);
+
+        $self = $this;
+
+        array_map(function ($key) use ($do, $self) {
+            $self->assertEquals(null, $do->$key);
+        }, $properties);
     }
 
 }

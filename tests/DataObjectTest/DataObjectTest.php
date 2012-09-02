@@ -13,8 +13,6 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
      */
     static protected $dataObject;
 
-    static protected $recursionCount = 0;
-
     /**
      * Some test data
      * @return array
@@ -117,7 +115,7 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
 
     public function testSetValidObject()
     {
-        static::$dataObject->testObject = static::$dataObject;
+        static::$dataObject->testObject = static::makeSampleDataObject();
         $this->assertInstanceOf('\DataObject\SampleDataObject', static::$dataObject->testObject);
     }
 
@@ -184,19 +182,19 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
 
     public function testExport()
     {
-//        $this->assertInternalType('array', static::$dataObject->export());
+        $this->assertInternalType('array', static::$dataObject->export());
     }
 
     public function testJSON()
     {
-//        $json = static::$dataObject->json();
-//        $this->assertNotEquals(false, json_decode($json));
+        $json = static::$dataObject->json();
+        $this->assertNotEquals(false, json_decode($json));
     }
 
     public function testImport()
     {
-//        $export = static::$dataObject->export();
-//        static::$dataObject->import($export);
+        $export = static::$dataObject->export();
+        static::$dataObject->import($export);
     }
 
     public function testExportCache()

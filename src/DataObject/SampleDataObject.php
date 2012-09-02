@@ -8,7 +8,7 @@ namespace DataObject;
  * @author     Merten van Gerven
  * @package    DataObject
  */
-class SampleDataObject extends ObjectPropertyDataObject
+class SampleDataObject extends ObjectPropertyDataObject implements PermitDynamicPropertiesInterface
 {
 
     /**
