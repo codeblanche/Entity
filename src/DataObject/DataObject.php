@@ -749,8 +749,6 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
             return;
         }
 
-        $graceful = false;
-
         // handle data as a string.
         if (is_string($data)) {
 
@@ -764,30 +762,9 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
         // handle data as a instance/child of DataObject.
         } elseif ($data instanceof DataObject) {
 
+            $this->fromDataObject($data);
 
         }
-    }
-
-    /**
-     * Retrieve the type for a specified property.
-     *
-     * @param string $name
-     *
-     * @return string
-     *
-     * @throws RuntimeException
-     */
-    public function getType($name)
-    {
-        if (!in_array($name, $this->definitionKeys)) {
-            throw new RuntimeException(sprintf(
-                self::$exceptions[5],
-                $name,
-                $this->calledClass
-            ), 5);
-        }
-
-        return $this->definitionTypes[$name];
     }
 
     /**
@@ -1012,21 +989,6 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
         }
 
         return $value;
-    }
-
-    /**
-     * Set parameter by name
-     *
-     * @param string $name  The key you want to set
-     * @param mixed  $value The value you want to set
-     *
-     * @return self
-     */
-    public function setParam($name, $value)
-    {
-        $this->set($name, $value);
-
-        return $this;
     }
 
     /**
