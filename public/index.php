@@ -3,7 +3,7 @@
 require '../init.php';
 
 //use DataObject\SampleDataObject;
-use DataObject\Sample\ClassMethodDataObject as SampleClassMethodDataObject;
+use DataObject\Sample\HybridDataObject as SampleDataObject;
 use Timer\Timer;
 
 class IndexPage
@@ -58,12 +58,11 @@ class IndexPage
 
     public function __call($name, $arguments)
     {
-        //;
+        // dummy method to catch phpunit tests
     }
 
-
     /**
-     * @var SampleClassMethodDataObject
+     * @var SampleDataObject
      */
     static protected $dataObject;
 
@@ -76,7 +75,7 @@ class IndexPage
         $stdObj            = new \StdClass();
         $stdObj->testBool  = true;
 
-        $dataObj           = new SampleClassMethodDataObject;
+        $dataObj           = new SampleDataObject;
 
         return array (
             'testBool'        => false,
@@ -109,7 +108,7 @@ class IndexPage
 
     static protected function makeSampleDataObject($data = null)
     {
-        return new SampleClassMethodDataObject($data);
+        return new SampleDataObject($data);
     }
 
     static public function testCallable()
