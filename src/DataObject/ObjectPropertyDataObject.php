@@ -29,7 +29,7 @@ abstract class ObjectPropertyDataObject extends DataObject implements ObjectProp
         $reflection  = new ReflectionClass($this->getCalledClassName());
         $publicVars = $reflection->getProperties(ReflectionProperty::IS_PUBLIC);
 
-        foreach ($publicVars as $publicVar) { /* @var ReflectionProperty $public_var */
+        foreach ($publicVars as $publicVar) { /* @var ReflectionProperty $publicVar */
             $doc       = $publicVar->getDocComment();
             $key       = $publicVar->getName();
             $is_static = $publicVar->isStatic();
