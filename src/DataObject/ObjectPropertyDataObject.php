@@ -12,22 +12,30 @@ use ReflectionProperty;
 abstract class ObjectPropertyDataObject extends DataObject implements ObjectPropertyAccessorInterface
 {
 
+    /**
+    * {@inheritdoc}
+    */
     protected function getDefaultPropertyType()
     {
         return 'mixed';
     }
 
+    /**
+    * {@inheritdoc}
+    */
     protected function getCalledClassName()
     {
         return get_called_class();
     }
 
+    /**
+    * {@inheritdoc}
+    */
     protected function getPropertiesAndTypes()
     {
-        $properties = array();
-
+        $properties  = array();
         $reflection  = new ReflectionClass($this->getCalledClassName());
-        $publicVars = $reflection->getProperties(ReflectionProperty::IS_PUBLIC);
+        $publicVars  = $reflection->getProperties(ReflectionProperty::IS_PUBLIC);
 
         foreach ($publicVars as $publicVar) { /* @var ReflectionProperty $publicVar */
             $doc       = $publicVar->getDocComment();
@@ -38,24 +46,31 @@ abstract class ObjectPropertyDataObject extends DataObject implements ObjectProp
                 continue;
             }
 
-            $type = preg_match('/@var\s+([^\s]+)/i', $doc, $matches) ? $matches[1] : null;
-
-            $properties[$key] = $type;
+            $properties[$key] = preg_match('/@var\s+([^\s]+)/i', $doc, $matches) ? $matches[1] : null;
         }
 
         return $properties;
     }
 
+    /**
+    * {@inheritdoc}
+    */
     protected function getDefaultValues()
     {
         return get_class_vars($this->getCalledClassName());
     }
 
+    /**
+    * {@inheritdoc}
+    */
     public function &__get($name)
     {
         return $this->get($name);
     }
 
+    /**
+    * {@inheritdoc}
+    */
     public function __set($name, $value)
     {
         $this->set($name, $value);
