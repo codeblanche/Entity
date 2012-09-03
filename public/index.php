@@ -2,7 +2,8 @@
 
 require '../init.php';
 
-use DataObject\SampleDataObject;
+//use DataObject\SampleDataObject;
+use DataObject\Sample\ClassMethodDataObject as SampleClassMethodDataObject;
 use Timer\Timer;
 
 class IndexPage
@@ -62,7 +63,7 @@ class IndexPage
 
 
     /**
-     * @var SampleDataObject
+     * @var SampleClassMethodDataObject
      */
     static protected $dataObject;
 
@@ -75,7 +76,7 @@ class IndexPage
         $stdObj            = new \StdClass();
         $stdObj->testBool  = true;
 
-        $dataObj           = new SampleDataObject();
+        $dataObj           = new SampleClassMethodDataObject;
 
         return array (
             'testBool'        => false,
@@ -108,7 +109,7 @@ class IndexPage
 
     static protected function makeSampleDataObject($data = null)
     {
-        return new SampleDataObject($data);
+        return new SampleClassMethodDataObject($data);
     }
 
     static public function testCallable()
