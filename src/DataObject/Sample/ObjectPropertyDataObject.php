@@ -89,7 +89,7 @@ class ObjectPropertyDataObject extends AbstractObjectPropertyDataObject
     public $testStdClass;
 
     /**
-     * @var DataObject\SampleDataObject
+     * @var DataObject\Sample\ObjectPropertyDataObject
      */
     public $testDataObject;
 
@@ -109,12 +109,12 @@ class ObjectPropertyDataObject extends AbstractObjectPropertyDataObject
     public $testCallable;
 
     /**
-     * @var DataObject\SampleDataObject[]
+     * @var DataObject\Sample\ObjectPropertyDataObject[]
      */
     public $testTypedArray1;
 
     /**
-     * @var array<DataObject\SampleDataObject>
+     * @var array<DataObject\Sample\ObjectPropertyDataObject>
      */
     public $testTypedArray2;
 
@@ -127,6 +127,5 @@ class ObjectPropertyDataObject extends AbstractObjectPropertyDataObject
      * @var integer[]
      */
     public $testTypedArray4;
-
 
 }

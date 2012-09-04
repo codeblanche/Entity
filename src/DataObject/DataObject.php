@@ -536,7 +536,7 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
     {
         $out = array();
         foreach ($array as $key => $val) {
-            if (isset($this->$key)) {
+            if (isset($this->$key) && !empty($this->$key)) {
                 $val = $this->$key;
             }
 
@@ -619,7 +619,7 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
         $result = array();
 
         foreach ($array as $key => $val) {
-            if (isset($this->$key)) {
+            if (isset($this->$key) && !empty($this->$key)) {
                 $val = $this->$key;
             }
 
@@ -841,7 +841,7 @@ abstract class DataObject extends Cloneable implements Iterator, Serializable
             $this->definitionValues[$name] = null;
         }
 
-        return;
+        return $this;
     }
 
 

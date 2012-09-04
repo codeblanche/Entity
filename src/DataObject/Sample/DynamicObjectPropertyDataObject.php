@@ -129,5 +129,4 @@ class DynamicObjectPropertyDataObject extends AbstractObjectPropertyDataObject i
      */
     public $testTypedArray4;
 
-
 }
