@@ -11,6 +11,10 @@ use ReflectionProperty;
  */
 abstract class HybridDataObject extends DataObject implements HybridAccessorInterface
 {
+    /**
+    * @var string Name of the property currenly being processed to prevent recursive loops.
+    */
+    private $propertySemaphore;
 
     /**
     * {@inheritdoc}
@@ -35,11 +39,7 @@ abstract class HybridDataObject extends DataObject implements HybridAccessorInte
     {
         $properties  = array();
         $reflection  = new ReflectionClass($this->getCalledClassName());
-        $publicVars  = $reflection->getProperties(
-            ReflectionProperty::IS_PRIVATE |
-            ReflectionProperty::IS_PROTECTED |
-            ReflectionProperty::IS_PUBLIC
-        );
+        $publicVars  = $reflection->getProperties(ReflectionProperty::IS_PUBLIC);
 
         foreach ($publicVars as $publicVar) { /* @var ReflectionProperty $publicVar */
             $doc       = $publicVar->getDocComment();
@@ -76,6 +76,8 @@ abstract class HybridDataObject extends DataObject implements HybridAccessorInte
         $action  = $matches[1];
         $name    = $matches[2];
 
+        var_dump("calling $name");
+
         switch ($action) {
             case 'is':
                 $name   = "Is$name";
@@ -85,7 +87,8 @@ abstract class HybridDataObject extends DataObject implements HybridAccessorInte
                 $return = $this->get($name);
             case 'set':
                 $name   = lcfirst($name);
-                $return = $this->set($name, $arguments[0]);
+                $value  = $arguments[0];
+                $return = $this->set($name, $value);
                 break;
         }
 
@@ -105,7 +108,7 @@ abstract class HybridDataObject extends DataObject implements HybridAccessorInte
     */
     public function __set($name, $value)
     {
-        $this->set($name, $value);
+        return $this->set($name, $value);
     }
 
 

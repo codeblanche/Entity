@@ -21,12 +21,12 @@ class HybridDataObject extends AbstractHybridDataObject
     /**
      * @var boolean Alias of bool
      */
-    private $testBoolean = true;
+    public $testBoolean = true;
 
     /**
      * @var integer Alias of int
      */
-    protected $testInteger = 12345;
+    public $testInteger = 12345;
 
     /**
      * @var int
@@ -36,12 +36,12 @@ class HybridDataObject extends AbstractHybridDataObject
     /**
      * @var float
      */
-    private $testFloat = 12.123;
+    public $testFloat = 12.123;
 
     /**
      * @var double Alias of float
      */
-    protected $testDouble = 34.345;
+    public $testDouble = 34.345;
 
     /**
      * @var numeric
@@ -51,12 +51,12 @@ class HybridDataObject extends AbstractHybridDataObject
     /**
      * @var long Alias of int
      */
-    private $testLong = 23456;
+    public $testLong = 23456;
 
     /**
      * @var real Aliss of float
      */
-    protected $testReal = 56.567;
+    public $testReal = 56.567;
 
     /**
      * @var resource
@@ -66,12 +66,12 @@ class HybridDataObject extends AbstractHybridDataObject
     /**
      * @var scalar Basix data type including int, float, string, bool
      */
-    private $testScalar;
+    public $testScalar;
 
     /**
      * @var string
      */
-    protected $testString = "test string";
+    public $testString = "test string";
 
     /**
      * @var mixed
@@ -81,27 +81,27 @@ class HybridDataObject extends AbstractHybridDataObject
     /**
      * @var array
      */
-    private $testArray = array('1', '2', '3');
+    public $testArray = array('1', '2', '3');
 
     /**
      * @var stdClass
      */
-    protected $testStdClass;
+    public $testStdClass;
 
     /**
-     * @var DataObject\SampleDataObject
+     * @var DataObject\Sample\HybridDataObject
      */
     public $testDataObject;
 
     /**
      * @var object
      */
-    private $testObject;
+    public $testObject;
 
     /**
      * @var null
      */
-    protected $testNull;
+    public $testNull;
 
     /**
      * @var callable
@@ -109,14 +109,14 @@ class HybridDataObject extends AbstractHybridDataObject
     public $testCallable;
 
     /**
-     * @var DataObject\SampleDataObject[]
+     * @var DataObject\Sample\HybridDataObject[]
      */
-    private $testTypedArray1;
+    public $testTypedArray1;
 
     /**
-     * @var array<DataObject\SampleDataObject>
+     * @var array<DataObject\Sample\HybridDataObject>
      */
-    protected $testTypedArray2;
+    public $testTypedArray2;
 
     /**
      * @var array[]
@@ -126,6 +126,26 @@ class HybridDataObject extends AbstractHybridDataObject
     /**
      * @var integer[]
      */
-    private $testTypedArray4;
+    public $testTypedArray4;
+
+    /**
+    * @param bool $value
+    * @return DataObject\Sample\HybridDataObject
+    */
+    public function setTestBool($value)
+    {
+        $this->testBool = $value;
+        return $this;
+    }
+
+    /**
+    * @param string $value
+    * @return DataObject\Sample\HybridDataObject
+    */
+    public function setTestString($value)
+    {
+        $this->testString = $value;
+        return $this;
+    }
 
 }

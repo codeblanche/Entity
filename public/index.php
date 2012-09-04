@@ -14,9 +14,6 @@ class IndexPage
 
         static::setUpBeforeClass();
 
-        $this->testCallable();
-        $this->testExport();
-
         $methods = get_class_methods($this);
 
         $ignore = array (
@@ -30,7 +27,7 @@ class IndexPage
             'testUnserialize',
             'testExport',
             'testJSON',
-//            'testImport',
+            'testImport',
             'testExportCache',
             'testImportCache',
             'testQueryString',
@@ -41,6 +38,21 @@ class IndexPage
         $filtered = array_filter($methods, function ($value) use ($ignore) {
             return substr($value, 0, 4) === 'test' && !in_array($value, $ignore);
         });
+
+        var_dump('------------------------------------------------------');
+        static::$dataObject->dump();
+
+        static::$dataObject->testBool = true;
+
+        var_dump('------------------------------------------------------');
+        static::$dataObject->dump();
+
+        static::$dataObject->setTestString('wag the dog');
+
+        var_dump('------------------------------------------------------');
+        static::$dataObject->dump();
+
+        static::$dataObject->testString = "dog day afternoon";
 
         var_dump('------------------------------------------------------');
         static::$dataObject->dump();
@@ -75,7 +87,11 @@ class IndexPage
         $stdObj            = new \StdClass();
         $stdObj->testBool  = true;
 
+        /*/
         $dataObj           = new SampleDataObject;
+        /*/
+        $dataObj           = null;
+        //*/
 
         return array (
             'testBool'        => false,
