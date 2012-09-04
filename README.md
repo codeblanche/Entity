@@ -1,13 +1,6 @@
 php-dataobject
 ==============
 
-A strict php data object.
+Your friendly super duper Entity object in PHP. You either love it, or you donut.
 
-See src/DataObject/SampleDataObject.php for an example of how to create your own data objects.
-
-
-Known Issues
-============
-
-* Circular referencing can cause unexpected results
-
+See src/DataObject/Sample/*.php for examples of creating your own data objects.
