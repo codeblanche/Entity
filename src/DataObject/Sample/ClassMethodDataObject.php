@@ -89,7 +89,7 @@ class ClassMethodDataObject extends AbstractClassMethodDataObject
     protected $testStdClass;
 
     /**
-     * @var DataObject\SampleDataObject
+     * @var DataObject\Sample\ClassMethodDataObject
      */
     protected $testDataObject;
 
@@ -109,12 +109,12 @@ class ClassMethodDataObject extends AbstractClassMethodDataObject
     protected $testCallable;
 
     /**
-     * @var DataObject\SampleDataObject[]
+     * @var DataObject\Sample\ClassMethodDataObject[]
      */
     protected $testTypedArray1;
 
     /**
-     * @var array<DataObject\SampleDataObject>
+     * @var array<DataObject\Sample\ClassMethodDataObject>
      */
     protected $testTypedArray2;
 
@@ -127,6 +127,5 @@ class ClassMethodDataObject extends AbstractClassMethodDataObject
      * @var integer[]
      */
     protected $testTypedArray4;
-
 
 }

@@ -9,7 +9,7 @@ use ReflectionProperty;
  * @author     Merten van Gerven
  * @package    DataObject
  */
-abstract class ClassMethodDataObject extends DataObject implements ClassMethodAccessorInterface
+abstract class HybridDataObject extends DataObject implements HybridAccessorInterface
 {
 
     /**
@@ -36,7 +36,9 @@ abstract class ClassMethodDataObject extends DataObject implements ClassMethodAc
         $properties  = array();
         $reflection  = new ReflectionClass($this->getCalledClassName());
         $publicVars  = $reflection->getProperties(
-            ReflectionProperty::IS_PRIVATE | ReflectionProperty::IS_PROTECTED
+            ReflectionProperty::IS_PRIVATE |
+            ReflectionProperty::IS_PROTECTED |
+            ReflectionProperty::IS_PUBLIC
         );
 
         foreach ($publicVars as $publicVar) { /* @var ReflectionProperty $publicVar */
@@ -89,5 +91,22 @@ abstract class ClassMethodDataObject extends DataObject implements ClassMethodAc
 
         return $return;
     }
+
+    /**
+    * {@inheritdoc}
+    */
+    public function &__get($name)
+    {
+        return $this->get($name);
+    }
+
+    /**
+    * {@inheritdoc}
+    */
+    public function __set($name, $value)
+    {
+        $this->set($name, $value);
+    }
+
 
 }
