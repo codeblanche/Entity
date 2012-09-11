@@ -8,5 +8,4 @@ namespace EntityMarshal;
  */
 interface AccessorInterface
 {
-
 }
