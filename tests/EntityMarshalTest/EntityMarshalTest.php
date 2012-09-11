@@ -2,14 +2,14 @@
 
 namespace EntityMarshalTest;
 
-use EntityMarshal\SampleEntityMarshal;
+use ObjectPropertyEntityMarshal;
 use EntityMarshalTest\TestAsset\InvalidClassNameInDocType;
 use EntityMarshalTest\TestAsset\InvalidMixedPropertyIdentifier;
 
 class EntityMarshalTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var SampleEntityMarshal
+     * @var ObjectPropertyEntityMarshal
      */
     static protected $entity;
 
@@ -22,7 +22,7 @@ class EntityMarshalTest extends \PHPUnit_Framework_TestCase
         $stdObj            = new \StdClass();
         $stdObj->testBool  = true;
 
-        $entity           = new SampleEntityMarshal();
+        $entity           = new ObjectPropertyEntityMarshal();
 
         return array (
             'testBool'              => false,
@@ -55,7 +55,7 @@ class EntityMarshalTest extends \PHPUnit_Framework_TestCase
 
     static protected function makeSampleEntityMarshal($data = null)
     {
-        return new SampleEntityMarshal($data);
+        return new ObjectPropertyEntityMarshal($data);
     }
 
     static public function testCallable()
@@ -116,7 +116,7 @@ class EntityMarshalTest extends \PHPUnit_Framework_TestCase
     public function testSetValidObject()
     {
         static::$entity->testObject = static::makeSampleEntityMarshal();
-        $this->assertInstanceOf('\EntityMarshal\SampleEntityMarshal', static::$entity->testObject);
+        $this->assertInstanceOf('\ObjectPropertyEntityMarshal', static::$entity->testObject);
     }
 
     /**
@@ -141,7 +141,7 @@ class EntityMarshalTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('This is an array', static::$entity->testMixed[0]);
 
         static::$entity->testMixed = static::makeSampleEntityMarshal();
-        $this->assertInstanceOf('\EntityMarshal\SampleEntityMarshal', static::$entity->testMixed);
+        $this->assertInstanceOf('\ObjectPropertyEntityMarshal', static::$entity->testMixed);
     }
 
     /**
@@ -177,7 +177,7 @@ class EntityMarshalTest extends \PHPUnit_Framework_TestCase
     public function testUnserialize()
     {
         $serialize = static::$entity->serialize();
-        $this->assertInstanceOf('\EntityMarshal\SampleEntityMarshal', static::$entity->unserialize($serialize));
+        $this->assertInstanceOf('\ObjectPropertyEntityMarshal', static::$entity->unserialize($serialize));
     }
 
     public function testExport()
