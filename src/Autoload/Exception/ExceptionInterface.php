@@ -11,5 +11,4 @@ namespace Autoload\Exception;
  */
 interface ExceptionInterface
 {
-
 }

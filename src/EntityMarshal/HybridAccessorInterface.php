@@ -1,14 +1,13 @@
 <?php
 
-namespace DataObject;
+namespace EntityMarshal;
 
 /**
  * @author     Merten van Gerven
- * @package    DataObject
+ * @package    EntityMarshal
  */
 interface HybridAccessorInterface extends
     ClassMethodAccessorInterface,
     ObjectPropertyAccessorInterface
 {
 }
-

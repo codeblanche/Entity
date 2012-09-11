@@ -1,10 +1,10 @@
 <?php
 
-namespace DataObject\Exception;
+namespace EntityMarshal\Exception;
 
 /**
  * @author     Merten van Gerven
- * @package    DataObject
+ * @package    EntityMarshal
  * @subpackage Exception
  */
 class RuntimeException extends \RuntimeException implements ExceptionInterface
