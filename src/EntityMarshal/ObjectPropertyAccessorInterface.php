@@ -1,10 +1,10 @@
 <?php
 
-namespace DataObject;
+namespace EntityMarshal;
 
 /**
  * @author     Merten van Gerven
- * @package    DataObject
+ * @package    EntityMarshal
  */
 interface ObjectPropertyAccessorInterface extends AccessorInterface
 {

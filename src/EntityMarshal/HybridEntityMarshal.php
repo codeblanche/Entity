@@ -1,16 +1,20 @@
 <?php
 
-namespace DataObject;
+namespace EntityMarshal;
 
 use ReflectionClass;
 use ReflectionProperty;
 
 /**
  * @author     Merten van Gerven
- * @package    DataObject
+ * @package    EntityMarshal
  */
-abstract class ObjectPropertyDataObject extends DataObject implements ObjectPropertyAccessorInterface
+abstract class HybridEntityMarshal extends AbstractEntityMarshal implements HybridAccessorInterface
 {
+    /**
+    * @var string Name of the property currenly being processed to prevent recursive loops.
+    */
+    private $propertySemaphore;
 
     /**
     * {@inheritdoc}
@@ -63,6 +67,37 @@ abstract class ObjectPropertyDataObject extends DataObject implements ObjectProp
     /**
     * {@inheritdoc}
     */
+    public function __call($method, $arguments)
+    {
+        if (!preg_match('/^(?:(get|set|is)_?)(\w+)$/i', $method, $matches)) {
+            return;
+        }
+
+        $action  = $matches[1];
+        $name    = $matches[2];
+
+        var_dump("calling $name");
+
+        switch ($action) {
+            case 'is':
+                $name   = "Is$name";
+                // no break;
+            case 'get':
+                $name   = lcfirst($name);
+                $return = $this->get($name);
+            case 'set':
+                $name   = lcfirst($name);
+                $value  = $arguments[0];
+                $return = $this->set($name, $value);
+                break;
+        }
+
+        return $return;
+    }
+
+    /**
+    * {@inheritdoc}
+    */
     public function &__get($name)
     {
         return $this->get($name);
@@ -73,7 +108,7 @@ abstract class ObjectPropertyDataObject extends DataObject implements ObjectProp
     */
     public function __set($name, $value)
     {
-        $this->set($name, $value);
+        return $this->set($name, $value);
     }
 
 }
