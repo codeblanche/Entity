@@ -1,16 +1,14 @@
 <?php
 
-namespace DataObject\Sample;
-
-use DataObject\HybridDataObject as AbstractHybridDataObject;
+use EntityMarshal\HybridEntityMarshal as AbstractHybridEntityMarshal;
 
 /**
- * A sample DataObject using all known property types.
+ * A sample EntityMarshal using all known property types.
  *
  * @author     Merten van Gerven
- * @package    DataObject
+ * @package    EntityMarshal
  */
-class HybridDataObject extends AbstractHybridDataObject
+class HybridEntityMarshal extends AbstractHybridEntityMarshal
 {
 
     /**
@@ -89,9 +87,9 @@ class HybridDataObject extends AbstractHybridDataObject
     public $testStdClass;
 
     /**
-     * @var DataObject\Sample\HybridDataObject
+     * @var EntityMarshal\Sample\HybridEntityMarshal
      */
-    public $testDataObject;
+    public $testEntityMarshal;
 
     /**
      * @var object
@@ -109,12 +107,12 @@ class HybridDataObject extends AbstractHybridDataObject
     public $testCallable;
 
     /**
-     * @var DataObject\Sample\HybridDataObject[]
+     * @var EntityMarshal\Sample\HybridEntityMarshal[]
      */
     public $testTypedArray1;
 
     /**
-     * @var array<DataObject\Sample\HybridDataObject>
+     * @var array<EntityMarshal\Sample\HybridEntityMarshal>
      */
     public $testTypedArray2;
 
@@ -130,7 +128,7 @@ class HybridDataObject extends AbstractHybridDataObject
 
     /**
     * @param bool $value
-    * @return DataObject\Sample\HybridDataObject
+    * @return EntityMarshal\Sample\HybridEntityMarshal
     */
     public function setTestBool($value)
     {
@@ -140,7 +138,7 @@ class HybridDataObject extends AbstractHybridDataObject
 
     /**
     * @param string $value
-    * @return DataObject\Sample\HybridDataObject
+    * @return EntityMarshal\Sample\HybridEntityMarshal
     */
     public function setTestString($value)
     {

@@ -1,15 +1,15 @@
 <?php
 
-namespace DataObject;
+namespace EntityMarshal;
 
 use ReflectionClass;
 use ReflectionProperty;
 
 /**
  * @author     Merten van Gerven
- * @package    DataObject
+ * @package    EntityMarshal
  */
-abstract class ClassMethodDataObject extends DataObject implements ClassMethodAccessorInterface
+abstract class ClassMethodEntityMarshal extends AbstractEntityMarshal implements ClassMethodAccessorInterface
 {
 
     /**

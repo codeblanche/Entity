@@ -1,18 +1,17 @@
 {
-    "name": "mertenvg/php-dataobject",
-    "description": "A strict php data object",
+    "name": "mertenvg/EntityMarshal",
+    "description": "A marshal for your entity",
     "keywords": [
-        "php-dataobject",
-        "PHP DataObject",
-        "PHP",
-        "DataObject"
+        "EntityMarshal",
+        "PHP EntityMarshal",
+        "PHP"
     ],
     "require": {
         "php": ">=5.3.3"
     },
     "autoload" : {
         "psr-0": {
-            "DataObject": "src/"
+            "EntityMarshal": "src/"
         },
         "classmap": [
             "./"

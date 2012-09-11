@@ -7,7 +7,7 @@ use Traversable;
 /**
  * This class is intended to be used as a base for pure data object classes
  * that contain typed (using phpdoc) public properties. Control over these
- * properties is deferred to DataObject in order to validate inputs and auto-
+ * properties is deferred to EntityMarshal in order to validate inputs and auto-
  * matically cast values to the correct types.
  *
  * @author     Merten van Gerven

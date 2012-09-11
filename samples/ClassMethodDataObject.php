@@ -1,16 +1,14 @@
 <?php
 
-namespace DataObject\Sample;
-
-use DataObject\ClassMethodDataObject as AbstractClassMethodDataObject;
+use EntityMarshal\ClassMethodEntityMarshal as AbstractClassMethodEntityMarshal;
 
 /**
- * A sample DataObject using all known property types.
+ * A sample EntityMarshal using all known property types.
  *
  * @author     Merten van Gerven
- * @package    DataObject
+ * @package    EntityMarshal
  */
-class ClassMethodDataObject extends AbstractClassMethodDataObject
+class ClassMethodEntityMarshal extends AbstractClassMethodEntityMarshal
 {
 
     /**
@@ -89,9 +87,9 @@ class ClassMethodDataObject extends AbstractClassMethodDataObject
     protected $testStdClass;
 
     /**
-     * @var DataObject\Sample\ClassMethodDataObject
+     * @var EntityMarshal\Sample\ClassMethodEntityMarshal
      */
-    protected $testDataObject;
+    protected $testEntityMarshal;
 
     /**
      * @var object
@@ -109,12 +107,12 @@ class ClassMethodDataObject extends AbstractClassMethodDataObject
     protected $testCallable;
 
     /**
-     * @var DataObject\Sample\ClassMethodDataObject[]
+     * @var EntityMarshal\Sample\ClassMethodEntityMarshal[]
      */
     protected $testTypedArray1;
 
     /**
-     * @var array<DataObject\Sample\ClassMethodDataObject>
+     * @var array<EntityMarshal\Sample\ClassMethodEntityMarshal>
      */
     protected $testTypedArray2;
 
