@@ -11,5 +11,4 @@ namespace Cloneable\Exception;
  */
 interface ExceptionInterface
 {
-
 }

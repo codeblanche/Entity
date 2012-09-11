@@ -111,5 +111,4 @@ abstract class HybridEntityMarshal extends AbstractEntityMarshal implements Hybr
         return $this->set($name, $value);
     }
 
-
 }

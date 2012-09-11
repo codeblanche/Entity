@@ -1164,4 +1164,3 @@ abstract class AbstractEntityMarshal extends Cloneable implements Iterator, Seri
     }
 
 }
-

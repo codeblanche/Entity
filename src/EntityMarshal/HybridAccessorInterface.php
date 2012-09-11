@@ -11,4 +11,3 @@ interface HybridAccessorInterface extends
     ObjectPropertyAccessorInterface
 {
 }
-
