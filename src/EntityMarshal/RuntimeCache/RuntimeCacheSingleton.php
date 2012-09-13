@@ -29,7 +29,7 @@ final class RuntimeCacheSingleton implements Iterator, ArrayAccess , Serializabl
     static public function getInstance()
     {
         if (is_null(self::$instance)) {
-            $self             = __CLASS__;
+            $self           = __CLASS__;
             self::$instance = new $self();
         }
 
@@ -56,7 +56,10 @@ final class RuntimeCacheSingleton implements Iterator, ArrayAccess , Serializabl
      */
     public function current()
     {
-        return $this->cache[$this->position];
+        $keys   = array_keys($this->cache);
+        $key    = $keys[$this->position];
+
+        return $this->cache[$key];
     }
 
     /**
@@ -64,14 +67,16 @@ final class RuntimeCacheSingleton implements Iterator, ArrayAccess , Serializabl
      */
     public function key()
     {
-        return $this->position;
+        $keys   = array_keys($this->cache);
+
+        return $keys[$this->position];
     }
 
     /**
      */
     public function next()
     {
-
+        ++$this->position;
     }
 
     /**
@@ -86,44 +91,59 @@ final class RuntimeCacheSingleton implements Iterator, ArrayAccess , Serializabl
      */
     public function valid()
     {
+        $keys = array_keys($this->cache);
+        $key  = null;
 
+        if ($this->position < count($keys)) {
+            $key = $keys[$this->position];
+        }
+
+        return !is_null($key) 
+            ? isset($this->cache[$key]) 
+            : false ;
     }
 
     // Implement ArrayAccess
 
     /**
-     * @param mixed $index
+     * @param mixed $offset
      * @return bool
      */
-    public function offsetExists($index)
+    public function offsetExists($offset)
     {
-
+        return isset($this->cache[$offset]);
     }
 
     /**
-     * @param mixed $index
+     * @param mixed $offset
      * @return mixed
      */
-    public function offsetGet($index)
+    public function offsetGet($offset)
     {
-
+        return isset($this->cache[$offset]) 
+            ? $this->cache[$offset] 
+            : null ;
     }
 
     /**
-     * @param mixed $index
-     * @param mixed $newval
+     * @param mixed $offset
+     * @param mixed $value
      */
-    public function offsetSet($index, $newval)
+    public function offsetSet($offset, $value)
     {
-
+        if (is_null($offset)) {
+            $this->cache[] = $value;
+        } else {
+            $this->cache[$offset] = $value;
+        }
     }
 
     /**
-     * @param mixed $index
+     * @param mixed $offset
      */
-    public function offsetUnset($index)
+    public function offsetUnset($offset)
     {
-
+        unset($this->cache[$offset]);
     }
 
     // Implement Serializable
@@ -133,15 +153,15 @@ final class RuntimeCacheSingleton implements Iterator, ArrayAccess , Serializabl
      */
     public function serialize()
     {
-
+        return serialize($this->cache);
     }
 
     /**
-     * @param string $val
+     * @param string $serialized
      */
-    public function unserialize($val)
+    public function unserialize($serialized)
     {
-
+        $this->cache = unserialize($serialized);
     }
 
     // Implement Countable
@@ -152,7 +172,7 @@ final class RuntimeCacheSingleton implements Iterator, ArrayAccess , Serializabl
      */
     public function count()
     {
-
+        return count($this->cache);
     }
 
 }
