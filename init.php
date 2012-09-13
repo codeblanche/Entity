@@ -2,7 +2,8 @@
 
 require __DIR__.'/src/Autoload/SimpleAutoloader.php';
 
-Autoload\SimpleAutoloader::get()
+Autoload\SimpleAutoloader::getInstance()
     ->addPaths(array(
         __DIR__.'/src',
+        __DIR__.'/vendor',
     ));
