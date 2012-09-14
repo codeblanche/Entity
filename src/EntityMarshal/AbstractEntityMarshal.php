@@ -340,7 +340,7 @@ abstract class AbstractEntityMarshal extends AbstractEntity implements EntityMar
      *
      * @return string|null
      */
-    private function extractGenericSubtype($type)
+    static public function extractGenericSubtype($type)
     {
         $subType = null;
 
@@ -362,40 +362,6 @@ abstract class AbstractEntityMarshal extends AbstractEntity implements EntityMar
             unset($this->$key);
         }
     }
-
-    /**
-     * Get the default property type to be used when no type is provided.
-     * Default is 'mixed'
-     *
-     * @return string
-     */
-    abstract protected function getDefaultPropertyType();
-
-    /**
-     * Get the the called class name.
-     *
-     * @return string
-     */
-    abstract protected function getCalledClassName();
-
-    /**
-     * Get the list of accessible properties and their associated types as an
-     * associative array.
-     * <code>
-     * return array(
-     *     'propertyName'  => 'propertyType'
-     *     'propertyName2' => 'null'
-     * );
-     * </code>
-     *
-     * @return array
-     */
-    abstract protected function getPropertiesAndTypes();
-
-    /**
-     * Get the default property values.
-     */
-    abstract protected function getDefaultValues();
 
     /**
      * Initialize the map collections

@@ -2,14 +2,14 @@
 
 namespace EntityMarshal\ConverterStrategy;
 
-use EntityMarshal\EntityInterface;
-
 interface ConverterStrategyInterface
 {
 
     /**
-     * @param array
+     * @param   array   $data   Data to dump
+     * @param   string  $type   Optional: Data type definition override
+     * @return  string
      */
-    public function convert(array $data);
+    public function convert(array $data, $type = null);
 
 }

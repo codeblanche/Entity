@@ -2,7 +2,7 @@
 
 namespace EntityMarshal\ConverterStrategy;
 
-class Hash implements ConverterStrategyInterface
+class Hash extends AbstractConverterStrategy
 {
 
     /**
@@ -11,12 +11,24 @@ class Hash implements ConverterStrategyInterface
     const HASH_TYPE_SHA256  = 'sha256';
     const HASH_TYPE_MD5     = 'md5';
 
+    /**
+     * @var string
+     */
     protected $type = self::HASH_TYPE_SHA256;
 
+    /**
+     * @var string
+     */
     protected $prefix = '';
 
+    /**
+     * @var string
+     */
     protected $suffix = '';
 
+    /**
+     * @var array
+     */
     protected $ignoreKeys = array();
 
     /**
@@ -27,7 +39,7 @@ class Hash implements ConverterStrategyInterface
      * @param string    $suffix
      * @param array     $ignoreKeys   Optional list of keys to ignore.
      */
-    public functino __construct($type = self::HASH_TYPE_SHA256, $prefix = '', $suffix = '', $ignoreKeys = array())
+    public function __construct($type = self::HASH_TYPE_SHA256, $prefix = '', $suffix = '', $ignoreKeys = array())
     {
         $this->type         = $type;
         $this->prefix       = $prefix;
@@ -36,11 +48,12 @@ class Hash implements ConverterStrategyInterface
     }
 
     /**
-     * @param array
+     * @param array     $data   Data to dump
+     * @param string    $type   Optional: Data type definition override
      *
      * @return string
      */
-    public function convert(array $data)
+    public function convert(array $data, $type = 'array')
     {
         if (is_array($this->ignoreKeys) && !empty($this->ignoreKeys)) {
             foreach ($this->ignoreKeys as $key) {

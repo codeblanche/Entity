@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__.'/src/Autoload/SimpleAutoloader.php';
+require __DIR__.'/vendor/Autoload/SimpleAutoloader.php';
 
 Autoload\SimpleAutoloader::getInstance()
     ->addPaths(array(
