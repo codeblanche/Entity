@@ -1,0 +1,4 @@
+# Prepend '!' to whitelisted files.
+!Autoload
+!.gitignore
+*
