@@ -15,6 +15,7 @@ use Traversable;
  * @author      Merten van Gerven
  * @category    EntityMarshal
  * @package     EntityMarshal
+ * @abstract
  */
 abstract class AbstractEntity implements EntityInterface
 {
@@ -100,7 +101,7 @@ abstract class AbstractEntity implements EntityInterface
      */
     public function &get($name)
     {
-        if (!in_array($name, $this->definitionValues)) {
+        if (!isset($this->definitionValues[$name])) {
             $className = $this->calledClassName();
             throw new Exception\RuntimeException(
                 "Attempt to access property '$name' of class '$className' failed. Property does not exist."

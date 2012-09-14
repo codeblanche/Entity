@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<phpunit processIsolation="false" strict="false" backupGlobals="false" backupStaticAttributes="false" stopOnError="false" stopOnFailure="false" stopOnSkipped="false" stopOnIncomplete="false" bootstrap="tests/Bootstrap.php">
-  <php/>
+<phpunit
+    processIsolation="false"
+    strict="false"
+    backupGlobals="false"
+    backupStaticAttributes="false"
+    stopOnError="false"
+    stopOnFailure="false"
+    stopOnSkipped="false"
+    stopOnIncomplete="false"
+    bootstrap="tests/Bootstrap.php"
+>
+    <php/>
+    <filter>
+      <blacklist>
+        <directory suffix=".php">vendor</directory>
+      </blacklist>
+    </filter>
 </phpunit>

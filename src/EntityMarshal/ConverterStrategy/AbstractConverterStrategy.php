@@ -2,16 +2,11 @@
 
 namespace EntityMarshal\ConverterStrategy;
 
-use EntityMarshal\AbstractEntityMarshal;
-use EntityMarshal\EntityMarshalInterface;
-
 /**
- * Convert and entity to a Json string
- *
+ * @author      Merten van Gerven
  * @category EntityMarshal
  * @package  EntityMarshal\ConverterStrategy
- *
- * @todo     Populate stub
+ * @abstract
  */
 abstract class AbstractConverterStrategy implements ConverterStrategyInterface
 {
@@ -22,8 +17,8 @@ abstract class AbstractConverterStrategy implements ConverterStrategyInterface
     protected $objectReferences;
 
     /**
-     * @param    object|array    $value
-     * @return   boolean
+     * @param   object|array    $value
+     * @return  boolean
      */
     protected function isCircularReference(&$value)
     {
