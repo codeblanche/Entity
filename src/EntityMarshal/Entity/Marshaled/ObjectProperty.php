@@ -1,15 +1,16 @@
 <?php
 
-namespace EntityMarshal;
+namespace EntityMarshal\Entity\Marshaled;
 
-use ReflectionClass;
+use EntityMarshal\AbstractMarshaledEntity;
+use EntityMarshal\Accessor\ObjectPropertyInterface;
 use ReflectionProperty;
 
 /**
  * @author     Merten van Gerven
  * @package    EntityMarshal
  */
-abstract class ObjectPropertyEntityMarshal extends AbstractEntityMarshal implements ObjectPropertyAccessorInterface
+abstract class ObjectProperty extends AbstractMarshaledEntity implements ObjectPropertyInterface
 {
 
     /**
@@ -33,23 +34,9 @@ abstract class ObjectPropertyEntityMarshal extends AbstractEntityMarshal impleme
     */
     protected function getPropertiesAndTypes()
     {
-        $properties  = array();
-        $reflection  = new ReflectionClass($this->getCalledClassName());
-        $publicVars  = $reflection->getProperties(ReflectionProperty::IS_PUBLIC);
-
-        foreach ($publicVars as $publicVar) { /* @var ReflectionProperty $publicVar */
-            $doc       = $publicVar->getDocComment();
-            $key       = $publicVar->getName();
-            $is_static = $publicVar->isStatic();
-
-            if ($is_static) {
-                continue;
-            }
-
-            $properties[$key] = preg_match('/@var\s+([^\s]+)/i', $doc, $matches) ? $matches[1] : null;
-        }
-
-        return $properties;
+        return $this->reflectPropertiesAndTypes(
+            ReflectionProperty::IS_PUBLIC
+        );
     }
 
     /**

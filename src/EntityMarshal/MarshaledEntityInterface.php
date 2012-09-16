@@ -2,7 +2,7 @@
 
 namespace EntityMarshal;
 
-interface EntityMarshalInterface
+interface MarshaledEntityInterface
 {
 
     /**
@@ -33,5 +33,5 @@ interface EntityMarshalInterface
      * @return array
      */
     public function defaultValues();
-    
+
 }

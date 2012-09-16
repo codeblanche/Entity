@@ -52,9 +52,25 @@ abstract class AbstractEntity implements EntityInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray()
+    public function toArray($recursive = true)
     {
-        return $this->definitionValues;
+        if (!$recursive) {
+            return $this->definitionValues;
+        }
+
+        $result = array();
+
+        foreach ($this->definitionValues as $key => $value) {
+            if ($value instanceof EntityInterface) {
+                $result[$key] = $value->toArray($recursive);
+            } elseif (is_object($value)) {
+                $result[$key] = get_object_vars($value);
+            } else {
+                $result[$key] = $value;
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -119,6 +135,39 @@ abstract class AbstractEntity implements EntityInterface
         $this->definitionValues[$name] = $value;
 
         return $this;
+    }
+
+    /**
+     * Standard __call method handler for subclass use.
+     *
+     * @param string $name
+     * @param array  $arguments
+     *
+     * @return mixed
+     */
+    protected function call($method, &$arguments)
+    {
+        if (!preg_match('/^(?:(get|set|is)_?)(\w+)$/i', $method, $matches)) {
+            return;
+        }
+
+        $action  = $matches[1];
+        $name    = $matches[2];
+
+        switch ($action) {
+            case 'is':
+                $name   = "Is$name";
+                // no break;
+            case 'get':
+                $name   = lcfirst($name);
+                $return = $this->get($name);
+            case 'set':
+                $name   = lcfirst($name);
+                $return = $this->set($name, $arguments[0]);
+                break;
+        }
+
+        return $return;
     }
 
     /**

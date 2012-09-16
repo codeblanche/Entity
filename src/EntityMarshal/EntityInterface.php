@@ -37,9 +37,11 @@ interface EntityInterface extends Iterator, Serializable, Countable
     /**
      * Return a key/value pair array
      *
+     * @param   boolean     $recursive      Recurse into child entities.
+     *
      * @return  array
      */
-    public function toArray();
+    public function toArray($recursive = true);
 
     /**
      * Import array of key/value pairs.

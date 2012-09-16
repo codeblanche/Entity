@@ -1,21 +1,17 @@
 <?php
 
-namespace EntityMarshal;
+namespace EntityMarshal\Entity\Marshaled;
 
-use ReflectionClass;
+use EntityMarshal\AbstractMarshaledEntity;
+use EntityMarshal\Accessor\HybridInterface;
 use ReflectionProperty;
 
 /**
  * @author     Merten van Gerven
  * @package    EntityMarshal
  */
-abstract class HybridEntityMarshal extends AbstractEntityMarshal implements HybridAccessorInterface
+abstract class Hybrid extends AbstractMarshaledEntity implements HybridInterface
 {
-
-    /**
-    * @var string Name of the property currenly being processed to prevent recursive loops.
-    */
-    private $propertySemaphore;
 
     /**
     * {@inheritdoc}
@@ -38,23 +34,9 @@ abstract class HybridEntityMarshal extends AbstractEntityMarshal implements Hybr
     */
     protected function getPropertiesAndTypes()
     {
-        $properties  = array();
-        $reflection  = new ReflectionClass($this->getCalledClassName());
-        $publicVars  = $reflection->getProperties(ReflectionProperty::IS_PUBLIC);
-
-        foreach ($publicVars as $publicVar) { /* @var ReflectionProperty $publicVar */
-            $doc       = $publicVar->getDocComment();
-            $key       = $publicVar->getName();
-            $is_static = $publicVar->isStatic();
-
-            if ($is_static) {
-                continue;
-            }
-
-            $properties[$key] = preg_match('/@var\s+([^\s]+)/i', $doc, $matches) ? $matches[1] : null;
-        }
-
-        return $properties;
+        return $this->reflectPropertiesAndTypes(
+            ReflectionProperty::IS_PUBLIC
+        );
     }
 
     /**
@@ -70,30 +52,7 @@ abstract class HybridEntityMarshal extends AbstractEntityMarshal implements Hybr
     */
     public function __call($method, $arguments)
     {
-        if (!preg_match('/^(?:(get|set|is)_?)(\w+)$/i', $method, $matches)) {
-            return;
-        }
-
-        $action  = $matches[1];
-        $name    = $matches[2];
-
-        var_dump("calling $name");
-
-        switch ($action) {
-            case 'is':
-                $name   = "Is$name";
-                // no break;
-            case 'get':
-                $name   = lcfirst($name);
-                $return = $this->get($name);
-            case 'set':
-                $name   = lcfirst($name);
-                $value  = $arguments[0];
-                $return = $this->set($name, $value);
-                break;
-        }
-
-        return $return;
+        return $this->call($method, $arguments);
     }
 
     /**

@@ -9,6 +9,6 @@ namespace EntityMarshal;
  * @category    EntityMarshal
  * $pacakage    EntityMarshal
  */
-interface DynamicPropertiesInterface
+interface DynamicPropertyInterface
 {
 }

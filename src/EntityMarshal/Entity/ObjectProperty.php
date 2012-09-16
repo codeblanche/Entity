@@ -1,76 +1,37 @@
 <?php
 
-namespace EntityMarshal;
+namespace EntityMarshal\Entity;
 
-use ReflectionClass;
-use ReflectionProperty;
+use EntityMarshal\AbstractEntity;
+use EntityMarshal\Accessor\ObjectPropertyInterface;
 
 /**
- * @author     Merten van Gerven
- * @package    EntityMarshal
+ * @author      Merten van Gerven
+ * @category    EntityMarshal
+ * @package     EntityMarshal\Entity
  */
-abstract class ObjectPropertyEntityMarshal extends AbstractEntityMarshal implements ObjectPropertyAccessorInterface
+abstract class ObjectProperty extends AbstractEntity implements ObjectPropertyInterface
 {
 
     /**
-    * {@inheritdoc}
-    */
-    protected function getDefaultPropertyType()
-    {
-        return 'mixed';
-    }
-
-    /**
-    * {@inheritdoc}
-    */
+     * {@inheritdoc}
+     */
     protected function getCalledClassName()
     {
         return get_called_class();
     }
 
     /**
-    * {@inheritdoc}
-    */
-    protected function getPropertiesAndTypes()
-    {
-        $properties  = array();
-        $reflection  = new ReflectionClass($this->getCalledClassName());
-        $publicVars  = $reflection->getProperties(ReflectionProperty::IS_PUBLIC);
-
-        foreach ($publicVars as $publicVar) { /* @var ReflectionProperty $publicVar */
-            $doc       = $publicVar->getDocComment();
-            $key       = $publicVar->getName();
-            $is_static = $publicVar->isStatic();
-
-            if ($is_static) {
-                continue;
-            }
-
-            $properties[$key] = preg_match('/@var\s+([^\s]+)/i', $doc, $matches) ? $matches[1] : null;
-        }
-
-        return $properties;
-    }
-
-    /**
-    * {@inheritdoc}
-    */
-    protected function getDefaultValues()
-    {
-        return get_class_vars($this->getCalledClassName());
-    }
-
-    /**
-    * {@inheritdoc}
-    */
+     * {@inheritdoc}
+     */
     public function &__get($name)
     {
         return $this->get($name);
     }
 
     /**
-    * {@inheritdoc}
-    */
+     * {@inheritdoc}
+     */
     public function __set($name, $value)
     {
         $this->set($name, $value);
