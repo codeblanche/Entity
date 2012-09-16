@@ -1,10 +1,10 @@
 <?php
 
-namespace EntityMarshal\EntityAccessor;
+namespace EntityMarshal\AccessorInterface;
 
 /**
  * @author     Merten van Gerven
- * @package    EntityMarshal\EntityAccessor
+ * @package    EntityMarshal\AccessorInterface
  */
 interface EntityAccessorInterface
 {
