@@ -2,8 +2,8 @@
 
 namespace EntityMarshal;
 
-use EntityMarshal\ConverterStrategy\ConverterStrategyInterface;
-use EntityMarshal\ConverterStrategy\Dump;
+use EntityMarshal\Convert\Strategy\StrategyInterface;
+use EntityMarshal\Convert\Dump;
 use Traversable;
 
 /**
@@ -79,7 +79,7 @@ abstract class AbstractEntity implements EntityInterface
     /**
      * {@inheritdoc}
      */
-    public function convert(ConverterStrategyInterface $strategy) {
+    public function convert(StrategyInterface $strategy) {
         return $strategy->convert(
             $this->toArray(),
             $this->calledClassName()
@@ -89,7 +89,7 @@ abstract class AbstractEntity implements EntityInterface
     /**
      * {@inheritdoc}
      */
-    public function output(ConverterStrategyInterface $strategy)
+    public function output(StrategyInterface $strategy)
     {
         echo $this->convert($strategy);
     }

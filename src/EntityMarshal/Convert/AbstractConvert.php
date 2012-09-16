@@ -1,14 +1,16 @@
 <?php
 
-namespace EntityMarshal\ConverterStrategy;
+namespace EntityMarshal\Convert;
+
+use EntityMarshal\Convert\Strategy\StrategyInterface;
 
 /**
  * @author      Merten van Gerven
- * @category EntityMarshal
- * @package  EntityMarshal\ConverterStrategy
+ * @category    EntityMarshal
+ * @package     EntityMarshal\ConverterStrategy
  * @abstract
  */
-abstract class AbstractConverterStrategy implements ConverterStrategyInterface
+abstract class AbstractConvert implements StrategyInterface
 {
 
     /**

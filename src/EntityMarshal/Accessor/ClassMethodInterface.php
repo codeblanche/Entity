@@ -1,12 +1,13 @@
 <?php
 
-namespace EntityMarshal\AccessorInterface;
+namespace EntityMarshal\Accessor;
 
 /**
  * @author     Merten van Gerven
- * @package    EntityMarshal\AccessorInterface
+ * @category   EntityMarshal
+ * @package    EntityMarshal\Accessor
  */
-interface ClassMethodEntityAccessorInterface extends EntityAccessorInterface
+interface ClassMethodInterface extends AccessorInterface
 {
 
     /**

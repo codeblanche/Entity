@@ -1,8 +1,8 @@
 <?php
 
-namespace EntityMarshal\ConverterStrategy;
+namespace EntityMarshal\Convert;
 
-class QueryString extends AbstractConverterStrategy
+class QueryString extends AbstractConvert
 {
 
     protected $ignoreKeys = array();
@@ -17,13 +17,11 @@ class QueryString extends AbstractConverterStrategy
         $this->ignoreKeys   = $ignoreKeys;
     }
 
+
     /**
-     * @param array     $data   Data to dump
-     * @param string    $type   Optional: Data type definition override
-     *
-     * @return string
+     * {@inheritdoc}
      */
-    public function convert(array $data, $type = 'array')
+    public function convert(array $data, $type = null)
     {
         if (is_array($this->ignoreKeys) && !empty($this->ignoreKeys)) {
             foreach ($this->ignoreKeys as $key) {

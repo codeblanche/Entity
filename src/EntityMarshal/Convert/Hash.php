@@ -1,8 +1,8 @@
 <?php
 
-namespace EntityMarshal\ConverterStrategy;
+namespace EntityMarshal\Convert;
 
-class Hash extends AbstractConverterStrategy
+class Hash extends AbstractConvert
 {
 
     /**
@@ -39,7 +39,11 @@ class Hash extends AbstractConverterStrategy
      * @param string    $suffix
      * @param array     $ignoreKeys   Optional list of keys to ignore.
      */
-    public function __construct($type = self::HASH_TYPE_SHA256, $prefix = '', $suffix = '', $ignoreKeys = array())
+    public function __construct(
+        $type = self::HASH_TYPE_SHA256,
+        $prefix = '',
+        $suffix = '',
+        $ignoreKeys = array())
     {
         $this->type         = $type;
         $this->prefix       = $prefix;
@@ -47,13 +51,11 @@ class Hash extends AbstractConverterStrategy
         $this->ignoreKeys   = $ignoreKeys;
     }
 
+
     /**
-     * @param array     $data   Data to dump
-     * @param string    $type   Optional: Data type definition override
-     *
-     * @return string
+     * {@inheritdoc}
      */
-    public function convert(array $data, $type = 'array')
+    public function convert(array $data, $type = null)
     {
         if (is_array($this->ignoreKeys) && !empty($this->ignoreKeys)) {
             foreach ($this->ignoreKeys as $key) {

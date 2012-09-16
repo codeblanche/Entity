@@ -1,8 +1,8 @@
 <?php
 
-namespace EntityMarshal\ConverterStrategy;
+namespace EntityMarshal\Convert\Strategy;
 
-interface ConverterStrategyInterface
+interface StrategyInterface
 {
 
     /**

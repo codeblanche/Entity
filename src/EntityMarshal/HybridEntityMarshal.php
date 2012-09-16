@@ -11,6 +11,7 @@ use ReflectionProperty;
  */
 abstract class HybridEntityMarshal extends AbstractEntityMarshal implements HybridAccessorInterface
 {
+
     /**
     * @var string Name of the property currenly being processed to prevent recursive loops.
     */

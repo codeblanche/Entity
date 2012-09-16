@@ -1,8 +1,7 @@
 <?php
 
-namespace EntityMarshal\ConverterStrategy;
+namespace EntityMarshal\Convert;
 
-use EntityMarshal\AbstractEntityMarshal;
 use EntityMarshal\EntityMarshalInterface;
 
 /**
@@ -12,7 +11,7 @@ use EntityMarshal\EntityMarshalInterface;
 *
 * @todo Populate stub
 */
-class Json extends AbstractConverterStrategy
+class Json extends AbstractConvert
 {
 
     /**
@@ -30,13 +29,11 @@ class Json extends AbstractConverterStrategy
         $this->pretty = $pretty;
     }
 
+
     /**
-     * @param array     $data   Data to dump
-     * @param string    $type   Optional: Data type definition override
-     *
-     * @return string
+     * {@inheritdoc}
      */
-    public function convert(array $data, EntityMarshalInterface $type = null)
+    public function convert(array $data, $type = null)
     {
         $this->objectReferences = array();
 

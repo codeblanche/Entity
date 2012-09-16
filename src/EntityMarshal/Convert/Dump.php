@@ -1,15 +1,15 @@
 <?php
 
-namespace EntityMarshal\ConverterStrategy;
+namespace EntityMarshal\Convert;
 
 /**
 * Convert and entity to a Dump string
 *
-* @package EntityMarshal\ConverterStrategy
+* @package      EntityMarshal\ConverterStrategy
 *
-* @todo IT'S BROKE! FIX IT!
+* @todo         IT'S BROKE! FIX IT!
 */
-class Dump extends AbstractConverterStrategy
+class Dump extends AbstractConvert
 {
 
     /**
@@ -45,12 +45,8 @@ class Dump extends AbstractConverterStrategy
         $this->html = $html;
     }
 
-
-
     /**
-     * @param   array   $data   Data to dump
-     * @param   string  $type   Optional: Data type definition override
-     * @return  string
+     * {@inheritdoc}
      */
     public function convert(array $data, $type = null)
     {

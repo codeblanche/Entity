@@ -3,10 +3,7 @@
 namespace EntityMarshal;
 
 use stdClass;
-use Iterator;
-use Serializable;
 use Traversable;
-use Cloneable\Cloneable;
 use EntityMarshal\Exception\RuntimeException;
 
 /**
