@@ -36,6 +36,8 @@ abstract class AbstractEntity implements EntityInterface
     {
         $this->position = 0;
 
+        $this->initialize();
+
         if (!is_null($data)) {
             $this->fromArray($data);
         }
@@ -47,6 +49,32 @@ abstract class AbstractEntity implements EntityInterface
     final public function dump($html = true)
     {
         $this->output(new Dump($html));
+    }
+
+    /**
+     * Initialize the entity.
+     */
+    protected function initialize()
+    {
+        $vars = ObjectPropertyHelper::getObjectVars($this);
+        
+        $this->unsetProperties(array_keys($vars));
+    }
+
+    /**
+     * Unset the object properties defined by $keys
+     *
+     * @param array $keys
+     */
+    protected function unsetProperties($keys)
+    {
+        if (!is_array($keys) || empty($keys)) {
+            return;
+        }
+
+        foreach ($keys as $key) {
+            unset($this->$key);
+        }
     }
 
     /**

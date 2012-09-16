@@ -5,8 +5,11 @@ namespace EntityMarshal\RuntimeCache;
 interface RuntimeCacheEnabledInterface
 {
 
+    /**
+     * Get the runtime cache instance.
+     *
+     * @return RuntimeCacheInterface
+     */
     public function getRuntimeCache();
-
-    public function setRuntimeCache($cache);
 
 }
