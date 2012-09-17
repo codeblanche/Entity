@@ -56,8 +56,9 @@ abstract class AbstractEntity implements EntityInterface
      */
     protected function initialize()
     {
-        $vars = ObjectPropertyHelper::getObjectVars($this);
-        
+        $vars = ObjectPropertyHelper::getInstance()
+            ->getObjectVars($this);
+
         $this->unsetProperties(array_keys($vars));
     }
 
