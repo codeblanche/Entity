@@ -34,7 +34,7 @@ abstract class Hybrid extends AbstractMarshaledEntity implements HybridInterface
     */
     protected function getPropertiesAndTypes()
     {
-        return $this->reflectPropertiesAndTypes(
+        return $this->reflectProperties(
             ReflectionProperty::IS_PUBLIC
         );
     }

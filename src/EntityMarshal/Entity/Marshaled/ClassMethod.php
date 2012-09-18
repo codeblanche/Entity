@@ -34,7 +34,7 @@ abstract class ClassMethod extends AbstractMarshaledEntity implements ClassMetho
     */
     protected function getPropertiesAndTypes()
     {
-        return $this->reflectPropertiesAndTypes(
+        return $this->reflectProperties(
             ReflectionProperty::IS_PRIVATE |
             ReflectionProperty::IS_PROTECTED
         );

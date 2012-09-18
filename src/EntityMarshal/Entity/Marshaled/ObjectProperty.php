@@ -34,7 +34,7 @@ abstract class ObjectProperty extends AbstractMarshaledEntity implements ObjectP
     */
     protected function getPropertiesAndTypes()
     {
-        return $this->reflectPropertiesAndTypes(
+        return $this->reflectProperties(
             ReflectionProperty::IS_PUBLIC
         );
     }

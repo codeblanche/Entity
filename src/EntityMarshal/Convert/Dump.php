@@ -153,4 +153,104 @@ class Dump extends AbstractConvert
 //        return $out;
 //    }
 
+
+
+
+
+    /**
+     * Output dump of properties handled by EntityMarshal.
+     *
+     * @param boolean $html
+     * @param boolean $return
+     * @param string  $prefix
+     */
+//    final public function dump($html = true, $return = false, $prefix = '')
+//    {
+//        $out = array();
+//
+//        $len = count($this->definitionKeys);
+//        $out[] = "$prefix <span style='color:#00a;'>$this->calledClass</span> ($len) {";
+//        $prefix .= str_pad('', 4);
+//
+//        $out = array_merge($out, $this->dumpArray($this->definitionValues, $prefix));
+//
+//        $out[] = "$prefix }";
+//        $prefix = substr($prefix, 0, -4);
+//
+//        if ($return) {
+//            return $out;
+//        } else {
+//            $result = PHP_EOL . implode(PHP_EOL, $out) . PHP_EOL;
+//            echo $html ? "<pre style='color:#555;'>$result</pre>" : strip_tags($result);
+//        }
+//    }
+
+    /**
+     * Process array for dump output.
+     *
+     * @param array  $array
+     * @param string $prefix
+     *
+     * return array
+     */
+//    final protected function dumpArray(&$array, $prefix = '', $generics_type = null)
+//    {
+//        $out = array();
+//        foreach ($array as $key => $val) {
+//            if (isset($this->$key) && !empty($this->$key)) {
+//                $val = $this->$key;
+//            }
+//
+//            $type = gettype($val);
+//
+//            $defined_type     = isset($this->definitionTypes[$key]) ? $this->definitionTypes[$key] : $type;
+//            $generics_subtype = null;
+//
+//            if (isset($this->definitionGenerics[$key])) {
+//                $generics_subtype = $this->definitionGenerics[$key];
+//                $defined_type = "{$generics_subtype}[]";
+//            }
+//
+//            if (!is_null($generics_type)) {
+//                $defined_type = $generics_type;
+//            }
+//
+//            if (in_array($type, array('array', 'object'))) {
+//                $len = count($val);
+//                $sub = array();
+//
+//                if ($type === 'object' && $val instanceof AbstractEntity) {
+//                    if ($val === $this) {
+//                        die('Possible endless recursion triggered.');
+//                    }
+//                    $sub    = $val->dump(true, true, $prefix);
+//                    $sub[0] = str_replace($prefix, "$prefix [<span style='color:#090;'>$key</span>]", $sub[0]);
+//                    $out    = array_merge($out, $sub);
+//                } else {
+//                    $out[]   = "$prefix [<span style='color:#090;'>$key</span>] <span style='color:#00a;'>$defined_type</span> ($len) {";
+//                    $prefix .= str_pad('', 4);
+//
+//                    $sub = $this->dumpArray($val, $prefix, $generics_subtype);
+//                    $out = array_merge($out, $sub);
+//
+//                    $out[]  = "$prefix }";
+//                    $prefix = substr($prefix, 0, -4);
+//                }
+//            } else {
+//                $len = strlen($val);
+//                if ($type === 'string') {
+//                    $val = "\"$val\"";
+//                } elseif (is_bool($val)) {
+//                    $val = $val ? 'true' : 'false';
+//                } elseif (is_null($val)) {
+//                    $val = "<em style='color:#999;'>null</em>";
+//                }
+//                $out[] = "$prefix [<span style='color:#090;'>$key</span>] <span style='color:#00a;'>$defined_type</span> ($len) => <span style='color:#a00;'>$val</span>";
+//            }
+//        }
+//
+//        return $out;
+//    }
+
+
 }
