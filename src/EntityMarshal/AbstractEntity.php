@@ -25,7 +25,7 @@ abstract class AbstractEntity implements EntityInterface
      *
      * @var array
      */
-    private $definitionValues = array();
+    private $properties = array();
 
     /**
      * Default constructor.
@@ -84,12 +84,12 @@ abstract class AbstractEntity implements EntityInterface
     public function toArray($recursive = true)
     {
         if (!$recursive) {
-            return $this->definitionValues;
+            return $this->properties;
         }
 
         $result = array();
 
-        foreach ($this->definitionValues as $key => $value) {
+        foreach ($this->properties as $key => $value) {
             if ($value instanceof EntityInterface) {
                 $result[$key] = $value->toArray($recursive);
             } elseif (is_object($value)) {
@@ -146,14 +146,14 @@ abstract class AbstractEntity implements EntityInterface
      */
     public function &get($name)
     {
-        if (!isset($this->definitionValues[$name])) {
+        if (!isset($this->properties[$name])) {
             $className = $this->calledClassName();
             throw new Exception\RuntimeException(
                 "Attempt to access property '$name' of class '$className' failed. Property does not exist."
             );
         }
 
-        return $this->definitionValues[$name];
+        return $this->properties[$name];
     }
 
     /**
@@ -161,7 +161,7 @@ abstract class AbstractEntity implements EntityInterface
      */
     public function set($name, $value)
     {
-        $this->definitionValues[$name] = $value;
+        $this->properties[$name] = $value;
 
         return $this;
     }
@@ -176,6 +176,8 @@ abstract class AbstractEntity implements EntityInterface
      */
     protected function call($method, &$arguments)
     {
+        $matches = array();
+        
         if (!preg_match('/^(?:(get|set|is)_?)(\w+)$/i', $method, $matches)) {
             return;
         }
@@ -206,7 +208,7 @@ abstract class AbstractEntity implements EntityInterface
      */
     public function __isset($name)
     {
-        return isset($this->definitionValues[$name]);
+        return isset($this->properties[$name]);
     }
 
     /**
@@ -214,8 +216,8 @@ abstract class AbstractEntity implements EntityInterface
      */
     public function __unset($name)
     {
-        if (isset($this->definitionValues[$name])) {
-            unset($this->definitionValues[$name]);
+        if (isset($this->properties[$name])) {
+            unset($this->properties[$name]);
         }
     }
 
@@ -231,10 +233,10 @@ abstract class AbstractEntity implements EntityInterface
      */
     public function current()
     {
-        $keys   = array_keys($this->definitionValues);
+        $keys   = array_keys($this->properties);
         $key    = $keys[$this->position];
 
-        return $this->definitionValues[$key];
+        return $this->properties[$key];
     }
 
     /**
@@ -242,7 +244,7 @@ abstract class AbstractEntity implements EntityInterface
      */
     public function key()
     {
-        $keys   = array_keys($this->definitionValues);
+        $keys   = array_keys($this->properties);
 
         return $keys[$this->position];
     }
@@ -268,7 +270,7 @@ abstract class AbstractEntity implements EntityInterface
      */
     public function valid()
     {
-        $keys = array_keys($this->definitionValues);
+        $keys = array_keys($this->properties);
         $key  = null;
 
         if ($this->position < count($keys)) {
@@ -276,7 +278,7 @@ abstract class AbstractEntity implements EntityInterface
         }
 
         return !is_null($key)
-            ? isset($this->definitionValues[$key])
+            ? isset($this->properties[$key])
             : false ;
     }
 
@@ -287,7 +289,7 @@ abstract class AbstractEntity implements EntityInterface
      */
     public function serialize()
     {
-        return serialize($this->definitionValues);
+        return serialize($this->properties);
     }
 
     /**
@@ -295,7 +297,7 @@ abstract class AbstractEntity implements EntityInterface
      */
     public function unserialize($serialized)
     {
-        $this->definitionValues = unserialize($serialized);
+        $this->properties = unserialize($serialized);
     }
 
     // Implement Countable
@@ -305,7 +307,7 @@ abstract class AbstractEntity implements EntityInterface
      */
     public function count()
     {
-        return count($this->definitionValues);
+        return count($this->properties);
     }
 
 }

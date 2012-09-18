@@ -9,10 +9,9 @@ use stdClass;
 use Traversable;
 
 /**
- * This class is intended to be used as a base for pure data object classes
- * that contain typed (using phpdoc) public properties. Control over these
- * properties is deferred to EntityMarshal in order to validate inputs and auto-
- * matically cast values to the correct types.
+ * This class is intended to be used as a base for pure data object classes that contain typed (using phpdoc) public
+ * properties. Control over these properties is deferred to EntityMarshal in order to validate inputs and auto-matically
+ * cast values to the correct types.
  *
  * @author      Merten van Gerven
  * @category    EntityMarshal
@@ -24,21 +23,7 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
 {
 
     /**
-     * Pipe seperated list of supported native $var = (*) $var cast types.
-     */
-    const CAST_MAP_ALLOWED = 'int|integer|long|bool|boolean|float|double|real|string|unset';
-
-    /**
-    * Supported Hash types
-    */
-    const HASH_TYPE_SHA256 = 'sha256';
-    const HASH_TYPE_MD5 = 'md5';
-
-    /**
-     * Maps phpdoc types to native (is_*) and/or user defined (instancof) types
-     * for validation.
-     *
-     * @var array
+     * @var array   Maps phpdoc types to native (is_*) and/or user defined (instancof) types for validation.
      */
     private $typeMap = array(
         'array'     => 'array',
@@ -61,60 +46,51 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
         'integer'   => 'numeric',
         'double'    => 'numeric',
         'float'     => 'numeric',
-        '*'         => 'object', // default catchall
+        // default
+        '*'         => 'object',
     );
 
     /**
-     * Maps phpdoc types to native types for casting.
-     *
-     * @var array
+     * @var array   Maps phpdoc types to native types for casting.
      */
     private $castMap = array(
-        'null' => 'unset',
+        'int'       => 'int',
+        'integer'   => 'integer',
+        'long'      => 'long',
+        'bool'      => 'bool',
+        'boolean'   => 'boolean',
+        'float'     => 'float',
+        'double'    => 'double',
+        'real'      => 'real',
+        'string'    => 'string',
+        'unset'     => 'unset',
+        'null'      => 'unset',
     );
 
     /**
-     * Keys of public properties declared within EntityMarshal extendor.
-     *
-     * @var array
+     * @var array   Key/type pairs of defined properties.
      */
-    private $definitionKeys = array();
+    private $types = array(
+        // default
+        '*' => 'mixed',
+    );
 
     /**
-     * Types of public properties declared within EntityMarshal extendor.
-     *
-     * @var array
+     * @var array   Generic types of public array/list properties declared within EntityMarshal extendor.
      */
-    private $definitionTypes = array();
+    private $genericsTypes = array(
+        // default
+        '*' => null,
+    );
 
     /**
-     * Generic types of public array/list properties declared within EntityMarshal extendor.
-     *
-     * @var array
+     * @var string  Default type to be used for properties with no type.
      */
-    private $definitionGenerics = array();
+    private $defaultType = 'mixed';
 
     /**
-     * Default property values declared within EntityMarshal extender.
-     *
-     * @var array
+     * @var array   Exception strings
      */
-    private $definitionDefaults = array();
-
-    /**
-     * Default type to be used for properties with no type.
-     *
-     * @var string
-     */
-    private $definitionDefaultType = 'mixed';
-
-    /**
-     * Default generics type to be used for array properties.
-     * @var string
-     */
-    private $definitionDefaultGenericType = null;
-
-
     private static $exceptions = array(
         1  => "'%s' indicates a 'mixed' type in phpdoc for property '%s' of class '%s'. Please use 'mixed' instead.",
         2  => "'%s' is not a valid native or object/class type in phpdoc for property '%s' of class '%s'",
@@ -147,13 +123,8 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
         $definitions    = $cache->get($class);
 
         if (!is_null($definitions)) {
-            $this->definitionDefaults           = $definitions['defaults'];
-            $this->definitionKeys               = $definitions['keys'];
-            $this->definitionTypes              = $definitions['types'];
-            $this->definitionGenerics           = $definitions['generics'];
-            $this->definitionValues             = $definitions['values'];
-            $this->definitionDefaultType        = $definitions['default_type'];
-            $this->definitionDefaultGenericType = $definitions['default_generic_type'];
+            $this->types          = $definitions['types'];
+            $this->genericsTypes  = $definitions['generics'];
 
             return;
         }
@@ -171,21 +142,16 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
         }
 
         $cache->set($class, array(
-            'defaults'             => $this->definitionDefaults,
-            'keys'                 => $this->definitionKeys,
-            'types'                => $this->definitionTypes,
-            'generics'             => $this->definitionGenerics,
-            'values'               => $this->definitionValues,
-            'default_type'         => $this->definitionDefaultType,
-            'default_generic_type' => $this->definitionDefaultGenericType,
+            'types'     => $this->types,
+            'generics'  => $this->genericsTypes,
         ));
     }
 
     private function initializeProperty($name, $type, $defaultValue)
     {
         if (empty($type)) {
-            $type    = $this->definitionDefaultType;
-            $subType = $this->definitionDefaultGenericType;
+            $type    = $this->types['*'];
+            $subType = $this->genericsTypes['*'];
         } else {
             $subType = $this->extractGenericSubtype($type);
         }
@@ -201,7 +167,7 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
             }
 
             $type = 'array';
-            $this->definitionGenerics[$name] = $subType;
+            $this->genericsTypes[$name] = $subType;
         }
 
         if (strpos($type, '|')) {
@@ -222,10 +188,7 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
             ), 2);
         }
 
-        $this->definitionKeys[]          = $name;
-        $this->definitionTypes[$name]    = $type;
-        $this->definitionValues[$name]   = $defaultValue;
-        $this->definitionDefaults[$name] = $defaultValue;
+        $this->types[$name] = $type;
     }
 
     /**
@@ -296,8 +259,8 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
             $defaultType = 'mixed';
         }
 
-        $this->definitionDefaultType        = $defaultType;
-        $this->definitionDefaultGenericType = $defaultSubType;
+        $this->types['*']         = $defaultType;
+        $this->genericsTypes['*'] = $defaultSubType;
     }
 
     /**
@@ -332,10 +295,6 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
             return;
         }
 
-        foreach (explode('|', self::CAST_MAP_ALLOWED) as $cast) {
-            $this->castMap[$cast] = $cast;
-        }
-
         self::$runtimeCache['type_map'] = $this->typeMap;
         self::$runtimeCache['cast_map'] = $this->castMap;
     }
@@ -347,26 +306,26 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
      * @param boolean $return
      * @param string  $prefix
      */
-    final public function dump($html = true, $return = false, $prefix = '')
-    {
-        $out = array();
-
-        $len = count($this->definitionKeys);
-        $out[] = "$prefix <span style='color:#00a;'>$this->calledClass</span> ($len) {";
-        $prefix .= str_pad('', 4);
-
-        $out = array_merge($out, $this->dumpArray($this->definitionValues, $prefix));
-
-        $out[] = "$prefix }";
-        $prefix = substr($prefix, 0, -4);
-
-        if ($return) {
-            return $out;
-        } else {
-            $result = PHP_EOL . implode(PHP_EOL, $out) . PHP_EOL;
-            echo $html ? "<pre style='color:#555;'>$result</pre>" : strip_tags($result);
-        }
-    }
+//    final public function dump($html = true, $return = false, $prefix = '')
+//    {
+//        $out = array();
+//
+//        $len = count($this->definitionKeys);
+//        $out[] = "$prefix <span style='color:#00a;'>$this->calledClass</span> ($len) {";
+//        $prefix .= str_pad('', 4);
+//
+//        $out = array_merge($out, $this->dumpArray($this->definitionValues, $prefix));
+//
+//        $out[] = "$prefix }";
+//        $prefix = substr($prefix, 0, -4);
+//
+//        if ($return) {
+//            return $out;
+//        } else {
+//            $result = PHP_EOL . implode(PHP_EOL, $out) . PHP_EOL;
+//            echo $html ? "<pre style='color:#555;'>$result</pre>" : strip_tags($result);
+//        }
+//    }
 
     /**
      * Process array for dump output.
@@ -376,98 +335,71 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
      *
      * return array
      */
-    final protected function dumpArray(&$array, $prefix = '', $generics_type = null)
-    {
-        $out = array();
-        foreach ($array as $key => $val) {
-            if (isset($this->$key) && !empty($this->$key)) {
-                $val = $this->$key;
-            }
-
-            $type = gettype($val);
-
-            $defined_type     = isset($this->definitionTypes[$key]) ? $this->definitionTypes[$key] : $type;
-            $generics_subtype = null;
-
-            if (isset($this->definitionGenerics[$key])) {
-                $generics_subtype = $this->definitionGenerics[$key];
-                $defined_type = "{$generics_subtype}[]";
-            }
-
-            if (!is_null($generics_type)) {
-                $defined_type = $generics_type;
-            }
-
-            if (in_array($type, array('array', 'object'))) {
-                $len = count($val);
-                $sub = array();
-
-                if ($type === 'object' && $val instanceof AbstractEntity) {
-                    if ($val === $this) {
-                        die('Possible endless recursion triggered.');
-                    }
-                    $sub    = $val->dump(true, true, $prefix);
-                    $sub[0] = str_replace($prefix, "$prefix [<span style='color:#090;'>$key</span>]", $sub[0]);
-                    $out    = array_merge($out, $sub);
-                } else {
-                    $out[]   = "$prefix [<span style='color:#090;'>$key</span>] <span style='color:#00a;'>$defined_type</span> ($len) {";
-                    $prefix .= str_pad('', 4);
-
-                    $sub = $this->dumpArray($val, $prefix, $generics_subtype);
-                    $out = array_merge($out, $sub);
-
-                    $out[]  = "$prefix }";
-                    $prefix = substr($prefix, 0, -4);
-                }
-            } else {
-                $len = strlen($val);
-                if ($type === 'string') {
-                    $val = "\"$val\"";
-                } elseif (is_bool($val)) {
-                    $val = $val ? 'true' : 'false';
-                } elseif (is_null($val)) {
-                    $val = "<em style='color:#999;'>null</em>";
-                }
-                $out[] = "$prefix [<span style='color:#090;'>$key</span>] <span style='color:#00a;'>$defined_type</span> ($len) => <span style='color:#a00;'>$val</span>";
-            }
-        }
-
-        return $out;
-    }
-
-    /**
-     * Method for magic getter and private use.
-     *
-     * @param string $name
-     *
-     * @return mixed
-     *
-     * @throws RuntimeException
-     */
-    protected function &get($name)
-    {
-        if (!in_array($name, $this->definitionKeys)) {
-            throw new RuntimeException(sprintf(
-                self::$exceptions[6],
-                $name,
-                $this->calledClass
-            ), 6);
-        }
-
-        return $this->definitionValues[$name];
-    }
+//    final protected function dumpArray(&$array, $prefix = '', $generics_type = null)
+//    {
+//        $out = array();
+//        foreach ($array as $key => $val) {
+//            if (isset($this->$key) && !empty($this->$key)) {
+//                $val = $this->$key;
+//            }
+//
+//            $type = gettype($val);
+//
+//            $defined_type     = isset($this->definitionTypes[$key]) ? $this->definitionTypes[$key] : $type;
+//            $generics_subtype = null;
+//
+//            if (isset($this->definitionGenerics[$key])) {
+//                $generics_subtype = $this->definitionGenerics[$key];
+//                $defined_type = "{$generics_subtype}[]";
+//            }
+//
+//            if (!is_null($generics_type)) {
+//                $defined_type = $generics_type;
+//            }
+//
+//            if (in_array($type, array('array', 'object'))) {
+//                $len = count($val);
+//                $sub = array();
+//
+//                if ($type === 'object' && $val instanceof AbstractEntity) {
+//                    if ($val === $this) {
+//                        die('Possible endless recursion triggered.');
+//                    }
+//                    $sub    = $val->dump(true, true, $prefix);
+//                    $sub[0] = str_replace($prefix, "$prefix [<span style='color:#090;'>$key</span>]", $sub[0]);
+//                    $out    = array_merge($out, $sub);
+//                } else {
+//                    $out[]   = "$prefix [<span style='color:#090;'>$key</span>] <span style='color:#00a;'>$defined_type</span> ($len) {";
+//                    $prefix .= str_pad('', 4);
+//
+//                    $sub = $this->dumpArray($val, $prefix, $generics_subtype);
+//                    $out = array_merge($out, $sub);
+//
+//                    $out[]  = "$prefix }";
+//                    $prefix = substr($prefix, 0, -4);
+//                }
+//            } else {
+//                $len = strlen($val);
+//                if ($type === 'string') {
+//                    $val = "\"$val\"";
+//                } elseif (is_bool($val)) {
+//                    $val = $val ? 'true' : 'false';
+//                } elseif (is_null($val)) {
+//                    $val = "<em style='color:#999;'>null</em>";
+//                }
+//                $out[] = "$prefix [<span style='color:#090;'>$key</span>] <span style='color:#00a;'>$defined_type</span> ($len) => <span style='color:#a00;'>$val</span>";
+//            }
+//        }
+//
+//        return $out;
+//    }
 
     /**
-     * Method for magic setter and private use.
-     *
-     * @param string  $name
-     * @param mixed   $value
-     * @param boolean $graceful skip exceptions for non existant properties.
-     *
-     * @throws RuntimeException
+     * {@inheritdoc}
      */
-    protected function set($name, $value, $graceful = false)
-    {
+    public function set($name, $value) {
+        $graceful = false;
+
         if ($value === $this) {
             throw new RuntimeException(sprintf(
                 self::$exceptions[12],
@@ -476,11 +408,11 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
             ), 12);
         }
 
-        if (!in_array($name, $this->definitionKeys)) {
+        if (!isset($this->types[$name])) {
             if ($this instanceof DynamicPropertyInterface) {
-                $type = !is_null($this->definitionDefaultGenericType)
-                    ? "{$this->definitionDefaultGenericType}[]"
-                    : $this->definitionDefaultType;
+                $type = !is_null($this->genericsTypes['*'])
+                    ? "{$this->genericsTypes['*']}[]"
+                    : $this->types['*'];
                 $this->initializeProperty($name, $type, null);
             } else {
                 if ($graceful) {
@@ -498,27 +430,24 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
             $expected_type     = $this->getDefinitionType($name);
             $generics_subtype  = $this->getDefinitionGenericType($name, false);
 
-            $this->definitionValues[$name] = $this->prepareValue(
+            $value = $this->prepareValue(
                 $value,
                 $expected_type,
                 $generics_subtype,
                 $graceful,
                 $name
             );
-        } else {
-            $this->definitionValues[$name] = null;
         }
 
-        return $this;
+        return parent::set($name, $value);
     }
-
 
     private function getDefinitionType($name)
     {
-        $type = $this->definitionDefaultType;
+        $type = $this->types['*'];
 
-        if (isset($this->definitionTypes[$name])) {
-            $type = $this->definitionTypes[$name];
+        if (isset($this->types[$name])) {
+            $type = $this->types[$name];
             $subType = $this->getDefinitionGenericType($name, false);
         } else {
             $subType = $this->getDefinitionGenericType(null);
@@ -536,10 +465,10 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
     {
         $generic = null;
 
-        if (!empty($name) && isset($this->definitionGenerics[$name])) {
-            $generic = $this->definitionGenerics[$name];
-        } elseif ($enableDefault && !is_null($this->definitionDefaultGenericType)) {
-            $generic = $this->definitionDefaultGenericType;
+        if (!empty($name) && isset($this->genericsTypes[$name])) {
+            $generic = $this->genericsTypes[$name];
+        } elseif ($enableDefault && !is_null($this->genericsTypes['*'])) {
+            $generic = $this->genericsTypes['*'];
         }
 
         return $generic;
