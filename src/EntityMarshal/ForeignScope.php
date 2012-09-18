@@ -2,16 +2,16 @@
 
 namespace EntityMarshal;
 
-class ObjectPropertyHelper
+class ForeignScope
 {
 
     /**
-    * @var ObjectPropertyHelper Singleton instance.
+    * @var ForeignScope Singleton instance.
     */
     private static $instance;
 
     /**
-     * @return ObjectPropertyHelper
+     * @return ForeignScope
      */
     public static function getInstance()
     {
