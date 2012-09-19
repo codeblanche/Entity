@@ -278,10 +278,9 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
         }
 
         if (!is_null($value)) {
-            $type   = $this->getType($name);
+            $type    = $this->getType($name);
             $generic = $this->getGeneric($name);
-
-            $value = $this->prepareValue(
+            $value   = $this->prepareValue(
                 $value,
                 $type,
                 $generic,
