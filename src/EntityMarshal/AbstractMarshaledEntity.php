@@ -293,6 +293,27 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function fromArray($data)
+    {
+        if ($this instanceof DynamicPropertyInterface) {
+            return parent::fromArray($data);
+        }
+
+        $names  = array_keys($this->types);
+        $usable = array();
+
+        foreach ($names as $name) {
+            if (isset($data[$name])) {
+                $usable[$name] = &$data[$name];
+            }
+        }
+
+        return parent::fromArray($usable);
+    }
+
+    /**
      * Get the property type for the given property name
      *
      * @param   string      $name
@@ -336,7 +357,7 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
     *
     * @throws RuntimeException
     */
-    protected function prepareValue($value, $type, $generic = null, $name = '')
+    private function prepareValue($value, $type, $generic = null, $name = '')
     {
         $definedType = $type;
 
@@ -410,7 +431,7 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
      *
      * @return  mixed
      */
-    protected function castToObject($value, $type)
+    private function castToObject($value, $type)
     {
         if(!class_exists($type) && $type !== 'object') {
             return $value;
