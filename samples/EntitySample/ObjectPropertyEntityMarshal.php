@@ -1,5 +1,7 @@
 <?php
 
+namespace EntitySample;
+
 use EntityMarshal\ObjectPropertyEntityMarshal as AbstractObjectPropertyEntityMarshal;
 
 /**
@@ -10,7 +12,6 @@ use EntityMarshal\ObjectPropertyEntityMarshal as AbstractObjectPropertyEntityMar
  */
 class ObjectPropertyEntityMarshal extends AbstractObjectPropertyEntityMarshal
 {
-
     /**
      * @var bool
      */
@@ -125,5 +126,5 @@ class ObjectPropertyEntityMarshal extends AbstractObjectPropertyEntityMarshal
      * @var integer[]
      */
     public $testTypedArray4;
-
 }
+

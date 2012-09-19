@@ -8,13 +8,13 @@ use PHPUnit_Framework_TestCase;
 
 class AbstractEntityTest extends PHPUnit_Framework_TestCase
 {
-
     /**
      * @var AbstractEntity
      */
     private $stub;
 
-    protected function setUp() {
+    protected function setUp()
+    {
         parent::setUp();
 
         /* @var $stub PHPUnit_Framework_MockObject_MockObject */
@@ -177,3 +177,4 @@ class AbstractEntityTest extends PHPUnit_Framework_TestCase
         $this->stub->get('bacon');
     }
 }
+

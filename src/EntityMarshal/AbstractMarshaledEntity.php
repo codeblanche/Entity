@@ -18,10 +18,9 @@ use Traversable;
  * @package     EntityMarshal
  */
 abstract class AbstractMarshaledEntity extends AbstractEntity implements
-    MarshaledEntityInterface,
-    RuntimeCacheEnabledInterface
+     MarshaledEntityInterface,
+     RuntimeCacheEnabledInterface
 {
-
     /**
      * @var array       Maps phpdoc types to native (is_*) and/or user defined (instancof) types for validation.
      */
@@ -123,10 +122,13 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
             $this->set($name, $value);
         }
 
-        $cache->set($class, array(
-            'types'     => $this->types,
-            'generics'  => $this->generics,
-        ));
+        $cache->set(
+            $class,
+            array(
+                'types'     => $this->types,
+                'generics'  => $this->generics,
+            )
+        );
     }
 
     private function initializeProperty($name, $type)
@@ -139,22 +141,27 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
         }
 
         if (strpos($type, '|')) {
-            throw new RuntimeException(sprintf(
-                "'%s' indicates a 'mixed' type in phpdoc for property '%s' of class '%s'. Please use 'mixed' instead.",
-                $type,
-                $name,
-                $this->calledClassName()
-            ));
+            throw new RuntimeException(
+                sprintf(
+                    "'%s' indicates a 'mixed' type in phpdoc for property '%s' of class '%s'. ".
+                    "Please use 'mixed' instead.",
+                    $type,
+                    $name,
+                    $this->calledClassName()
+                )
+            );
         }
 
         if (!is_null($generic)) {
             if (!$this->isValidType($generic)) {
-                throw new RuntimeException(sprintf(
-                    "'%s' is not a valid native or object/class type in phpdoc for property '%s' of class '%s'",
-                    $generic,
-                    $name,
-                    $this->calledClassName()
-                ));
+                throw new RuntimeException(
+                    sprintf(
+                        "'%s' is not a valid native or object/class type in phpdoc for property '%s' of class '%s'",
+                        $generic,
+                        $name,
+                        $this->calledClassName()
+                    )
+                );
             }
 
             $this->generics[$name] = $generic;
@@ -163,12 +170,14 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
         }
 
         if (!$this->isValidType($type)) {
-            throw new RuntimeException(sprintf(
-                "'%s' is not a valid native or object/class type in phpdoc for property '%s' of class '%s'",
-                $type,
-                $name,
-                $this->calledClassName()
-            ));
+            throw new RuntimeException(
+                sprintf(
+                    "'%s' is not a valid native or object/class type in phpdoc for property '%s' of class '%s'",
+                    $type,
+                    $name,
+                    $this->calledClassName()
+                )
+            );
         }
 
         $this->types[$name] = $type;
@@ -177,9 +186,9 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
     /**
      * Retrieve list of properties and types using reflection.
      *
-     * @param   integer     $filter
+     * @param integer $filter
      *
-     * @return  array
+     * @return array
      */
     protected function reflectProperties($filter = null)
     {
@@ -187,7 +196,8 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
         $reflection  = new ReflectionClass($this->getCalledClassName());
         $publicVars  = $reflection->getProperties($filter);
 
-        foreach ($publicVars as $publicVar) { /* @var ReflectionProperty $publicVar */
+        foreach ($publicVars as $publicVar) {
+            /* @var ReflectionProperty $publicVar */
             $doc       = $publicVar->getDocComment();
             $key       = $publicVar->getName();
             $is_static = $publicVar->isStatic();
@@ -196,6 +206,7 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
                 continue;
             }
 
+            $matches          = array();
             $properties[$key] = preg_match('/@var\s+([^\s]+)/i', $doc, $matches)
                 ? $matches[1]
                 : null;
@@ -207,9 +218,9 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
     /**
      * Check if the specified type is valid.
      *
-     * @param   string      $type
+     * @param string $type
      *
-     * @return  boolean
+     * @return boolean
      */
     private function isValidType($type)
     {
@@ -269,11 +280,13 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
                     return $this;
                 }
 
-                throw new RuntimeException(sprintf(
-                    "Attempt to set property '%s' of class '%s' failed. Property does not exist.",
-                    $name,
-                    $this->calledClassName()
-                ));
+                throw new RuntimeException(
+                    sprintf(
+                        "Attempt to set property '%s' of class '%s' failed. Property does not exist.",
+                        $name,
+                        $this->calledClassName()
+                    )
+                );
             }
         }
 
@@ -315,9 +328,9 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
     /**
      * Get the property type for the given property name
      *
-     * @param   string      $name
+     * @param string $name
      *
-     * @return  string
+     * @return string
      */
     private function getType($name)
     {
@@ -331,9 +344,9 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
     /**
      * Retrieve the generic type for the given property name
      *
-     * @param   string      $name
+     * @param string $name
      *
-     * @return  string
+     * @return string
      */
     private function getGeneric($name)
     {
@@ -408,15 +421,17 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
         ))) {
             $valueType = gettype($value);
 
-            throw new RuntimeException(sprintf(
-                "Attempt to set property '%s' of class '%s' failed. ".
-                "Property type '%s' expected while type '%s' was given for value '%s'",
-                $name,
-                $this->calledClassName(),
-                $type,
-                $valueType,
-                var_export($value, true)
-            ));
+            throw new RuntimeException(
+                sprintf(
+                    "Attempt to set property '%s' of class '%s' failed. ".
+                    "Property type '%s' expected while type '%s' was given for value '%s'",
+                    $name,
+                    $this->calledClassName(),
+                    $type,
+                    $valueType,
+                    var_export($value, true)
+                )
+            );
         }
 
         return $value;
@@ -425,14 +440,14 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
     /**
      * Convert a value to the specified object type.
      *
-     * @param   mixed   $value
-     * @param   mixed   $type
+     * @param mixed $value
+     * @param mixed $type
      *
-     * @return  mixed
+     * @return mixed
      */
     private function castToObject($value, $type)
     {
-        if(!class_exists($type) && $type !== 'object') {
+        if (!class_exists($type) && $type !== 'object') {
             return $value;
         }
 
@@ -446,7 +461,7 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
                 ? new stdClass()
                 : new $type();
 
-            foreach($value as $key=>$val) {
+            foreach ($value as $key => $val) {
                 $obj->$key = $val;
             }
 
@@ -456,15 +471,14 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
         return $value;
     }
 
-
     /**
      * Cast a value to the desired type.
      *
-     * @param   mixed       $value  The value you went to cast
-     * @param   string      $type   The type you want to cast to
+     * @param mixed  $value The value you went to cast
+     * @param string $type  The type you want to cast to
      *
-     * @return  mixed
-     * @throws  RuntimeException
+     * @return mixed
+     * @throws RuntimeException
      */
     private function cast($value, $type)
     {
@@ -498,14 +512,16 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
                 $value = (unset) $value;
                 break;
             default:
-                throw new RuntimeException(sprintf(
-                    "Attempt to cast value to invalid type '%s'",
-                    $type
-                ));
+                throw new RuntimeException(
+                    sprintf(
+                        "Attempt to cast value to invalid type '%s'",
+                        $type
+                    )
+                );
                 break;
         }
 
         return $value;
     }
-
 }
+

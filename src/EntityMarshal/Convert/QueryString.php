@@ -4,19 +4,17 @@ namespace EntityMarshal\Convert;
 
 class QueryString extends AbstractConvert
 {
-
     protected $ignoreKeys = array();
 
     /**
      * Configure the query string converter strategy
      *
-     * @param array     $ignoreKeys   Optional list of keys to ignore.
+     * @param array $ignoreKeys Optional list of keys to ignore.
      */
     public function __construct($ignoreKeys = array())
     {
         $this->ignoreKeys   = $ignoreKeys;
     }
-
 
     /**
      * {@inheritdoc}
@@ -31,5 +29,5 @@ class QueryString extends AbstractConvert
 
         return http_build_query($data);
     }
-
 }
+

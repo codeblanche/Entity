@@ -1,5 +1,7 @@
 <?php
 
+namespace EntitySample;
+
 use EntityMarshal\PermitDynamicPropertiesInterface;
 use EntityMarshal\ClassMethodEntityMarshal as AbstractClassMethodEntityMarshal;
 
@@ -9,6 +11,8 @@ use EntityMarshal\ClassMethodEntityMarshal as AbstractClassMethodEntityMarshal;
  * @author     Merten van Gerven
  * @package    EntityMarshal
  */
-class DynamicClassMethodEntityMarshal extends AbstractClassMethodEntityMarshal implements PermitDynamicPropertiesInterface
+class DynamicClassMethodEntityMarshal extends AbstractClassMethodEntityMarshal implements
+    PermitDynamicPropertiesInterface
 {
 }
+

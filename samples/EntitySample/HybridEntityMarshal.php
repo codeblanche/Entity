@@ -1,5 +1,7 @@
 <?php
 
+namespace EntitySample;
+
 use EntityMarshal\HybridEntityMarshal as AbstractHybridEntityMarshal;
 
 /**
@@ -10,7 +12,6 @@ use EntityMarshal\HybridEntityMarshal as AbstractHybridEntityMarshal;
  */
 class HybridEntityMarshal extends AbstractHybridEntityMarshal
 {
-
     /**
      * @var bool
      */
@@ -133,6 +134,7 @@ class HybridEntityMarshal extends AbstractHybridEntityMarshal
     public function setTestBool($value)
     {
         $this->testBool = $value;
+
         return $this;
     }
 
@@ -143,7 +145,8 @@ class HybridEntityMarshal extends AbstractHybridEntityMarshal
     public function setTestString($value)
     {
         $this->testString = $value;
+
         return $this;
     }
-
 }
+

@@ -12,7 +12,6 @@ use ReflectionProperty;
  */
 abstract class ObjectProperty extends AbstractMarshaledEntity implements ObjectPropertyInterface
 {
-
     /**
     * {@inheritdoc}
     */
@@ -62,5 +61,5 @@ abstract class ObjectProperty extends AbstractMarshaledEntity implements ObjectP
     {
         $this->set($name, $value);
     }
-
 }
+

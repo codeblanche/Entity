@@ -12,7 +12,6 @@ use EntityMarshal\Accessor\HybridInterface;
  */
 abstract class Hybrid extends AbstractEntity implements HybridInterface
 {
-
     /**
     * {@inheritdoc}
     */
@@ -44,5 +43,5 @@ abstract class Hybrid extends AbstractEntity implements HybridInterface
     {
         return $this->set($name, $value);
     }
-
 }
+

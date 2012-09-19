@@ -12,7 +12,6 @@ use EntityMarshal\Accessor\ObjectPropertyInterface;
  */
 abstract class ObjectProperty extends AbstractEntity implements ObjectPropertyInterface
 {
-
     /**
      * {@inheritdoc}
      */
@@ -36,5 +35,5 @@ abstract class ObjectProperty extends AbstractEntity implements ObjectPropertyIn
     {
         $this->set($name, $value);
     }
-
 }
+

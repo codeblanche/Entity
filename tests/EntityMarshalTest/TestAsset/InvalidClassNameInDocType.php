@@ -9,3 +9,4 @@ class InvalidClassNameInDocType extends ObjectPropertyEntityMarshal
     /** @var ThisClassDoesNotExistsReally */
     public $testObject;
 }
+

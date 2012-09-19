@@ -125,5 +125,5 @@ class SimpleAutoloader
 
         return $this;
     }
-
 }
+

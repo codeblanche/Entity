@@ -12,15 +12,14 @@ use EntityMarshal\Convert\Strategy\StrategyInterface;
  */
 abstract class AbstractConvert implements StrategyInterface
 {
-
     /**
      * @var     array   List of object references to check for circular referencing.
      */
     protected $objectReferences;
 
     /**
-     * @param   object|array    $value
-     * @return  boolean
+     * @param  object|array $value
+     * @return boolean
      */
     protected function isCircularReference(&$value)
     {
@@ -33,7 +32,7 @@ abstract class AbstractConvert implements StrategyInterface
         $referenceFound = false;
 
         foreach ($this->objectReferences as $reference) {
-            if($reference === $value) {
+            if ($reference === $value) {
                 $referenceFound = true;
                 break;
             }
@@ -43,5 +42,5 @@ abstract class AbstractConvert implements StrategyInterface
 
         return $referenceFound;
     }
-
 }
+

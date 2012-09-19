@@ -2,24 +2,26 @@
 
 namespace EntityMarshalTest;
 
-use ObjectPropertyEntityMarshal;
 use EntityMarshalTest\TestAsset\InvalidClassNameInDocType;
 use EntityMarshalTest\TestAsset\InvalidMixedPropertyIdentifier;
+use ObjectPropertyEntityMarshal;
+use PHPUnit_Framework_TestCase;
+use stdClass;
 
-class EntityMarshalTest extends \PHPUnit_Framework_TestCase
+class EntityMarshalTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var ObjectPropertyEntityMarshal
      */
-    static protected $entity;
+    protected static $entity;
 
     /**
      * Some test data
      * @return array
      */
-    static protected function makeTestDataArray()
+    protected static function makeTestDataArray()
     {
-        $stdObj            = new \StdClass();
+        $stdObj            = new stdClass();
         $stdObj->testBool  = true;
 
         $entity           = new ObjectPropertyEntityMarshal();
@@ -53,12 +55,12 @@ class EntityMarshalTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    static protected function makeSampleEntityMarshal($data = null)
+    protected static function makeSampleEntityMarshal($data = null)
     {
         return new ObjectPropertyEntityMarshal($data);
     }
 
-    static public function testCallable()
+    public static function testCallable()
     {
         // callable method
     }
@@ -185,7 +187,7 @@ class EntityMarshalTest extends \PHPUnit_Framework_TestCase
         $this->assertInternalType('array', static::$entity->export());
     }
 
-    public function testJSON()
+    public function testJson()
     {
         $json = static::$entity->json();
         $this->assertNotEquals(false, json_decode($json));
@@ -245,9 +247,12 @@ class EntityMarshalTest extends \PHPUnit_Framework_TestCase
 
         $do = self::$entity;
 
-        array_map(function ($key) use ($do) {
-            $do->$key = '';
-        }, $properties);
+        array_map(
+            function ($key) use ($do) {
+                $do->$key = '';
+            },
+            $properties
+        );
     }
 
     /**
@@ -261,9 +266,12 @@ class EntityMarshalTest extends \PHPUnit_Framework_TestCase
 
         $do = self::$entity;
 
-        array_map(function ($key) use ($do) {
-            $do->$key = '';
-        }, $properties);
+        array_map(
+            function ($key) use ($do) {
+                $do->$key = '';
+            },
+            $properties
+        );
     }
 
     /**
@@ -279,9 +287,12 @@ class EntityMarshalTest extends \PHPUnit_Framework_TestCase
 
         $do = self::$entity;
 
-        array_map(function ($key) use ($do) {
-            $do->$key = '';
-        }, $properties);
+        array_map(
+            function ($key) use ($do) {
+                $do->$key = '';
+            },
+            $properties
+        );
     }
 
     /**
@@ -295,9 +306,12 @@ class EntityMarshalTest extends \PHPUnit_Framework_TestCase
 
         $do = self::$entity;
 
-        array_map(function ($key) use ($do) {
-            $do->$key = '';
-        }, $properties);
+        array_map(
+            function ($key) use ($do) {
+                $do->$key = '';
+            },
+            $properties
+        );
     }
 
     public function testSetAllToNull()
@@ -328,17 +342,16 @@ class EntityMarshalTest extends \PHPUnit_Framework_TestCase
             'testTypedArray4',
         );
 
-        $do = self::$entity;
-
-        array_map(function ($key) use ($do) {
-            $do->$key = null;
-        }, $properties);
-
         $self = $this;
+        $do   = self::$entity;
 
-        array_map(function ($key) use ($do, $self) {
-            $self->assertEquals(null, $do->$key);
-        }, $properties);
+        array_map(
+            function ($key) use ($do, $self) {
+                $do->$key = null;
+                $self->assertEquals(null, $do->$key);
+            },
+            $properties
+        );
     }
-
 }
+

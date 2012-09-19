@@ -4,7 +4,6 @@ namespace EntityMarshal;
 
 interface MarshaledEntityInterface
 {
-
     /**
      * Get the default property type to be used when no type is provided.
      * Default is 'mixed'
@@ -33,5 +32,5 @@ interface MarshaledEntityInterface
      * @return array
      */
     public function defaultValues();
-
 }
+

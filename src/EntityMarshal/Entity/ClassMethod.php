@@ -12,7 +12,6 @@ use EntityMarshal\Accessor\ClassMethodInterface;
  */
 abstract class ClassMethod extends AbstractEntity implements ClassMethodInterface
 {
-
     protected function getCalledClassName()
     {
         return get_called_class();
@@ -25,5 +24,5 @@ abstract class ClassMethod extends AbstractEntity implements ClassMethodInterfac
     {
         return $this->call($method, $arguments);
     }
-
 }
+

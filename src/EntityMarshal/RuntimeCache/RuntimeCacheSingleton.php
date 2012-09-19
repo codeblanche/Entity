@@ -6,7 +6,6 @@ use Serializable;
 
 final class RuntimeCacheSingleton implements RuntimeCacheInterface, Serializable
 {
-
     const SCOPE_DEFAULT = 'global';
 
     /**
@@ -137,7 +136,5 @@ final class RuntimeCacheSingleton implements RuntimeCacheInterface, Serializable
     {
         $this->cache = unserialize($serialized);
     }
-
 }
-
 

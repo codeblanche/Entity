@@ -7,8 +7,7 @@ namespace EntityMarshal\Accessor;
  * @category   EntityMarshal
  * @package    EntityMarshal\Accessor
  */
-interface HybridInterface extends
-    ClassMethodInterface,
-    ObjectPropertyInterface
+interface HybridInterface extends ClassMethodInterface, ObjectPropertyInterface
 {
 }
+

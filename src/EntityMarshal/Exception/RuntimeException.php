@@ -10,3 +10,4 @@ namespace EntityMarshal\Exception;
 class RuntimeException extends \RuntimeException implements ExceptionInterface
 {
 }
+

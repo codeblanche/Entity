@@ -1,5 +1,7 @@
 <?php
 
+namespace EntitySample;
+
 use EntityMarshal\PermitDynamicPropertiesInterface;
 use EntityMarshal\ObjectPropertyEntityMarshal as AbstractObjectPropertyEntityMarshal;
 
@@ -9,6 +11,8 @@ use EntityMarshal\ObjectPropertyEntityMarshal as AbstractObjectPropertyEntityMar
  * @author     Merten van Gerven
  * @package    EntityMarshal
  */
-class DynamicObjectPropertyEntityMarshal extends AbstractObjectPropertyEntityMarshal implements PermitDynamicPropertiesInterface
+class DynamicObjectPropertyEntityMarshal extends AbstractObjectPropertyEntityMarshal implements
+    PermitDynamicPropertiesInterface
 {
 }
+

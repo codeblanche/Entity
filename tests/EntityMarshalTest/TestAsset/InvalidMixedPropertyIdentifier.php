@@ -9,3 +9,4 @@ class InvalidMixedPropertyIdentifier extends ObjectPropertyEntityMarshal
     /** @var string|integer */
     public $testMixed;
 }
+

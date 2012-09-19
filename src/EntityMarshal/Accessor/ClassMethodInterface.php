@@ -9,7 +9,6 @@ namespace EntityMarshal\Accessor;
  */
 interface ClassMethodInterface extends AccessorInterface
 {
-
     /**
      * Magic setter/getter handler
      *
@@ -19,5 +18,5 @@ interface ClassMethodInterface extends AccessorInterface
      * @return mixed
      */
     public function __call($name, $arguments);
-
 }
+

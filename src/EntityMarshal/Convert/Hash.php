@@ -4,7 +4,6 @@ namespace EntityMarshal\Convert;
 
 class Hash extends AbstractConvert
 {
-
     /**
      * Supported Hash types
      */
@@ -34,23 +33,22 @@ class Hash extends AbstractConvert
     /**
      * Configure the hash converter strategy
      *
-     * @param string    $type
-     * @param string    $prefix
-     * @param string    $suffix
-     * @param array     $ignoreKeys   Optional list of keys to ignore.
+     * @param string $type
+     * @param string $prefix
+     * @param string $suffix
+     * @param array  $ignoreKeys Optional list of keys to ignore.
      */
     public function __construct(
         $type = self::HASH_TYPE_SHA256,
         $prefix = '',
         $suffix = '',
-        $ignoreKeys = array())
-    {
+        $ignoreKeys = array()
+    ) {
         $this->type         = $type;
         $this->prefix       = $prefix;
         $this->suffix       = $suffix;
         $this->ignoreKeys   = $ignoreKeys;
     }
-
 
     /**
      * {@inheritdoc}
@@ -65,5 +63,5 @@ class Hash extends AbstractConvert
 
         return hash($this->type, $this->prefix . implode('', array_values($data)) . $this->suffix);
     }
-
 }
+

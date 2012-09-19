@@ -12,7 +12,6 @@ use ReflectionProperty;
  */
 abstract class Hybrid extends AbstractMarshaledEntity implements HybridInterface
 {
-
     /**
     * {@inheritdoc}
     */
@@ -70,5 +69,5 @@ abstract class Hybrid extends AbstractMarshaledEntity implements HybridInterface
     {
         return $this->set($name, $value);
     }
-
 }
+

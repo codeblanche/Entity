@@ -10,3 +10,4 @@ namespace EntityMarshal\Accessor;
 interface AccessorInterface
 {
 }
+

@@ -124,7 +124,8 @@ abstract class AbstractEntity implements EntityInterface
     /**
      * {@inheritdoc}
      */
-    public function convert(StrategyInterface $strategy) {
+    public function convert(StrategyInterface $strategy)
+    {
         return $strategy->convert(
             $this->toArray(),
             $this->calledClassName()
@@ -188,10 +189,11 @@ abstract class AbstractEntity implements EntityInterface
         switch ($action) {
             case 'is':
                 $name   = "Is$name";
-                // no break;
+                // no break
             case 'get':
                 $name   = lcfirst($name);
                 $return = $this->get($name);
+                break;
             case 'set':
                 $name   = lcfirst($name);
                 $return = $this->set($name, $arguments[0]);
@@ -309,5 +311,5 @@ abstract class AbstractEntity implements EntityInterface
     {
         return count($this->properties);
     }
-
 }
+

@@ -12,7 +12,6 @@ use ReflectionProperty;
  */
 abstract class ClassMethod extends AbstractMarshaledEntity implements ClassMethodInterface
 {
-
     /**
     * {@inheritdoc}
     */
@@ -55,5 +54,5 @@ abstract class ClassMethod extends AbstractMarshaledEntity implements ClassMetho
     {
         return $this->call($method, $arguments);
     }
-
 }
+

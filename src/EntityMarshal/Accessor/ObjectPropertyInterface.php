@@ -9,7 +9,6 @@ namespace EntityMarshal\Accessor;
  */
 interface ObjectPropertyInterface extends AccessorInterface
 {
-
     /**
      * Magic getter.
      *
@@ -26,5 +25,5 @@ interface ObjectPropertyInterface extends AccessorInterface
      * @param mixed  $value
      */
     public function __set($name, $value);
-
 }
+

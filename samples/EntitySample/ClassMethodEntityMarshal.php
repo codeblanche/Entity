@@ -1,5 +1,7 @@
 <?php
 
+namespace EntitySample;
+
 use EntityMarshal\ClassMethodEntityMarshal as AbstractClassMethodEntityMarshal;
 
 /**
@@ -10,7 +12,6 @@ use EntityMarshal\ClassMethodEntityMarshal as AbstractClassMethodEntityMarshal;
  */
 class ClassMethodEntityMarshal extends AbstractClassMethodEntityMarshal
 {
-
     /**
      * @var bool
      */
@@ -125,5 +126,5 @@ class ClassMethodEntityMarshal extends AbstractClassMethodEntityMarshal
      * @var integer[]
      */
     protected $testTypedArray4;
-
 }
+

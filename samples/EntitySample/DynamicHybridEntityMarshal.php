@@ -1,5 +1,7 @@
 <?php
 
+namespace EntitySample;
+
 use EntityMarshal\PermitDynamicPropertiesInterface;
 use EntityMarshal\HybridEntityMarshal as AbstractHybridEntityMarshal;
 
@@ -12,3 +14,4 @@ use EntityMarshal\HybridEntityMarshal as AbstractHybridEntityMarshal;
 class DynamicHybridEntityMarshal extends AbstractHybridEntityMarshal implements PermitDynamicPropertiesInterface
 {
 }
+

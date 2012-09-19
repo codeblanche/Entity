@@ -11,7 +11,6 @@ namespace EntityMarshal\Convert;
 */
 class Dump extends AbstractConvert
 {
-
     /**
      * @var boolean
      */
@@ -35,10 +34,10 @@ class Dump extends AbstractConvert
     /**
      * Configure the hash converter strategy
      *
-     * @param string    $type
-     * @param string    $prefix
-     * @param string    $suffix
-     * @param array     $ignoreKeys   Optional list of keys to ignore.
+     * @param string $type
+     * @param string $prefix
+     * @param string $suffix
+     * @param array  $ignoreKeys Optional list of keys to ignore.
      */
     public function __construct($html = true)
     {
@@ -87,8 +86,8 @@ class Dump extends AbstractConvert
 //    }
 
     /**
-     * @param array     $data
-     * @param string    $lpad
+     * @param array  $data
+     * @param string $lpad
      *
      * @return array
      */
@@ -251,6 +250,5 @@ class Dump extends AbstractConvert
 //
 //        return $out;
 //    }
-
-
 }
+

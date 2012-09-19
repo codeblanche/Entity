@@ -2,8 +2,6 @@
 
 namespace EntityMarshal\Convert;
 
-use EntityMarshal\EntityMarshalInterface;
-
 /**
 * Convert and entity to a Json string
 *
@@ -13,7 +11,6 @@ use EntityMarshal\EntityMarshalInterface;
 */
 class Json extends AbstractConvert
 {
-
     /**
      * @var boolean
      */
@@ -22,13 +19,12 @@ class Json extends AbstractConvert
     /**
      * Configure the hash converter strategy
      *
-     * @param string    $pretty
+     * @param string $pretty
      */
     public function __construct($pretty = true)
     {
         $this->pretty = $pretty;
     }
-
 
     /**
      * {@inheritdoc}
@@ -41,5 +37,5 @@ class Json extends AbstractConvert
 
         return json_encode($resultArray);
     }
-
 }
+

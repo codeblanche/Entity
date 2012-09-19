@@ -4,7 +4,6 @@ namespace EntityMarshal;
 
 class ForeignScope
 {
-
     /**
     * @var ForeignScope Singleton instance.
     */
@@ -33,13 +32,13 @@ class ForeignScope
     /**
      * Retrieve the object vars of $object from a public scope.
      *
-     * @param   object  $object
+     * @param object $object
      *
-     * @return  array
+     * @return array
      */
     public function getObjectVars($object)
     {
         return get_object_vars($object);
     }
-
 }
+
