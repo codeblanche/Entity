@@ -2,7 +2,9 @@
 
 namespace EntitySample;
 
-use EntityMarshal\ClassMethodEntityMarshal as AbstractClassMethodEntityMarshal;
+use EntityMarshal\Entity\Marshaled\ClassMethod;
+use stdClass;
+use ZipArchive;
 
 /**
  * A sample EntityMarshal using all known property types.
@@ -10,7 +12,7 @@ use EntityMarshal\ClassMethodEntityMarshal as AbstractClassMethodEntityMarshal;
  * @author     Merten van Gerven
  * @package    EntityMarshal
  */
-class ClassMethodEntityMarshal extends AbstractClassMethodEntityMarshal
+class ClassMethodMarshaledEntity extends ClassMethod
 {
     /**
      * @var bool

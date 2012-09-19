@@ -2,7 +2,9 @@
 
 namespace EntitySample;
 
-use EntityMarshal\ObjectPropertyEntityMarshal as AbstractObjectPropertyEntityMarshal;
+use EntityMarshal\Entity\Marshaled\Hybrid;
+use stdClass;
+use ZipArchive;
 
 /**
  * A sample EntityMarshal using all known property types.
@@ -10,7 +12,7 @@ use EntityMarshal\ObjectPropertyEntityMarshal as AbstractObjectPropertyEntityMar
  * @author     Merten van Gerven
  * @package    EntityMarshal
  */
-class ObjectPropertyEntityMarshal extends AbstractObjectPropertyEntityMarshal
+class HybridMarshaledEntity extends Hybrid
 {
     /**
      * @var bool
@@ -88,7 +90,7 @@ class ObjectPropertyEntityMarshal extends AbstractObjectPropertyEntityMarshal
     public $testStdClass;
 
     /**
-     * @var ObjectPropertyEntityMarshal
+     * @var HybridEntityMarshal
      */
     public $testEntityMarshal;
 
@@ -108,12 +110,12 @@ class ObjectPropertyEntityMarshal extends AbstractObjectPropertyEntityMarshal
     public $testCallable;
 
     /**
-     * @var ObjectPropertyEntityMarshal[]
+     * @var HybridEntityMarshal[]
      */
     public $testTypedArray1;
 
     /**
-     * @var array<ObjectPropertyEntityMarshal>
+     * @var array<HybridEntityMarshal>
      */
     public $testTypedArray2;
 
@@ -126,5 +128,27 @@ class ObjectPropertyEntityMarshal extends AbstractObjectPropertyEntityMarshal
      * @var integer[]
      */
     public $testTypedArray4;
+
+    /**
+    * @param bool $value
+    * @return HybridEntityMarshal
+    */
+    public function setTestBool($value)
+    {
+        $this->testBool = $value;
+
+        return $this;
+    }
+
+    /**
+    * @param string $value
+    * @return HybridEntityMarshal
+    */
+    public function setTestString($value)
+    {
+        $this->testString = $value;
+
+        return $this;
+    }
 }
 
