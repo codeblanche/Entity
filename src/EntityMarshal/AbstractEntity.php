@@ -177,7 +177,7 @@ abstract class AbstractEntity implements EntityInterface
     protected function call($method, &$arguments)
     {
         $matches = array();
-        
+
         if (!preg_match('/^(?:(get|set|is)_?)(\w+)$/i', $method, $matches)) {
             return;
         }
