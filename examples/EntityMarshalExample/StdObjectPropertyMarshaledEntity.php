@@ -1,8 +1,8 @@
 <?php
 
-namespace EntitySample;
+namespace EntityMarshalExample;
 
-use EntityMarshal\Entity\ObjectPropertyEntity;
+use EntityMarshal\Entity\Marshaled\ObjectPropertyEntity;
 use stdClass;
 
 /**
@@ -11,7 +11,7 @@ use stdClass;
  * @author     Merten van Gerven
  * @package    EntityMarshal
  */
-class StdObjectPropertyEntity extends ObjectPropertyEntity
+class StdObjectPropertyMarshaledEntity extends ObjectPropertyEntity
 {
     /**
      * @var bool

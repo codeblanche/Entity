@@ -1,8 +1,8 @@
 <?php
 
-namespace EntitySample;
+namespace EntityMarshalExample;
 
-use EntityMarshal\Entity\Marshaled\ObjectPropertyEntity;
+use EntityMarshal\Entity\Marshaled\HybridEntity;
 use stdClass;
 
 /**
@@ -11,7 +11,7 @@ use stdClass;
  * @author     Merten van Gerven
  * @package    EntityMarshal
  */
-class StdObjectPropertyMarshaledEntity extends ObjectPropertyEntity
+class StdHybridMarshaledEntity extends HybridEntity
 {
     /**
      * @var bool
@@ -89,7 +89,7 @@ class StdObjectPropertyMarshaledEntity extends ObjectPropertyEntity
     public $testStdClass;
 
     /**
-     * @var ObjectPropertyEntityMarshal
+     * @var HybridEntityMarshal
      */
     public $testEntityMarshal;
 
@@ -109,12 +109,12 @@ class StdObjectPropertyMarshaledEntity extends ObjectPropertyEntity
     public $testCallable;
 
     /**
-     * @var ObjectPropertyEntityMarshal[]
+     * @var HybridEntityMarshal[]
      */
     public $testTypedArray1;
 
     /**
-     * @var array<ObjectPropertyEntityMarshal>
+     * @var array<HybridEntityMarshal>
      */
     public $testTypedArray2;
 
@@ -127,5 +127,27 @@ class StdObjectPropertyMarshaledEntity extends ObjectPropertyEntity
      * @var integer[]
      */
     public $testTypedArray4;
+
+    /**
+    * @param bool $value
+    * @return HybridEntityMarshal
+    */
+    public function setTestBool($value)
+    {
+        $this->testBool = $value;
+
+        return $this;
+    }
+
+    /**
+    * @param string $value
+    * @return HybridEntityMarshal
+    */
+    public function setTestString($value)
+    {
+        $this->testString = $value;
+
+        return $this;
+    }
 }
 

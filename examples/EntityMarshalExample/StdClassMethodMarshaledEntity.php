@@ -1,6 +1,6 @@
 <?php
 
-namespace EntitySample;
+namespace EntityMarshalExample;
 
 use EntityMarshal\Entity\Marshaled\ClassMethodEntity;
 use stdClass;

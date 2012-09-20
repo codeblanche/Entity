@@ -1,8 +1,8 @@
 <?php
 
-namespace EntitySample;
+namespace EntityMarshalExample;
 
-use EntityMarshal\Entity\ClassMethodEntity;
+use EntityMarshal\Entity\ObjectPropertyEntity;
 use stdClass;
 
 /**
@@ -11,121 +11,121 @@ use stdClass;
  * @author     Merten van Gerven
  * @package    EntityMarshal
  */
-class StdClassMethodEntity extends ClassMethodEntity
+class StdObjectPropertyEntity extends ObjectPropertyEntity
 {
     /**
      * @var bool
      */
-    protected $testBool = false;
+    public $testBool = false;
 
     /**
      * @var boolean Alias of bool
      */
-    protected $testBoolean = true;
+    public $testBoolean = true;
 
     /**
      * @var integer Alias of int
      */
-    protected $testInteger = 12345;
+    public $testInteger = 12345;
 
     /**
      * @var int
      */
-    protected $testInt = 67890;
+    public $testInt = 67890;
 
     /**
      * @var float
      */
-    protected $testFloat = 12.123;
+    public $testFloat = 12.123;
 
     /**
      * @var double Alias of float
      */
-    protected $testDouble = 34.345;
+    public $testDouble = 34.345;
 
     /**
      * @var numeric
      */
-    protected $testNumeric = 34567;
+    public $testNumeric = 34567;
 
     /**
      * @var long Alias of int
      */
-    protected $testLong = 23456;
+    public $testLong = 23456;
 
     /**
      * @var real Aliss of float
      */
-    protected $testReal = 56.567;
+    public $testReal = 56.567;
 
     /**
      * @var resource
      */
-    protected $testResource;
+    public $testResource;
 
     /**
      * @var scalar Basix data type including int, float, string, bool
      */
-    protected $testScalar;
+    public $testScalar;
 
     /**
      * @var string
      */
-    protected $testString = "test string";
+    public $testString = "test string";
 
     /**
      * @var mixed
      */
-    protected $testMixed ;
+    public $testMixed ;
 
     /**
      * @var array
      */
-    protected $testArray = array('1', '2', '3');
+    public $testArray = array('1', '2', '3');
 
     /**
      * @var stdClass
      */
-    protected $testStdClass;
+    public $testStdClass;
 
     /**
-     * @var ClassMethodEntityMarshal
+     * @var ObjectPropertyEntityMarshal
      */
-    protected $testEntityMarshal;
+    public $testEntityMarshal;
 
     /**
      * @var object
      */
-    protected $testObject;
+    public $testObject;
 
     /**
      * @var null
      */
-    protected $testNull;
+    public $testNull;
 
     /**
      * @var callable
      */
-    protected $testCallable;
+    public $testCallable;
 
     /**
-     * @var ClassMethodEntityMarshal[]
+     * @var ObjectPropertyEntityMarshal[]
      */
-    protected $testTypedArray1;
+    public $testTypedArray1;
 
     /**
-     * @var array<ClassMethodEntityMarshal>
+     * @var array<ObjectPropertyEntityMarshal>
      */
-    protected $testTypedArray2;
+    public $testTypedArray2;
 
     /**
      * @var array[]
      */
-    protected $testTypedArray3;
+    public $testTypedArray3;
 
     /**
      * @var integer[]
      */
-    protected $testTypedArray4;
+    public $testTypedArray4;
 }
 

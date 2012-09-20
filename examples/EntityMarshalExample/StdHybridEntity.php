@@ -1,8 +1,8 @@
 <?php
 
-namespace EntitySample;
+namespace EntityMarshalExample;
 
-use EntityMarshal\Entity\Marshaled\HybridEntity;
+use EntityMarshal\Entity\HybridEntity;
 use stdClass;
 
 /**
@@ -11,7 +11,7 @@ use stdClass;
  * @author     Merten van Gerven
  * @package    EntityMarshal
  */
-class StdHybridMarshaledEntity extends HybridEntity
+class StdHybridEntity extends HybridEntity
 {
     /**
      * @var bool
