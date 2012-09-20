@@ -5,10 +5,10 @@ namespace EntityMarshal\Convert\Strategy;
 interface StrategyInterface
 {
     /**
-     * @param  array  $data Data to dump
-     * @param  string $type Optional: Data type definition override
+     * @param  \EntityMarshal\EntityInterface  $entity Entity instance
+     *
      * @return string
      */
-    public function convert(array $data, $type = null);
+    public function convert(\EntityMarshal\EntityInterface $entity);
 }
 

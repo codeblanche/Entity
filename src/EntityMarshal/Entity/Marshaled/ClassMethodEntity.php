@@ -23,14 +23,6 @@ abstract class ClassMethodEntity extends AbstractMarshaledEntity implements Clas
     /**
     * {@inheritdoc}
     */
-    protected function calledClassName()
-    {
-        return get_called_class();
-    }
-
-    /**
-    * {@inheritdoc}
-    */
     protected function propertiesAndTypes()
     {
         return $this->reflectProperties(
@@ -42,9 +34,17 @@ abstract class ClassMethodEntity extends AbstractMarshaledEntity implements Clas
     /**
     * {@inheritdoc}
     */
-    protected function defaultValues()
+    public function calledClassName()
     {
-        return get_class_vars($this->getCalledClassName());
+        return get_called_class();
+    }
+
+    /**
+    * {@inheritdoc}
+    */
+    public function defaultValues()
+    {
+        return get_class_vars($this->calledClassName());
     }
 
     /**

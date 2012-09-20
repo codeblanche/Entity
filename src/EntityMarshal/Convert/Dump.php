@@ -2,12 +2,13 @@
 
 namespace EntityMarshal\Convert;
 
+use Countable;
+use EntityMarshal\EntityInterface;
+
 /**
 * Convert and entity to a Dump string
 *
 * @package      EntityMarshal\ConverterStrategy
-*
-* @todo         IT'S BROKE! FIX IT!
 */
 class Dump extends AbstractConvert
 {
@@ -17,88 +18,122 @@ class Dump extends AbstractConvert
     protected $html = true;
 
     /**
-     * @var string Data type definition override
+     * @var string  Indentation string
      */
-    protected $objectType;
+    protected $indentWith = '    ';
 
     /**
-     * @var array Types of public properties declared within EntityMarshal extendor.
+     * @var integer Current depth of dump process
      */
-    protected $definitionTypes = array();
+    protected $depth = 0;
 
     /**
-     * @var array Generic types of public array/list properties declared within EntityMarshal extendor.
+     * @var integer Maximum nesting depth to dump (0 = no limit)
      */
-    protected $definitionGenerics = array();
+    protected $maxDepth = 5;
 
     /**
-     * Configure the hash converter strategy
+     * @var array   Collection of output lines
+     */
+    private $out = array();
+
+    /**
+     * Configure the dump converter strategy
      *
-     * @param string $type
-     * @param string $prefix
-     * @param string $suffix
-     * @param array  $ignoreKeys Optional list of keys to ignore.
+     * @param   string  $html       Output with(out) html
+     * @param   string  $maxDepth   Maximum recursion depth (0 = no limit)
      */
-    public function __construct($html = true)
+    public function __construct($html = true, $maxDepth = 5)
     {
-        $this->html = $html;
+        $this->html     = $html;
+        $this->maxDepth = $maxDepth;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function convert(array $data, $type = null)
+    public function convert(EntityInterface $entity)
     {
-        $this->objectReferences = array();
+        $this->recurse($entity, null, $entity->calledClassName());
 
-        // temporarily disable Dump strategy.
-        return $type;
-//
-//        $out = $this->convertRecursive($data, $type);
-//
-//        $result = implode(PHP_EOL, $out);
-//
-//        return $this->html
-//            ? "<pre style='color:#555;'>\n{$result}\n</pre>"
-//            : strip_tags($result);
+        $result = implode(PHP_EOL, $this->out);
+
+        return $this->html
+            ? "<pre style='color:#555;'>\n{$result}\n</pre>"
+            : strip_tags($result);
     }
 
     /**
-     *
-     */
-//    protected function initTypesAndGenerics()
-//    {
-//        if (!($this->objectType instanceof EntityMarshalInterface)) {
-//            return;
-//        }
-//
-//        $entity = new $this->objectType; /* @var $entity EntityMarshalInterface */
-//
-//        $this->definitionTypes = $entity->propertiesAndTypes();
-//
-//        foreach ($this->definitionTypes as $key => $type) {
-//            $subType = AbstractEntityMarshal::extractGenericSubtype($type);
-//            if (!is_null($subType)) {
-//                $this->definitionGenerics[$key] = $subType;
-//                $this->definitionTypes[$key]    = 'array';
-//            }
-//        }
-//    }
-
-    /**
-     * @param array  $data
-     * @param string $lpad
+     * @param array|EntityInterface $data   Value
+     * @param string                $name   Name
      *
      * @return array
      */
-//    protected function convertRecursive(array &$data, EntityMarshalInterface $type = null, $lpad = '', $generics_type = null)
-//    {
-//        $out = array();
-//
-//        /*
-//        array_unshift($out, "<span style='color:#00a;'>{$type}</span> ({$len}) {");
-//        array_push($out, "}\n");
-//         */
+    protected function recurse(&$data, $name = null, $type = null, $generics_type = null)
+    {
+        $lpad = str_repeat($this->indentWith, $this->depth);
+
+        if ($this->maxDepth > 0 && $this->depth > $this->maxDepth) {
+            $this->out[] = "{$lpad}<em style='color:#999;'>...</em>";
+            return;
+        }
+
+        if ($this->isCircularReference($data)) {
+            $this->out[] = "{$lpad}<em style='color:#999;'> ... cirular reference detected</em>";
+            return;
+        }
+
+        if (is_array($data)) {
+            $len  = count($data);
+            $type = 'array';
+
+            $this->out[] = "{$this->makeDefinition($type, $len, $name)} [";
+
+            $this->depth++;
+
+            foreach ($data as $key => $val) {
+                $this->recurse($val, $key);
+            }
+
+            $this->depth--;
+
+            $this->out[] = "{$lpad}]";
+
+        } elseif (is_object($data)) {
+            if (!($data instanceof EntityInterface)) {
+                $data = get_object_vars($data);
+            }
+
+            $len = count($data);
+
+            $this->out[] = "{$this->makeDefinition($type, $len, $name)} {";
+
+            $this->depth++;
+
+            foreach ($data as $key => $val) {
+                $valType = null;
+                if (is_object($val)) {
+                    if ($val instanceof EntityInterface) {
+                        $valType = $data->typeof($key);
+                    } else {
+                        $valType = get_class($val);
+                    }
+                }
+
+                $this->recurse($val, $key, $valType);
+            }
+
+            $this->depth--;
+
+            $this->out[] = "{$lpad}}";
+
+        } else {
+            $this->convertScalar($data, $name, $type);
+
+        }
+
+
+
 //
 //        foreach ($array as $key => $val) {
 //            $type = gettype($val);
@@ -149,7 +184,63 @@ class Dump extends AbstractConvert
 //            }
 //        }
 //
-//        return $out;
+        return $out;
+    }
+
+    protected function makeDefinition($type, $len = 0, $name = null)
+    {
+        $lpad     = str_repeat($this->indentWith, $this->depth);
+        $namePart = '';
+
+        if (!is_null($name) && $name !== '') {
+            $namePart = "[<span style='color:#090;'>$name</span>] ";
+        }
+
+        return "{$lpad}{$namePart}<span style='color:#00a;'>{$type}</span> ({$len})";
+    }
+
+    /**
+     * @param type $value
+     */
+    protected function convertScalar($value, $name, $type = null)
+    {
+        $len    = strlen($value);
+
+        if (is_null($type)) {
+            $type = strtolower(gettype($value));
+        }
+
+        if ($type === 'string') {
+            $value = "\"$value\"";
+        } elseif (is_bool($value)) {
+            $value = $value ? 'true' : 'false';
+        } elseif (is_null($value)) {
+            $value = "<em style='color:#999;'>null</em>";
+        }
+
+        $this->out[] = "{$this->makeDefinition($type, $len, $name)} => <span style='color:#a00;'>$value</span>";
+    }
+
+    /**
+     *
+     */
+//    protected function initTypesAndGenerics()
+//    {
+//        if (!($this->objectType instanceof EntityMarshalInterface)) {
+//            return;
+//        }
+//
+//        $entity = new $this->objectType; /* @var $entity EntityMarshalInterface */
+//
+//        $this->definitionTypes = $entity->propertiesAndTypes();
+//
+//        foreach ($this->definitionTypes as $key => $type) {
+//            $subType = AbstractEntityMarshal::extractGenericSubtype($type);
+//            if (!is_null($subType)) {
+//                $this->definitionGenerics[$key] = $subType;
+//                $this->definitionTypes[$key]    = 'array';
+//            }
+//        }
 //    }
 
 

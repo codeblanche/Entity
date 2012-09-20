@@ -60,6 +60,8 @@ abstract class AbstractEntity implements EntityInterface
             ->getObjectVars($this);
 
         $this->unsetProperties(array_keys($vars));
+
+        $this->fromArray($vars);
     }
 
     /**
@@ -87,19 +89,7 @@ abstract class AbstractEntity implements EntityInterface
             return $this->properties;
         }
 
-        $result = array();
-
-        foreach ($this->properties as $key => $value) {
-            if ($value instanceof EntityInterface) {
-                $result[$key] = $value->toArray($recursive);
-            } elseif (is_object($value)) {
-                $result[$key] = get_object_vars($value);
-            } else {
-                $result[$key] = $value;
-            }
-        }
-
-        return $result;
+        return $this->convert(new Convert\PhpArray());
     }
 
     /**
@@ -126,10 +116,7 @@ abstract class AbstractEntity implements EntityInterface
      */
     public function convert(StrategyInterface $strategy)
     {
-        return $strategy->convert(
-            $this->toArray(),
-            $this->calledClassName()
-        );
+        return $strategy->convert($this);
     }
 
     /**
@@ -147,7 +134,7 @@ abstract class AbstractEntity implements EntityInterface
      */
     public function &get($name)
     {
-        if (!isset($this->properties[$name])) {
+        if (!array_key_exists($name, $this->properties)) {
             $className = $this->calledClassName();
             throw new Exception\RuntimeException(
                 "Attempt to access property '$name' of class '$className' failed. Property does not exist."
@@ -165,6 +152,14 @@ abstract class AbstractEntity implements EntityInterface
         $this->properties[$name] = $value;
 
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function typeof($name)
+    {
+        return strtolower(gettype($this->get($name)));
     }
 
     /**
@@ -235,8 +230,8 @@ abstract class AbstractEntity implements EntityInterface
      */
     public function current()
     {
-        $keys   = array_keys($this->properties);
-        $key    = $keys[$this->position];
+        $keys = array_keys($this->properties);
+        $key  = $keys[$this->position];
 
         return $this->properties[$key];
     }
@@ -246,7 +241,7 @@ abstract class AbstractEntity implements EntityInterface
      */
     public function key()
     {
-        $keys   = array_keys($this->properties);
+        $keys = array_keys($this->properties);
 
         return $keys[$this->position];
     }
@@ -280,7 +275,7 @@ abstract class AbstractEntity implements EntityInterface
         }
 
         return !is_null($key)
-            ? isset($this->properties[$key])
+            ? array_key_exists($key, $this->properties)
             : false ;
     }
 

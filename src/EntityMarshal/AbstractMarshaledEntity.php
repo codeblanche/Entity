@@ -93,7 +93,7 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
      *
      * @throws RuntimeException
      */
-    private function initialize()
+    protected function initialize()
     {
         parent::initialize();
 
@@ -194,7 +194,7 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
     protected function reflectProperties($filter = null)
     {
         $properties  = array();
-        $reflection  = new ReflectionClass($this->getCalledClassName());
+        $reflection  = new ReflectionClass($this->calledClassName());
         $publicVars  = $reflection->getProperties($filter);
 
         foreach ($publicVars as $publicVar) {
@@ -531,5 +531,42 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
     public function getRuntimeCache() {
         return RuntimeCacheSingleton::getInstance();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function typeof($name)
+    {
+        return $this->types[$name];
+    }
+
+    /**
+     * Get the default property type to be used when no type is provided.
+     * Default is 'mixed'
+     *
+     * @return string
+     */
+    abstract protected function defaultPropertyType();
+
+    /**
+     * Get the list of accessible properties and their associated types as an
+     * associative array.
+     * <code>
+     * return array(
+     *     'propertyName'  => 'propertyType'
+     *     'propertyName2' => 'null'
+     * );
+     * </code>
+     *
+     * @return array
+     */
+    abstract protected function propertiesAndTypes();
+
+    /**
+     * Get the default property values.
+     *
+     * @return array
+     */
+    abstract protected function defaultValues();
 }
 

@@ -2,12 +2,12 @@
 
 namespace EntityMarshal\Convert;
 
+use EntityMarshal\EntityInterface;
+
 /**
 * Convert and entity to a Json string
 *
 * @package EntityMarshal\ConverterStrategy
-*
-* @todo Populate stub
 */
 class Json extends AbstractConvert
 {
@@ -29,13 +29,11 @@ class Json extends AbstractConvert
     /**
      * {@inheritdoc}
      */
-    public function convert(array $data, $type = null)
+    public function convert(EntityInterface $entity)
     {
-        $this->objectReferences = array();
+        $data = $entity->toArray();
 
-        $resultArray = $this->convertRecursive($data, $type);
-
-        return json_encode($resultArray);
+        return json_encode($data);
     }
 }
 

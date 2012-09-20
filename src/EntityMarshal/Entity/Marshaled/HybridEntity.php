@@ -23,14 +23,6 @@ abstract class HybridEntity extends AbstractMarshaledEntity implements HybridInt
     /**
     * {@inheritdoc}
     */
-    protected function calledClassName()
-    {
-        return get_called_class();
-    }
-
-    /**
-    * {@inheritdoc}
-    */
     protected function propertiesAndTypes()
     {
         return $this->reflectProperties(
@@ -43,7 +35,15 @@ abstract class HybridEntity extends AbstractMarshaledEntity implements HybridInt
     */
     protected function defaultValues()
     {
-        return get_class_vars($this->getCalledClassName());
+        return get_class_vars($this->calledClassName());
+    }
+
+    /**
+    * {@inheritdoc}
+    */
+    public function calledClassName()
+    {
+        return get_called_class();
     }
 
     /**

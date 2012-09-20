@@ -2,6 +2,8 @@
 
 namespace EntityMarshal\Convert;
 
+use EntityMarshal\EntityInterface;
+
 class Hash extends AbstractConvert
 {
     /**
@@ -53,8 +55,10 @@ class Hash extends AbstractConvert
     /**
      * {@inheritdoc}
      */
-    public function convert(array $data, $type = null)
+    public function convert(EntityInterface $entity)
     {
+        $data = $entity->toArray();
+
         if (is_array($this->ignoreKeys) && !empty($this->ignoreKeys)) {
             foreach ($this->ignoreKeys as $key) {
                 unset($data[$key]);

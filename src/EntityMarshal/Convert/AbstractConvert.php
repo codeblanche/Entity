@@ -23,9 +23,7 @@ abstract class AbstractConvert implements StrategyInterface
      */
     protected function isCircularReference(&$value)
     {
-        $type = gettype($value);
-
-        if ($type !== 'object') {
+        if (gettype($value) !== 'object') {
             return false;
         }
 

@@ -15,7 +15,7 @@ abstract class HybridEntity extends AbstractEntity implements HybridInterface
     /**
     * {@inheritdoc}
     */
-    protected function calledClassName()
+    public function calledClassName()
     {
         return get_called_class();
     }

@@ -71,5 +71,14 @@ interface EntityInterface extends Iterator, Serializable, Countable
      * @param boolean $html
      */
     public function dump($html = true);
+
+    /**
+     * Get the type of the specified property.
+     *
+     * @param   string  $name   Property name
+     *
+     * @return  string
+     */
+    public function typeof($name);
 }
 

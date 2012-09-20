@@ -2,6 +2,8 @@
 
 namespace EntityMarshal\Convert;
 
+use EntityMarshal\EntityInterface;
+
 class QueryString extends AbstractConvert
 {
     protected $ignoreKeys = array();
@@ -19,8 +21,10 @@ class QueryString extends AbstractConvert
     /**
      * {@inheritdoc}
      */
-    public function convert(array $data, $type = null)
+    public function convert(EntityInterface $entity)
     {
+        $data = $entity->toArray();
+
         if (is_array($this->ignoreKeys) && !empty($this->ignoreKeys)) {
             foreach ($this->ignoreKeys as $key) {
                 unset($data[$key]);
