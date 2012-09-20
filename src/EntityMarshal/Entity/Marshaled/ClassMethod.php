@@ -15,7 +15,7 @@ abstract class ClassMethod extends AbstractMarshaledEntity implements ClassMetho
     /**
     * {@inheritdoc}
     */
-    protected function getDefaultPropertyType()
+    protected function defaultPropertyType()
     {
         return 'mixed';
     }
@@ -23,7 +23,7 @@ abstract class ClassMethod extends AbstractMarshaledEntity implements ClassMetho
     /**
     * {@inheritdoc}
     */
-    protected function getCalledClassName()
+    protected function calledClassName()
     {
         return get_called_class();
     }
@@ -31,7 +31,7 @@ abstract class ClassMethod extends AbstractMarshaledEntity implements ClassMetho
     /**
     * {@inheritdoc}
     */
-    protected function getPropertiesAndTypes()
+    protected function propertiesAndTypes()
     {
         return $this->reflectProperties(
             ReflectionProperty::IS_PRIVATE |
@@ -42,7 +42,7 @@ abstract class ClassMethod extends AbstractMarshaledEntity implements ClassMetho
     /**
     * {@inheritdoc}
     */
-    protected function getDefaultValues()
+    protected function defaultValues()
     {
         return get_class_vars($this->getCalledClassName());
     }

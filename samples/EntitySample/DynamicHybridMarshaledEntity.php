@@ -1,8 +1,9 @@
 <?php
 
-use EntityMarshal\Entity\Marshaled\Hybrid;
-
 namespace EntitySample;
+
+use EntityMarshal\DynamicPropertyInterface;
+use EntityMarshal\Entity\Marshaled\Hybrid;
 
 /**
  * A sample EntityMarshal using all known property types.
@@ -10,7 +11,7 @@ namespace EntitySample;
  * @author     Merten van Gerven
  * @package    EntityMarshal
  */
-class DynamicHybridMarshaledEntity extends Hybrid implements PermitDynamicPropertiesInterface
+class DynamicHybridMarshaledEntity extends Hybrid implements DynamicPropertyInterface
 {
 }
 

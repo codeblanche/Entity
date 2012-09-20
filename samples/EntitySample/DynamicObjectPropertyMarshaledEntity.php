@@ -1,8 +1,9 @@
 <?php
 
-use EntityMarshal\Entity\Marshaled\ObjectProperty;
-
 namespace EntitySample;
+
+use EntityMarshal\DynamicPropertyInterface;
+use EntityMarshal\Entity\Marshaled\ObjectProperty;
 
 /**
  * A sample EntityMarshal using all known property types.
@@ -10,8 +11,7 @@ namespace EntitySample;
  * @author     Merten van Gerven
  * @package    EntityMarshal
  */
-class DynamicObjectPropertyMarshaledEntity extends ObjectProperty implements
-    PermitDynamicPropertiesInterface
+class DynamicObjectPropertyMarshaledEntity extends ObjectProperty implements DynamicPropertyInterface
 {
 }
 

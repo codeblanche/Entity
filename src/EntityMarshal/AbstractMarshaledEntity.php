@@ -4,6 +4,7 @@ namespace EntityMarshal;
 
 use EntityMarshal\Exception\RuntimeException;
 use EntityMarshal\RuntimeCache\RuntimeCacheEnabledInterface;
+use EntityMarshal\RuntimeCache\RuntimeCacheSingleton;
 use ReflectionClass;
 use stdClass;
 use Traversable;
@@ -522,6 +523,13 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
         }
 
         return $value;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRuntimeCache() {
+        return RuntimeCacheSingleton::getInstance();
     }
 }
 

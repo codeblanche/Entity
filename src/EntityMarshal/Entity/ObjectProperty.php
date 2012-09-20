@@ -15,7 +15,7 @@ abstract class ObjectProperty extends AbstractEntity implements ObjectPropertyIn
     /**
      * {@inheritdoc}
      */
-    protected function getCalledClassName()
+    protected function calledClassName()
     {
         return get_called_class();
     }

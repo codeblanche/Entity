@@ -2,8 +2,8 @@
 
 namespace EntityMarshal;
 
-use EntityMarshal\Convert\Strategy\StrategyInterface;
 use EntityMarshal\Convert\Dump;
+use EntityMarshal\Convert\Strategy\StrategyInterface;
 use Traversable;
 
 /**

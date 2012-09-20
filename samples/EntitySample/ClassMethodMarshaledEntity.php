@@ -4,7 +4,6 @@ namespace EntitySample;
 
 use EntityMarshal\Entity\Marshaled\ClassMethod;
 use stdClass;
-use ZipArchive;
 
 /**
  * A sample EntityMarshal using all known property types.

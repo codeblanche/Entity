@@ -4,7 +4,6 @@ namespace EntitySample;
 
 use EntityMarshal\Entity\Marshaled\Hybrid;
 use stdClass;
-use ZipArchive;
 
 /**
  * A sample EntityMarshal using all known property types.
