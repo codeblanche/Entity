@@ -2,16 +2,13 @@
 
 namespace EntityMarshalExample;
 
-use EntityMarshal\Entity\Marshaled\HybridEntity;
-use stdClass;
-
 /**
  * A sample EntityMarshal using all known property types.
  *
  * @author     Merten van Gerven
  * @package    EntityMarshal
  */
-class StdHybridMarshaledEntity extends HybridEntity
+class StdHybridMarshaledEntity extends \EntityMarshal\Entity\Marshaled\HybridEntity
 {
     /**
      * @var bool
@@ -84,12 +81,12 @@ class StdHybridMarshaledEntity extends HybridEntity
     public $testArray = array('1', '2', '3');
 
     /**
-     * @var stdClass
+     * @var \stdClass
      */
     public $testStdClass;
 
     /**
-     * @var HybridEntityMarshal
+     * @var \EntityMarshal\Entity\Marshaled\HybridEntity
      */
     public $testEntityMarshal;
 
@@ -109,12 +106,12 @@ class StdHybridMarshaledEntity extends HybridEntity
     public $testCallable;
 
     /**
-     * @var HybridEntityMarshal[]
+     * @var \EntityMarshal\Entity\Marshaled\HybridEntity[]
      */
     public $testTypedArray1;
 
     /**
-     * @var array<HybridEntityMarshal>
+     * @var array<\EntityMarshal\Entity\Marshaled\HybridEntity>
      */
     public $testTypedArray2;
 

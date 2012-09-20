@@ -2,16 +2,13 @@
 
 namespace EntityMarshalExample;
 
-use EntityMarshal\Entity\Marshaled\ObjectPropertyEntity;
-use stdClass;
-
 /**
  * A sample EntityMarshal using all known property types.
  *
  * @author     Merten van Gerven
  * @package    EntityMarshal
  */
-class StdObjectPropertyMarshaledEntity extends ObjectPropertyEntity
+class StdObjectPropertyMarshaledEntity extends \EntityMarshal\Entity\Marshaled\ObjectPropertyEntity
 {
     /**
      * @var bool
@@ -84,12 +81,12 @@ class StdObjectPropertyMarshaledEntity extends ObjectPropertyEntity
     public $testArray = array('1', '2', '3');
 
     /**
-     * @var stdClass
+     * @var \stdClass
      */
     public $testStdClass;
 
     /**
-     * @var ObjectPropertyEntityMarshal
+     * @var \EntityMarshal\Entity\Marshaled\ObjectPropertyEntity
      */
     public $testEntityMarshal;
 
@@ -109,12 +106,12 @@ class StdObjectPropertyMarshaledEntity extends ObjectPropertyEntity
     public $testCallable;
 
     /**
-     * @var ObjectPropertyEntityMarshal[]
+     * @var \EntityMarshal\Entity\Marshaled\ObjectPropertyEntity[]
      */
     public $testTypedArray1;
 
     /**
-     * @var array<ObjectPropertyEntityMarshal>
+     * @var array<\EntityMarshal\Entity\Marshaled\ObjectPropertyEntity>
      */
     public $testTypedArray2;
 

@@ -2,16 +2,13 @@
 
 namespace EntityMarshalExample;
 
-use EntityMarshal\Entity\ClassMethodEntity;
-use stdClass;
-
 /**
  * A sample EntityMarshal using all known property types.
  *
  * @author     Merten van Gerven
  * @package    EntityMarshal
  */
-class StdClassMethodEntity extends ClassMethodEntity
+class StdClassMethodEntity extends \EntityMarshal\Entity\ClassMethodEntity
 {
     /**
      * @var bool
@@ -84,12 +81,12 @@ class StdClassMethodEntity extends ClassMethodEntity
     protected $testArray = array('1', '2', '3');
 
     /**
-     * @var stdClass
+     * @var \stdClass
      */
     protected $testStdClass;
 
     /**
-     * @var ClassMethodEntityMarshal
+     * @var \EntityMarshal\Entity\ClassMethodEntity
      */
     protected $testEntityMarshal;
 
@@ -109,12 +106,12 @@ class StdClassMethodEntity extends ClassMethodEntity
     protected $testCallable;
 
     /**
-     * @var ClassMethodEntityMarshal[]
+     * @var \EntityMarshal\Entity\ClassMethodEntity[]
      */
     protected $testTypedArray1;
 
     /**
-     * @var array<ClassMethodEntityMarshal>
+     * @var array<\EntityMarshal\Entity\ClassMethodEntity>
      */
     protected $testTypedArray2;
 

@@ -95,8 +95,6 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
      */
     protected function initialize()
     {
-        parent::initialize();
-
         $class          = $this->calledClassName();
         $cache          = $this->getRuntimeCache();
         $definitions    = $cache->get($class);
@@ -104,32 +102,32 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
         if (!is_null($definitions)) {
             $this->types     = $definitions['types'];
             $this->generics  = $definitions['generics'];
+        } else {
+            $defaultType = $this->defaultPropertyType();
+            $defaults    = $this->defaultValues();
+            $properties  = $this->propertiesAndTypes();
 
-            return;
+            $this->initializeProperty('*', $defaultType);
+
+            foreach ($properties as $name => $type) {
+                $value = isset($defaults[$name])
+                    ? $defaults[$name]
+                    : null;
+
+                $this->initializeProperty($name, $type);
+                $this->set($name, $value);
+            }
+
+            $cache->set(
+                $class,
+                array(
+                    'types'     => $this->types,
+                    'generics'  => $this->generics,
+                )
+            );
         }
 
-        $defaultType = $this->defaultPropertyType();
-        $defaults    = $this->defaultValues();
-        $properties  = $this->propertiesAndTypes();
-
-        $this->initializeProperty('*', $defaultType);
-
-        foreach ($properties as $name => $type) {
-            $value = isset($defaults[$name])
-                ? $defaults[$name]
-                : null;
-
-            $this->initializeProperty($name, $type);
-            $this->set($name, $value);
-        }
-
-        $cache->set(
-            $class,
-            array(
-                'types'     => $this->types,
-                'generics'  => $this->generics,
-            )
-        );
+        parent::initialize();
     }
 
     private function initializeProperty($name, $type)
@@ -228,12 +226,24 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
         if (
             !isset($this->typeMap[$type]) &&
             $type !== 'mixed' &&
-            !class_exists($type)
+            !class_exists($this->namespaced($type))
         ) {
             return false;
         }
 
         return true;
+    }
+
+    private function namespaced($type)
+    {
+        if (substr($type, 0, 1) === '\\') {
+            return $type;
+        }
+
+        $class = $this->calledClassName();
+        $space = substr($class, 0, strrpos($class, '\\'));
+
+        return "\\$space\\$type";
     }
 
     /**
@@ -318,7 +328,7 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
         $usable = array();
 
         foreach ($names as $name) {
-            if (isset($data[$name])) {
+            if (array_key_exists($name, $data)) {
                 $usable[$name] = &$data[$name];
             }
         }
@@ -528,7 +538,8 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
     /**
      * {@inheritdoc}
      */
-    public function getRuntimeCache() {
+    public function getRuntimeCache()
+    {
         return RuntimeCacheSingleton::getInstance();
     }
 
@@ -537,7 +548,16 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
      */
     public function typeof($name)
     {
-        return $this->types[$name];
+        $type = $this->getType($name);
+
+        if ($type === 'array') {
+            $generic = $this->getGeneric($name);
+            if (!is_null($generic)) {
+                $type = "{$generic}[]";
+            }
+        }
+
+        return $type;
     }
 
     /**

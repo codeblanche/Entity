@@ -15,7 +15,7 @@ abstract class AbstractConvert implements StrategyInterface
     /**
      * @var     array   List of object references to check for circular referencing.
      */
-    protected $objectReferences;
+    protected $objectReferences = array();
 
     /**
      * @param  object|array $value
