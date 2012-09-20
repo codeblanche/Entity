@@ -11,7 +11,7 @@ use stdClass;
  * @author     Merten van Gerven
  * @package    EntityMarshal
  */
-class HybridMarshaledEntity extends HybridEntity
+class StdHybridMarshaledEntity extends HybridEntity
 {
     /**
      * @var bool
