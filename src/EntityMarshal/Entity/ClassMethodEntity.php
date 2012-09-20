@@ -10,7 +10,7 @@ use EntityMarshal\Accessor\ClassMethodInterface;
  * @category    EntityMarshal
  * @package     EntityMarshal\Entity
  */
-abstract class ClassMethod extends AbstractEntity implements ClassMethodInterface
+abstract class ClassMethodEntity extends AbstractEntity implements ClassMethodInterface
 {
     protected function calledClassName()
     {

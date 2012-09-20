@@ -10,7 +10,7 @@ use ReflectionProperty;
  * @author     Merten van Gerven
  * @package    EntityMarshal
  */
-abstract class ClassMethod extends AbstractMarshaledEntity implements ClassMethodInterface
+abstract class ClassMethodEntity extends AbstractMarshaledEntity implements ClassMethodInterface
 {
     /**
     * {@inheritdoc}

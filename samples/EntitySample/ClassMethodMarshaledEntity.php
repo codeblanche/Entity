@@ -2,7 +2,7 @@
 
 namespace EntitySample;
 
-use EntityMarshal\Entity\Marshaled\ClassMethod;
+use EntityMarshal\Entity\Marshaled\ClassMethodEntity;
 use stdClass;
 
 /**
@@ -11,7 +11,7 @@ use stdClass;
  * @author     Merten van Gerven
  * @package    EntityMarshal
  */
-class ClassMethodMarshaledEntity extends ClassMethod
+class ClassMethodMarshaledEntity extends ClassMethodEntity
 {
     /**
      * @var bool

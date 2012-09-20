@@ -3,7 +3,7 @@
 namespace EntitySample;
 
 use EntityMarshal\DynamicPropertyInterface;
-use EntityMarshal\Entity\Marshaled\ObjectProperty;
+use EntityMarshal\Entity\Marshaled\ObjectPropertyEntity;
 
 /**
  * A sample EntityMarshal using all known property types.
@@ -11,7 +11,7 @@ use EntityMarshal\Entity\Marshaled\ObjectProperty;
  * @author     Merten van Gerven
  * @package    EntityMarshal
  */
-class DynamicObjectPropertyMarshaledEntity extends ObjectProperty implements DynamicPropertyInterface
+class DynamicObjectPropertyMarshaledEntity extends ObjectPropertyEntity implements DynamicPropertyInterface
 {
 }
 

@@ -10,7 +10,7 @@ use EntityMarshal\Accessor\HybridInterface;
  * @category    EntityMarshal
  * @package     EntityMarshal\Entity
  */
-abstract class Hybrid extends AbstractEntity implements HybridInterface
+abstract class HybridEntity extends AbstractEntity implements HybridInterface
 {
     /**
     * {@inheritdoc}

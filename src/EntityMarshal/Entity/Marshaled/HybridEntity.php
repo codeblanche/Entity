@@ -10,7 +10,7 @@ use ReflectionProperty;
  * @author     Merten van Gerven
  * @package    EntityMarshal
  */
-abstract class Hybrid extends AbstractMarshaledEntity implements HybridInterface
+abstract class HybridEntity extends AbstractMarshaledEntity implements HybridInterface
 {
     /**
     * {@inheritdoc}

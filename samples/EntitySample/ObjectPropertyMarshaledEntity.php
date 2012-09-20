@@ -2,7 +2,7 @@
 
 namespace EntitySample;
 
-use EntityMarshal\Entity\Marshaled\ObjectProperty;
+use EntityMarshal\Entity\Marshaled\ObjectPropertyEntity;
 use stdClass;
 
 /**
@@ -11,7 +11,7 @@ use stdClass;
  * @author     Merten van Gerven
  * @package    EntityMarshal
  */
-class ObjectPropertyMarshaledEntity extends ObjectProperty
+class ObjectPropertyMarshaledEntity extends ObjectPropertyEntity
 {
     /**
      * @var bool

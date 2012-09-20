@@ -2,7 +2,7 @@
 
 namespace EntitySample;
 
-use EntityMarshal\Entity\Marshaled\Hybrid;
+use EntityMarshal\Entity\Marshaled\HybridEntity;
 use stdClass;
 
 /**
@@ -11,7 +11,7 @@ use stdClass;
  * @author     Merten van Gerven
  * @package    EntityMarshal
  */
-class HybridMarshaledEntity extends Hybrid
+class HybridMarshaledEntity extends HybridEntity
 {
     /**
      * @var bool

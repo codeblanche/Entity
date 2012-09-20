@@ -10,7 +10,7 @@ use EntityMarshal\Accessor\ObjectPropertyInterface;
  * @category    EntityMarshal
  * @package     EntityMarshal\Entity
  */
-abstract class ObjectProperty extends AbstractEntity implements ObjectPropertyInterface
+abstract class ObjectPropertyEntity extends AbstractEntity implements ObjectPropertyInterface
 {
     /**
      * {@inheritdoc}

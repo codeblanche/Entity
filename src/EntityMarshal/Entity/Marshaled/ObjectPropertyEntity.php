@@ -10,7 +10,7 @@ use ReflectionProperty;
  * @author     Merten van Gerven
  * @package    EntityMarshal
  */
-abstract class ObjectProperty extends AbstractMarshaledEntity implements ObjectPropertyInterface
+abstract class ObjectPropertyEntity extends AbstractMarshaledEntity implements ObjectPropertyInterface
 {
     /**
     * {@inheritdoc}

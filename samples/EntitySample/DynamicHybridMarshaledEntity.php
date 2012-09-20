@@ -3,7 +3,7 @@
 namespace EntitySample;
 
 use EntityMarshal\DynamicPropertyInterface;
-use EntityMarshal\Entity\Marshaled\Hybrid;
+use EntityMarshal\Entity\Marshaled\HybridEntity;
 
 /**
  * A sample EntityMarshal using all known property types.
@@ -11,7 +11,7 @@ use EntityMarshal\Entity\Marshaled\Hybrid;
  * @author     Merten van Gerven
  * @package    EntityMarshal
  */
-class DynamicHybridMarshaledEntity extends Hybrid implements DynamicPropertyInterface
+class DynamicHybridMarshaledEntity extends HybridEntity implements DynamicPropertyInterface
 {
 }
 
