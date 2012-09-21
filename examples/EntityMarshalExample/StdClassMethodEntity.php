@@ -78,7 +78,7 @@ class StdClassMethodEntity extends \EntityMarshal\Entity\ClassMethodEntity
     /**
      * @var array
      */
-    protected $testArray = array('1', '2', '3');
+    protected $testArray = array('1', 2, '3');
 
     /**
      * @var \stdClass

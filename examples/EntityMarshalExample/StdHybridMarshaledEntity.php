@@ -78,7 +78,7 @@ class StdHybridMarshaledEntity extends \EntityMarshal\Entity\Marshaled\HybridEnt
     /**
      * @var array
      */
-    public $testArray = array('1', '2', '3');
+    public $testArray = array('1', 2, '3');
 
     /**
      * @var \stdClass

@@ -40,5 +40,17 @@ class ForeignScope
     {
         return get_object_vars($object);
     }
+
+    /**
+     * Retrieve the class vars of $class from a public scope.
+     *
+     * @param string $class
+     *
+     * @return array
+     */
+    public function getClassVars($class)
+    {
+        return get_class_vars($class);
+    }
 }
 

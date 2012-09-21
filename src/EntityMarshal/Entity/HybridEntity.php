@@ -15,6 +15,14 @@ abstract class HybridEntity extends AbstractEntity implements HybridInterface
     /**
     * {@inheritdoc}
     */
+    protected function defaultValues()
+    {
+        return get_class_vars($this->calledClassName());
+    }
+
+    /**
+    * {@inheritdoc}
+    */
     public function calledClassName()
     {
         return get_called_class();

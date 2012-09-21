@@ -8,7 +8,7 @@ namespace EntityMarshalExample;
  * @author     Merten van Gerven
  * @package    EntityMarshal
  */
-class StdClassMethodMarshaledEntity extends EntityMarshal\Entity\Marshaled\ClassMethodEntity
+class StdClassMethodMarshaledEntity extends \EntityMarshal\Entity\Marshaled\ClassMethodEntity
 {
     /**
      * @var bool
@@ -78,7 +78,7 @@ class StdClassMethodMarshaledEntity extends EntityMarshal\Entity\Marshaled\Class
     /**
      * @var array
      */
-    protected $testArray = array('1', '2', '3');
+    protected $testArray = array('1', 2, '3');
 
     /**
      * @var \stdClass
@@ -86,7 +86,7 @@ class StdClassMethodMarshaledEntity extends EntityMarshal\Entity\Marshaled\Class
     protected $testStdClass;
 
     /**
-     * @var EntityMarshal\Entity\Marshaled\ClassMethodEntity
+     * @var \EntityMarshal\Entity\Marshaled\ClassMethodEntity
      */
     protected $testEntityMarshal;
 
@@ -106,12 +106,12 @@ class StdClassMethodMarshaledEntity extends EntityMarshal\Entity\Marshaled\Class
     protected $testCallable;
 
     /**
-     * @var EntityMarshal\Entity\Marshaled\ClassMethodEntity[]
+     * @var \EntityMarshal\Entity\Marshaled\ClassMethodEntity[]
      */
     protected $testTypedArray1;
 
     /**
-     * @var array<EntityMarshal\Entity\Marshaled\ClassMethodEntity>
+     * @var array<\EntityMarshal\Entity\Marshaled\ClassMethodEntity>
      */
     protected $testTypedArray2;
 

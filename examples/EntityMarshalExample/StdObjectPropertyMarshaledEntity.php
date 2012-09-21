@@ -78,7 +78,7 @@ class StdObjectPropertyMarshaledEntity extends \EntityMarshal\Entity\Marshaled\O
     /**
      * @var array
      */
-    public $testArray = array('1', '2', '3');
+    public $testArray = array('1', 2, '3');
 
     /**
      * @var \stdClass

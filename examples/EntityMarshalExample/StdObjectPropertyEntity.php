@@ -78,7 +78,7 @@ class StdObjectPropertyEntity extends \EntityMarshal\Entity\ObjectPropertyEntity
     /**
      * @var array
      */
-    public $testArray = array('1', '2', '3');
+    public $testArray = array('1', 2, '3');
 
     /**
      * @var \stdClass

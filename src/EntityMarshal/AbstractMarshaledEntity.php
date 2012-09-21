@@ -330,6 +330,8 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
         foreach ($names as $name) {
             if (array_key_exists($name, $data)) {
                 $usable[$name] = &$data[$name];
+            } else {
+                $usable[$name] = null;
             }
         }
 
@@ -581,12 +583,5 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
      * @return array
      */
     abstract protected function propertiesAndTypes();
-
-    /**
-     * Get the default property values.
-     *
-     * @return array
-     */
-    abstract protected function defaultValues();
 }
 

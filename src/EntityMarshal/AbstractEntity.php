@@ -56,8 +56,7 @@ abstract class AbstractEntity implements EntityInterface
      */
     protected function initialize()
     {
-        $vars = ForeignScope::getInstance()
-            ->getObjectVars($this);
+        $vars = $this->defaultValues();
 
         $this->unsetProperties(array_keys($vars));
 
@@ -217,6 +216,13 @@ abstract class AbstractEntity implements EntityInterface
             unset($this->properties[$name]);
         }
     }
+
+    /**
+     * Get the default property values.
+     *
+     * @return array
+     */
+    abstract protected function defaultValues();
 
     // Implement Iterator
 

@@ -12,6 +12,17 @@ use EntityMarshal\Accessor\ClassMethodInterface;
  */
 abstract class ClassMethodEntity extends AbstractEntity implements ClassMethodInterface
 {
+    /**
+    * {@inheritdoc}
+    */
+    protected function defaultValues()
+    {
+        return get_class_vars($this->calledClassName());
+    }
+
+    /**
+    * {@inheritdoc}
+    */
     public function calledClassName()
     {
         return get_called_class();

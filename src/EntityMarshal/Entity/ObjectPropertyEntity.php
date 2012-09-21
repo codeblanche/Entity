@@ -13,8 +13,16 @@ use EntityMarshal\Accessor\ObjectPropertyInterface;
 abstract class ObjectPropertyEntity extends AbstractEntity implements ObjectPropertyInterface
 {
     /**
-     * {@inheritdoc}
-     */
+    * {@inheritdoc}
+    */
+    protected function defaultValues()
+    {
+        return get_class_vars($this->calledClassName());
+    }
+
+    /**
+    * {@inheritdoc}
+    */
     public function calledClassName()
     {
         return get_called_class();
