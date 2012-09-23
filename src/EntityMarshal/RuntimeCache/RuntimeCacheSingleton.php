@@ -134,6 +134,7 @@ final class RuntimeCacheSingleton implements RuntimeCacheInterface, Serializable
      */
     public function unserialize($serialized)
     {
+        $this->scope = self::SCOPE_DEFAULT;
         $this->cache = unserialize($serialized);
     }
 }

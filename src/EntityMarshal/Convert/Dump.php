@@ -74,13 +74,14 @@ class Dump extends AbstractConvert
         $lpad = str_repeat($this->indentWith, $this->depth);
 
         if ($this->maxDepth > 0 && $this->depth > $this->maxDepth) {
-            $this->out[] = "{$this->makeDefinition($type, null, $name)} <em style='color:#999;'>... depth limit reached</em>";
+            $this->out[] = "{$this->makeDefinition($type, null, $name)} <em style='color:#999;'>" .
+                "... depth limit reached</em>";
             return;
         }
 
         if ($this->isCircularReference($data)) {
-            $this->out[] = "{$this->makeDefinition($type, null, $name)} <em style='color:#999;'>... cirular reference ".
-                "omitted</em>";
+            $this->out[] = "{$this->makeDefinition($type, null, $name)} <em style='color:#999;'>" .
+                "... cirular reference omitted</em>";
             return;
         }
 
