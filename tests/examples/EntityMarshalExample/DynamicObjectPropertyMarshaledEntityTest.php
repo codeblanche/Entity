@@ -36,4 +36,4 @@ class DynamicObjectPropertyMarshaledEntityTest extends \PHPUnit_Framework_TestCa
 
 }
 
-?>
+

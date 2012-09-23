@@ -36,4 +36,4 @@ class StdClassMethodEntityTest extends \PHPUnit_Framework_TestCase
 
 }
 
-?>
+

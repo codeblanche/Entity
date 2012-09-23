@@ -36,4 +36,4 @@ class DynamicClassMethodMarshaledEntityTest extends \PHPUnit_Framework_TestCase
 
 }
 
-?>
+

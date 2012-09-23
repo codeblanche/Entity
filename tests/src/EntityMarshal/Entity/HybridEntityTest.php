@@ -92,4 +92,4 @@ class HybridEntityTest extends \PHPUnit_Framework_TestCase
 
 }
 
-?>
+

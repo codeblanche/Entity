@@ -60,4 +60,4 @@ class StdHybridMarshaledEntityTest extends \PHPUnit_Framework_TestCase
 
 }
 
-?>
+

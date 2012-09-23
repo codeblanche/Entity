@@ -36,4 +36,4 @@ class StdClassMethodMarshaledEntityTest extends \PHPUnit_Framework_TestCase
 
 }
 
-?>
+
