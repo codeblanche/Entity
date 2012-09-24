@@ -61,24 +61,24 @@ class StdObjectPropertyMarshaledEntity extends \EntityMarshal\Entity\Marshaled\O
     public $testResource;
 
     /**
-     * @var scalar Basix data type including int, float, string, bool
+     * @var scalar Basic data type including int, float, string, bool
      */
-    public $testScalar;
+    public $testScalar = 'make it count! make it scalar!';
 
     /**
      * @var string
      */
-    public $testString = "test string";
+    public $testString = 'When life throws you a bone. Give it to a dog.';
 
     /**
      * @var mixed
      */
-    public $testMixed ;
+    public $testMixed = 'This could be anything really';
 
     /**
      * @var array
      */
-    public $testArray = array('1', 2, '3');
+    public $testArray = array('one', 2, 'three');
 
     /**
      * @var \stdClass
@@ -98,31 +98,34 @@ class StdObjectPropertyMarshaledEntity extends \EntityMarshal\Entity\Marshaled\O
     /**
      * @var null
      */
-    public $testNull;
+    public $testNull = null;
 
     /**
      * @var callable
      */
-    public $testCallable;
+    public $testCallable = array('\EntityMarshal\ForeignScope', 'getInstance');
 
     /**
      * @var \EntityMarshal\Entity\Marshaled\ObjectPropertyEntity[]
      */
-    public $testTypedArray1;
+    public $testTypedArray1 = array();
 
     /**
      * @var array<\EntityMarshal\Entity\Marshaled\ObjectPropertyEntity>
      */
-    public $testTypedArray2;
+    public $testTypedArray2 = array();
 
     /**
      * @var array[]
      */
-    public $testTypedArray3;
+    public $testTypedArray3 = array(
+        array('one', 2, 'three'),
+        array('four', 5, 'six'),
+    );
 
     /**
      * @var integer[]
      */
-    public $testTypedArray4;
+    public $testTypedArray4 = array(2, 3, 5, 7, 11, 13, 17, 19, 23, 29);
 }
 

@@ -73,7 +73,7 @@ class StdClassMethodEntity extends \EntityMarshal\Entity\ClassMethodEntity
     /**
      * @var mixed
      */
-    protected $testMixed ;
+    protected $testMixed;
 
     /**
      * @var array

@@ -10,7 +10,6 @@ require_once dirname(__FILE__) . '/../../../examples/EntityMarshalExample/StdHyb
  */
 class StdHybridMarshaledEntityTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var StdHybridMarshaledEntity
      */
@@ -58,6 +57,28 @@ class StdHybridMarshaledEntityTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-}
+    public function testDefaultProperties()
+    {
+        // Remove the following lines when you implement this test.
+        $this->markTestIncomplete(
+                'This test has not been implemented yet.'
+        );
+    }
 
+    public function testSetter()
+    {
+        // Remove the following lines when you implement this test.
+        $this->markTestIncomplete(
+                'This test has not been implemented yet.'
+        );
+    }
+
+    public function testGetter()
+    {
+        // Remove the following lines when you implement this test.
+        $this->markTestIncomplete(
+                'This test has not been implemented yet.'
+        );
+    }
+}
 

@@ -73,7 +73,7 @@ class StdClassMethodMarshaledEntity extends \EntityMarshal\Entity\Marshaled\Clas
     /**
      * @var mixed
      */
-    protected $testMixed ;
+    protected $testMixed;
 
     /**
      * @var array

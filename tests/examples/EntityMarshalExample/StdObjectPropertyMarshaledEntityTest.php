@@ -10,11 +10,39 @@ require_once dirname(__FILE__) . '/../../../examples/EntityMarshalExample/StdObj
  */
 class StdObjectPropertyMarshaledEntityTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var StdObjectPropertyMarshaledEntity
      */
     protected $object;
+
+    protected static $values = array(
+        'testBool'     => false,
+        'testBoolean'  => true,
+        'testInteger'  => 12345,
+        'testInt'      => 67890,
+        'testFloat'    => 12.123,
+        'testDouble'   => 34.345,
+        'testNumeric'  => 34567,
+        'testLong'     => 23456,
+        'testReal'     => 56.567,
+        'testResource' => null,
+        'testScalar'   => 'make it count! make it scalar!',
+        'testString'   => 'When life throws you a bone. Give it to a dog.',
+        'testMixed'    => 'This could be anything really',
+        'testArray'    => array('one', 2, 'three'),
+        'testStdClass'      => null,
+        'testEntityMarshal' => null,
+        'testObject'        => null,
+        'testNull'          => null,
+        'testCallable'      => array('\EntityMarshal\ForeignScope', 'getInstance'),
+        'testTypedArray1' => array(),
+        'testTypedArray2' => array(),
+        'testTypedArray3' => array(
+            array('one', 2, 'three'),
+            array('four', 5, 'six'),
+        ),
+        'testTypedArray4' => array(2, 3, 5, 7, 11, 13, 17, 19, 23, 29),
+    );
 
     /**
      * Sets up the fixture, for example, opens a network connection.
@@ -25,15 +53,158 @@ class StdObjectPropertyMarshaledEntityTest extends \PHPUnit_Framework_TestCase
         $this->object = new StdObjectPropertyMarshaledEntity;
     }
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
+    public function testGet()
     {
+        $this->assertTrue(is_bool($this->object->testBool));
+        $this->assertTrue(is_bool($this->object->testBoolean));
+        $this->assertTrue(is_integer($this->object->testInteger));
+        $this->assertTrue(is_int($this->object->testInt));
+        $this->assertTrue(is_float($this->object->testFloat));
+        $this->assertTrue(is_double($this->object->testDouble));
+        $this->assertTrue(is_numeric($this->object->testNumeric));
+        $this->assertTrue(is_long($this->object->testLong));
+        $this->assertTrue(is_real($this->object->testReal));
+        $this->assertTrue(is_scalar($this->object->testScalar));
+        $this->assertTrue(is_string($this->object->testString));
+        $this->assertTrue(is_array($this->object->testArray));
+        $this->assertTrue(is_callable($this->object->testCallable));
+        $this->assertTrue(is_array($this->object->testTypedArray1));
+        $this->assertTrue(is_array($this->object->testTypedArray2));
+        $this->assertTrue(is_array($this->object->testTypedArray3));
+        $this->assertTrue(is_array($this->object->testTypedArray4));
 
+        // special cases
+//        $this->assertTrue(is_string($this->object->testMixed));
+//        $this->assertTrue(is_object($this->object->testStdClass));
+//        $this->assertTrue(is_object($this->object->testEntityMarshal));
+//        $this->assertTrue(is_object($this->object->testObject));
+//        $this->assertTrue(is_resource($this->object->testResource));
     }
 
-}
+    public function testDefaultProperties()
+    {
+        $this->assertEquals(self::$values['testBool'], $this->object->testBool);
+        $this->assertEquals(self::$values['testBoolean'], $this->object->testBoolean);
+        $this->assertEquals(self::$values['testInteger'], $this->object->testInteger);
+        $this->assertEquals(self::$values['testInt'], $this->object->testInt);
+        $this->assertEquals(self::$values['testFloat'], $this->object->testFloat);
+        $this->assertEquals(self::$values['testDouble'], $this->object->testDouble);
+        $this->assertEquals(self::$values['testNumeric'], $this->object->testNumeric);
+        $this->assertEquals(self::$values['testLong'], $this->object->testLong);
+        $this->assertEquals(self::$values['testReal'], $this->object->testReal);
+        $this->assertEquals(self::$values['testScalar'], $this->object->testScalar);
+        $this->assertEquals(self::$values['testString'], $this->object->testString);
+        $this->assertEquals(self::$values['testArray'], $this->object->testArray);
+        $this->assertEquals(self::$values['testCallable'], $this->object->testCallable);
+        $this->assertEquals(self::$values['testTypedArray1'], $this->object->testTypedArray1);
+        $this->assertEquals(self::$values['testTypedArray2'], $this->object->testTypedArray2);
+        $this->assertEquals(self::$values['testTypedArray3'], $this->object->testTypedArray3);
+        $this->assertEquals(self::$values['testTypedArray4'], $this->object->testTypedArray4);
 
+        // special cases
+//        $this->assertEquals(self::$values['testMixed'], $this->object->testMixed);
+//        $this->assertEquals(self::$values['testStdClass'], $this->object->testStdClass);
+//        $this->assertEquals(self::$values['testEntityMarshal'], $this->object->testEntityMarshal);
+//        $this->assertEquals(self::$values['testObject'], $this->object->testObject);
+//        $this->assertEquals(self::$values['testResource'], $this->object->testResource);
+    }
+
+    public function testSetNull()
+    {
+        $this->object->testBool          = null;
+        $this->object->testBoolean       = null;
+        $this->object->testInteger       = null;
+        $this->object->testInt           = null;
+        $this->object->testFloat         = null;
+        $this->object->testDouble        = null;
+        $this->object->testNumeric       = null;
+        $this->object->testLong          = null;
+        $this->object->testReal          = null;
+        $this->object->testScalar        = null;
+        $this->object->testString        = null;
+        $this->object->testArray         = null;
+        $this->object->testCallable      = null;
+        $this->object->testTypedArray1   = null;
+        $this->object->testTypedArray2   = null;
+        $this->object->testTypedArray3   = null;
+        $this->object->testTypedArray4   = null;
+        $this->object->testMixed         = null;
+        $this->object->testStdClass      = null;
+        $this->object->testEntityMarshal = null;
+        $this->object->testObject        = null;
+        $this->object->testResource      = null;
+
+        $this->assertEquals(null, $this->object->testBool);
+        $this->assertEquals(null, $this->object->testBoolean);
+        $this->assertEquals(null, $this->object->testInteger);
+        $this->assertEquals(null, $this->object->testInt);
+        $this->assertEquals(null, $this->object->testFloat);
+        $this->assertEquals(null, $this->object->testDouble);
+        $this->assertEquals(null, $this->object->testNumeric);
+        $this->assertEquals(null, $this->object->testLong);
+        $this->assertEquals(null, $this->object->testReal);
+        $this->assertEquals(null, $this->object->testScalar);
+        $this->assertEquals(null, $this->object->testString);
+        $this->assertEquals(null, $this->object->testArray);
+        $this->assertEquals(null, $this->object->testCallable);
+        $this->assertEquals(null, $this->object->testTypedArray1);
+        $this->assertEquals(null, $this->object->testTypedArray2);
+        $this->assertEquals(null, $this->object->testTypedArray3);
+        $this->assertEquals(null, $this->object->testTypedArray4);
+        $this->assertEquals(null, $this->object->testMixed);
+        $this->assertEquals(null, $this->object->testStdClass);
+        $this->assertEquals(null, $this->object->testEntityMarshal);
+        $this->assertEquals(null, $this->object->testObject);
+        $this->assertEquals(null, $this->object->testResource);
+    }
+
+    public function testSetOther()
+    {
+        $this->object->testBool          = null;
+        $this->object->testBoolean       = null;
+        $this->object->testInteger       = null;
+        $this->object->testInt           = null;
+        $this->object->testFloat         = null;
+        $this->object->testDouble        = null;
+        $this->object->testNumeric       = null;
+        $this->object->testLong          = null;
+        $this->object->testReal          = null;
+        $this->object->testScalar        = null;
+        $this->object->testString        = null;
+        $this->object->testArray         = null;
+        $this->object->testCallable      = null;
+        $this->object->testTypedArray1   = null;
+        $this->object->testTypedArray2   = null;
+        $this->object->testTypedArray3   = null;
+        $this->object->testTypedArray4   = null;
+        $this->object->testMixed         = null;
+        $this->object->testStdClass      = null;
+        $this->object->testEntityMarshal = null;
+        $this->object->testObject        = null;
+        $this->object->testResource      = null;
+
+        $this->assertEquals(null, $this->object->testBool);
+        $this->assertEquals(null, $this->object->testBoolean);
+        $this->assertEquals(null, $this->object->testInteger);
+        $this->assertEquals(null, $this->object->testInt);
+        $this->assertEquals(null, $this->object->testFloat);
+        $this->assertEquals(null, $this->object->testDouble);
+        $this->assertEquals(null, $this->object->testNumeric);
+        $this->assertEquals(null, $this->object->testLong);
+        $this->assertEquals(null, $this->object->testReal);
+        $this->assertEquals(null, $this->object->testScalar);
+        $this->assertEquals(null, $this->object->testString);
+        $this->assertEquals(null, $this->object->testArray);
+        $this->assertEquals(null, $this->object->testCallable);
+        $this->assertEquals(null, $this->object->testTypedArray1);
+        $this->assertEquals(null, $this->object->testTypedArray2);
+        $this->assertEquals(null, $this->object->testTypedArray3);
+        $this->assertEquals(null, $this->object->testTypedArray4);
+        $this->assertEquals(null, $this->object->testMixed);
+        $this->assertEquals(null, $this->object->testStdClass);
+        $this->assertEquals(null, $this->object->testEntityMarshal);
+        $this->assertEquals(null, $this->object->testObject);
+        $this->assertEquals(null, $this->object->testResource);
+    }
+}
 

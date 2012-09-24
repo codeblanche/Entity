@@ -73,7 +73,7 @@ class StdHybridMarshaledEntity extends \EntityMarshal\Entity\Marshaled\HybridEnt
     /**
      * @var mixed
      */
-    public $testMixed ;
+    public $testMixed;
 
     /**
      * @var array
@@ -126,9 +126,9 @@ class StdHybridMarshaledEntity extends \EntityMarshal\Entity\Marshaled\HybridEnt
     public $testTypedArray4;
 
     /**
-    * @param bool $value
-    * @return HybridEntityMarshal
-    */
+     * @param bool $value
+     * @return HybridEntityMarshal
+     */
     public function setTestBool($value)
     {
         $this->testBool = $value;
@@ -137,9 +137,9 @@ class StdHybridMarshaledEntity extends \EntityMarshal\Entity\Marshaled\HybridEnt
     }
 
     /**
-    * @param string $value
-    * @return HybridEntityMarshal
-    */
+     * @param string $value
+     * @return HybridEntityMarshal
+     */
     public function setTestString($value)
     {
         $this->testString = $value;

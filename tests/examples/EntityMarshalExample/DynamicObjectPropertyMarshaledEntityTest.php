@@ -34,6 +34,28 @@ class DynamicObjectPropertyMarshaledEntityTest extends \PHPUnit_Framework_TestCa
 
     }
 
-}
+    public function testDefaultProperties()
+    {
+        // Remove the following lines when you implement this test.
+        $this->markTestIncomplete(
+                'This test has not been implemented yet.'
+        );
+    }
 
+    public function testSetter()
+    {
+        // Remove the following lines when you implement this test.
+        $this->markTestIncomplete(
+                'This test has not been implemented yet.'
+        );
+    }
+
+    public function testGetter()
+    {
+        // Remove the following lines when you implement this test.
+        $this->markTestIncomplete(
+                'This test has not been implemented yet.'
+        );
+    }
+}
 

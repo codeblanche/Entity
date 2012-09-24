@@ -13,5 +13,6 @@ use EntityMarshal\Entity\Marshaled\ObjectPropertyEntity;
  */
 class DynamicObjectPropertyMarshaledEntity extends ObjectPropertyEntity implements DynamicPropertyInterface
 {
+
 }
 

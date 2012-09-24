@@ -394,7 +394,7 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
             $casted = $this->cast($value, $castType);
 
             if (empty($value)) {
-                $value = null;
+                $value = $casted;
             } elseif ($value == $casted) {
                 $value = $casted;
             }

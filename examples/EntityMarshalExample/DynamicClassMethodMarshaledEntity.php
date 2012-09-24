@@ -13,5 +13,6 @@ use EntityMarshal\Entity\Marshaled\ClassMethodEntity;
  */
 class DynamicClassMethodMarshaledEntity extends ClassMethodEntity implements DynamicPropertyInterface
 {
+
 }
 

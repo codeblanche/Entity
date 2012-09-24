@@ -73,7 +73,7 @@ class StdObjectPropertyEntity extends \EntityMarshal\Entity\ObjectPropertyEntity
     /**
      * @var mixed
      */
-    public $testMixed ;
+    public $testMixed;
 
     /**
      * @var array

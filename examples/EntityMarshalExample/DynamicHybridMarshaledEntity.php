@@ -13,5 +13,6 @@ use EntityMarshal\Entity\Marshaled\HybridEntity;
  */
 class DynamicHybridMarshaledEntity extends HybridEntity implements DynamicPropertyInterface
 {
+
 }
 
