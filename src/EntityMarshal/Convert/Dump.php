@@ -92,7 +92,7 @@ class Dump extends AbstractConvert
                 $type = 'array';
             }
 
-            $this->out[] = "{$this->makeDefinition($type, $len, $name)} [";
+            $this->out[] = "{$this->makeDefinition($type, $len, $name)} {";
 
             $this->depth++;
 
@@ -109,7 +109,7 @@ class Dump extends AbstractConvert
 
             $this->depth--;
 
-            $this->out[] = "{$lpad}]";
+            $this->out[] = "{$lpad}}";
 
         } elseif (is_object($data)) {
             if (!($data instanceof EntityInterface)) {
