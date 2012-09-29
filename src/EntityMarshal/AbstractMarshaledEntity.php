@@ -320,11 +320,22 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
      */
     public function fromArray($data)
     {
+        if (!is_array($data) && !($data instanceof Traversable)) {
+            $className = $this->calledClassName();
+            throw new Exception\RuntimeException(
+                "Unable to import from array in class '$className' failed. Argument must be an array or Traversable"
+            );
+        }
+
         if ($this instanceof DynamicPropertyInterface) {
             return parent::fromArray($data);
         }
 
-        $names  = array_keys($this->types);
+        $types  = $this->types;
+
+        unset($types['*']);
+
+        $names  = array_keys($types);
         $usable = array();
 
         foreach ($names as $name) {
@@ -583,5 +594,36 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
      * @return array
      */
     abstract protected function propertiesAndTypes();
+
+    // Implement Serializable
+
+    /**
+     * {@inheritdoc}
+     */
+    public function serialize()
+    {
+        return serialize(
+            array(
+                'types'      => $this->types,
+                'generics'   => $this->generics,
+                'properties' => parent::serialize(),
+            )
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function unserialize($serialized)
+    {
+        $this->initialize();
+
+        $data = unserialize($serialized);
+
+        $this->types    = $data['types'];
+        $this->generics = $data['generics'];
+
+        parent::unserialize($data['properties']);
+    }
 }
 

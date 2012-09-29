@@ -86,7 +86,7 @@ class StdObjectPropertyMarshaledEntity extends \EntityMarshal\Entity\Marshaled\O
     public $testStdClass;
 
     /**
-     * @var \EntityMarshal\Entity\Marshaled\ObjectPropertyEntity
+     * @var \EntityMarshalExample\StdObjectPropertyMarshaledEntity
      */
     public $testEntityMarshal;
 
@@ -106,12 +106,12 @@ class StdObjectPropertyMarshaledEntity extends \EntityMarshal\Entity\Marshaled\O
     public $testCallable = array('\EntityMarshal\ForeignScope', 'getInstance');
 
     /**
-     * @var \EntityMarshal\Entity\Marshaled\ObjectPropertyEntity[]
+     * @var \EntityMarshalExample\StdObjectPropertyMarshaledEntity[]
      */
     public $testTypedArray1 = array();
 
     /**
-     * @var array<\EntityMarshal\Entity\Marshaled\ObjectPropertyEntity>
+     * @var array<\EntityMarshalExample\StdObjectPropertyMarshaledEntity>
      */
     public $testTypedArray2 = array();
 

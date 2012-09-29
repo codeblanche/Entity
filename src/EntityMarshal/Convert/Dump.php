@@ -2,7 +2,6 @@
 
 namespace EntityMarshal\Convert;
 
-use Countable;
 use EntityMarshal\EntityInterface;
 
 /**
