@@ -44,8 +44,9 @@ class PhpArray extends AbstractConvert
     {
         if ($this->isCircularReference($data)) {
             if (!$this->graceful) {
+                $className = __CLASS__;
                 throw new Exception\RuntimeException(
-                    "Attempt to access property '$name' of class '$className' failed. Property does not exist."
+                    "Cirular reference detected in '$className'."
                 );
             }
 

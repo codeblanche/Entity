@@ -1,6 +1,6 @@
 <?php
 
-namespace EntityMarshal\Exception;
+namespace EntityMarshal\Convert\Exception;
 
 /**
  * @author     Merten van Gerven

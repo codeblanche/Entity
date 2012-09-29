@@ -22,16 +22,12 @@ class HashTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new Hash;
+        $this->object = new Hash(Hash::HASH_TYPE_SHA256, 'prefix', 'suffix', array('var3'));
     }
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
+    public function testConstruct()
     {
-
+        $this->object = new Hash(Hash::HASH_TYPE_SHA256, 'prefix', 'suffix', array('var3'));
     }
 
     /**
@@ -40,11 +36,10 @@ class HashTest extends \PHPUnit_Framework_TestCase
      */
     public function testConvert()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $actual = $this->object->convert(new \ConcreteEntity());
+        $this->assertRegExp('/^[a-fA-F0-9]{64}$/', $actual);
     }
+
 
 }
 

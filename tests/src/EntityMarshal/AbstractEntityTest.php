@@ -2,9 +2,6 @@
 
 namespace EntityMarshal;
 
-require_once dirname(__FILE__) . '/../../../src/EntityMarshal/AbstractEntity.php';
-require_once dirname(__FILE__) . '/../../_files/ConcreteEntity.php';
-
 use ArrayObject;
 use ConcreteEntity;
 use PHPUnit_Framework_TestCase;
