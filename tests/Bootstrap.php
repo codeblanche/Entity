@@ -2,8 +2,12 @@
 
 require __DIR__.'/../init.php';
 
-Autoload\SimpleAutoloader::getInstance()
-    ->addPaths(array(
-        __DIR__,
-        __DIR__.'/../samples/'
-    ));
+Autoload\SimpleAutoloader::getInstance()->addPaths(
+    array(
+        __DIR__.'/src',
+        __DIR__.'/examples',
+        __DIR__.'/_files',
+        __DIR__.'/../examples',
+    )
+);
+
