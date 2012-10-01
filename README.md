@@ -25,9 +25,7 @@ For example:
 
     <?php
 
-    use EntityMarshal\ObjectPropertyEntityMarshal as AbstractObjectPropertyEntityMarshal;
-
-    class ObjectPropertyEntityMarshal extends AbstractObjectPropertyEntityMarshal
+    class StdObjectPropertyMarshaledEntity extends \EntityMarshal\Entity\Marshaled\ObjectPropertyEntity
     {
 
         /**
