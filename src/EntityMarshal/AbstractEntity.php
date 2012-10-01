@@ -2,8 +2,8 @@
 
 namespace EntityMarshal;
 
-use EntityMarshal\ConverterStrategy\ConverterStrategyInterface;
-use EntityMarshal\ConverterStrategy\Dump;
+use EntityMarshal\Convert\Dump;
+use EntityMarshal\Convert\Strategy\StrategyInterface;
 use Traversable;
 
 /**
@@ -15,6 +15,7 @@ use Traversable;
  * @author      Merten van Gerven
  * @category    EntityMarshal
  * @package     EntityMarshal
+ * @abstract
  */
 abstract class AbstractEntity implements EntityInterface
 {
@@ -24,7 +25,7 @@ abstract class AbstractEntity implements EntityInterface
      *
      * @var array
      */
-    private $definitionValues = array();
+    private $properties = array();
 
     /**
      * Default constructor.
@@ -34,6 +35,8 @@ abstract class AbstractEntity implements EntityInterface
     final public function __construct($data = null)
     {
         $this->position = 0;
+
+        $this->initialize();
 
         if (!is_null($data)) {
             $this->fromArray($data);
@@ -49,11 +52,43 @@ abstract class AbstractEntity implements EntityInterface
     }
 
     /**
+     * Initialize the entity.
+     */
+    protected function initialize()
+    {
+        $vars = $this->defaultValues();
+
+        $this->unsetProperties(array_keys($vars));
+
+        $this->fromArray($vars);
+    }
+
+    /**
+     * Unset the object properties defined by $keys
+     *
+     * @param array $keys
+     */
+    protected function unsetProperties($keys)
+    {
+        if (!is_array($keys) || empty($keys)) {
+            return;
+        }
+
+        foreach ($keys as $key) {
+            unset($this->$key);
+        }
+    }
+
+    /**
      * {@inheritdoc}
      */
-    public function toArray()
+    public function toArray($recursive = true)
     {
-        return $this->definitionValues;
+        if (!$recursive) {
+            return $this->properties;
+        }
+
+        return $this->convert(new Convert\PhpArray());
     }
 
     /**
@@ -78,17 +113,15 @@ abstract class AbstractEntity implements EntityInterface
     /**
      * {@inheritdoc}
      */
-    public function convert(ConverterStrategyInterface $strategy) {
-        return $strategy->convert(
-            $this->toArray(),
-            $this->calledClassName()
-        );
+    public function convert(StrategyInterface $strategy)
+    {
+        return $strategy->convert($this);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function output(ConverterStrategyInterface $strategy)
+    public function output(StrategyInterface $strategy)
     {
         echo $this->convert($strategy);
     }
@@ -100,14 +133,14 @@ abstract class AbstractEntity implements EntityInterface
      */
     public function &get($name)
     {
-        if (!in_array($name, $this->definitionValues)) {
+        if (!array_key_exists($name, $this->properties)) {
             $className = $this->calledClassName();
             throw new Exception\RuntimeException(
                 "Attempt to access property '$name' of class '$className' failed. Property does not exist."
             );
         }
 
-        return $this->definitionValues[$name];
+        return $this->properties[$name];
     }
 
     /**
@@ -115,9 +148,53 @@ abstract class AbstractEntity implements EntityInterface
      */
     public function set($name, $value)
     {
-        $this->definitionValues[$name] = $value;
+        $this->properties[$name] = $value;
 
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function typeof($name)
+    {
+        return strtolower(gettype($this->get($name)));
+    }
+
+    /**
+     * Standard __call method handler for subclass use.
+     *
+     * @param string $name
+     * @param array  $arguments
+     *
+     * @return mixed
+     */
+    protected function call($method, &$arguments)
+    {
+        $matches = array();
+
+        if (!preg_match('/^(?:(get|set|is)_?)(\w+)$/i', $method, $matches)) {
+            return;
+        }
+
+        $action  = $matches[1];
+        $name    = $matches[2];
+
+        switch ($action) {
+            case 'is':
+                $name   = "Is$name";
+                // no break
+            case 'get':
+                $name   = lcfirst($name);
+                $return = $this->get($name);
+                break;
+            case 'set':
+                $name   = lcfirst($name);
+                $return = $this->set($name, $arguments[0]);
+                break;
+        }
+
+        return $return;
     }
 
     /**
@@ -127,7 +204,7 @@ abstract class AbstractEntity implements EntityInterface
      */
     public function __isset($name)
     {
-        return isset($this->definitionValues[$name]);
+        return isset($this->properties[$name]);
     }
 
     /**
@@ -135,10 +212,17 @@ abstract class AbstractEntity implements EntityInterface
      */
     public function __unset($name)
     {
-        if (isset($this->definitionValues[$name])) {
-            unset($this->definitionValues[$name]);
+        if (isset($this->properties[$name])) {
+            unset($this->properties[$name]);
         }
     }
+
+    /**
+     * Get the default property values.
+     *
+     * @return array
+     */
+    abstract protected function defaultValues();
 
     // Implement Iterator
 
@@ -152,10 +236,10 @@ abstract class AbstractEntity implements EntityInterface
      */
     public function current()
     {
-        $keys   = array_keys($this->definitionValues);
-        $key    = $keys[$this->position];
+        $keys = array_keys($this->properties);
+        $key  = $keys[$this->position];
 
-        return $this->definitionValues[$key];
+        return $this->properties[$key];
     }
 
     /**
@@ -163,7 +247,7 @@ abstract class AbstractEntity implements EntityInterface
      */
     public function key()
     {
-        $keys   = array_keys($this->definitionValues);
+        $keys = array_keys($this->properties);
 
         return $keys[$this->position];
     }
@@ -189,7 +273,7 @@ abstract class AbstractEntity implements EntityInterface
      */
     public function valid()
     {
-        $keys = array_keys($this->definitionValues);
+        $keys = array_keys($this->properties);
         $key  = null;
 
         if ($this->position < count($keys)) {
@@ -197,7 +281,7 @@ abstract class AbstractEntity implements EntityInterface
         }
 
         return !is_null($key)
-            ? isset($this->definitionValues[$key])
+            ? array_key_exists($key, $this->properties)
             : false ;
     }
 
@@ -208,7 +292,7 @@ abstract class AbstractEntity implements EntityInterface
      */
     public function serialize()
     {
-        return serialize($this->definitionValues);
+        return serialize($this->properties);
     }
 
     /**
@@ -216,7 +300,7 @@ abstract class AbstractEntity implements EntityInterface
      */
     public function unserialize($serialized)
     {
-        $this->definitionValues = unserialize($serialized);
+        $this->properties = unserialize($serialized);
     }
 
     // Implement Countable
@@ -226,7 +310,7 @@ abstract class AbstractEntity implements EntityInterface
      */
     public function count()
     {
-        return count($this->definitionValues);
+        return count($this->properties);
     }
-
 }
+

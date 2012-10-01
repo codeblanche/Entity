@@ -2,14 +2,11 @@
 
 namespace EntityMarshal\RuntimeCache;
 
-use Iterator;
-use Traversable;
-use ArrayAccess;
 use Serializable;
-use Countable;
 
-final class RuntimeCacheSingleton implements Iterator, ArrayAccess , Serializable , Countable
+final class RuntimeCacheSingleton implements RuntimeCacheInterface, Serializable
 {
+    const SCOPE_DEFAULT = 'global';
 
     /**
     * @var array
@@ -17,14 +14,17 @@ final class RuntimeCacheSingleton implements Iterator, ArrayAccess , Serializabl
     private $cache = array();
 
     /**
+     * @var string
+     */
+    private $scope;
+
+    /**
     * @var RuntimeCacheSingleton Singleton instance.
     */
     private static $instance;
 
     /**
-    * SimpleAutoloader singleton factory method.
-    *
-    * @return SimpleAutloader
+    * {@inheritdoc}
     */
     public static function getInstance()
     {
@@ -41,108 +41,82 @@ final class RuntimeCacheSingleton implements Iterator, ArrayAccess , Serializabl
      */
     private function __construct()
     {
-        $this->position = 0;
-    }
-
-    // Implement Iterator
-
-    /**
-     * @var integer
-     */
-    private $position = 0;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function current()
-    {
-        $keys   = array_keys($this->cache);
-        $key    = $keys[$this->position];
-
-        return $this->cache[$key];
+        $this->scope = self::SCOPE_DEFAULT;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function key()
+    public function setScope($scope = null)
     {
-        $keys   = array_keys($this->cache);
-
-        return $keys[$this->position];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function next()
-    {
-        ++$this->position;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function rewind()
-    {
-        $this->position = 0;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function valid()
-    {
-        $keys = array_keys($this->cache);
-        $key  = null;
-
-        if ($this->position < count($keys)) {
-            $key = $keys[$this->position];
+        if (is_null($scope)) {
+            return $this->clearScope();
         }
 
-        return !is_null($key)
-            ? isset($this->cache[$key])
-            : false ;
-    }
+        $this->scope = $scope;
 
-    // Implement ArrayAccess
-
-    /**
-     * {@inheritdoc}
-     */
-    public function offsetExists($offset)
-    {
-        return isset($this->cache[$offset]);
+        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function offsetGet($offset)
+    public function getScope()
     {
-        return isset($this->cache[$offset])
-            ? $this->cache[$offset]
-            : null ;
+        return $this->scope;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function offsetSet($offset, $value)
+    public function clearScope()
     {
-        if (is_null($offset)) {
-            $this->cache[] = $value;
-        } else {
-            $this->cache[$offset] = $value;
-        }
+        $this->scope = self::SCOPE_DEFAULT;
+
+        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function offsetUnset($offset)
+    public function get($key, $scope = null)
     {
-        unset($this->cache[$offset]);
+        $scope = is_null($scope) ? $this->getScope() : $scope;
+
+        return $this->has($key, $scope)
+            ? $this->cache[$scope][$key]
+            : null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function has($key, $scope = null)
+    {
+        $scope = is_null($scope) ? $this->getScope() : $scope;
+
+        return isset($this->cache[$scope][$key]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function set($key, $value, $scope = null)
+    {
+        $scope = is_null($scope) ? $this->getScope() : $scope;
+
+        $this->cache[$scope][$key] = $value;
+
+        return $this;
+    }
+
+    public function remove($key, $scope = null)
+    {
+        $scope = is_null($scope) ? $this->getScope() : $scope;
+
+        unset($this->cache[$scope][$key]);
+
+        return $this;
     }
 
     // Implement Serializable
@@ -160,19 +134,8 @@ final class RuntimeCacheSingleton implements Iterator, ArrayAccess , Serializabl
      */
     public function unserialize($serialized)
     {
+        $this->scope = self::SCOPE_DEFAULT;
         $this->cache = unserialize($serialized);
     }
-
-    // Implement Countable
-
-    /**
-     * {@inheritdoc}
-     */
-    public function count()
-    {
-        return count($this->cache);
-    }
-
 }
-
 

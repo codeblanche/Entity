@@ -20,7 +20,7 @@ Yeah, but where does the meat go?
 =================================
 
 In short, it goes in you classes that extend the EntityMarshal and define the properties and types that your entities consist of.
-	
+
 For example:
 
     <?php
@@ -71,3 +71,4 @@ For example:
         public $testTypedArray4;
 
     }
+

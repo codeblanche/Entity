@@ -12,3 +12,4 @@ namespace EntityMarshal\Exception;
 interface ExceptionInterface
 {
 }
+
