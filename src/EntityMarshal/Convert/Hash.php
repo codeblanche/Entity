@@ -59,7 +59,6 @@ class Hash extends AbstractConvert
     {
         $data = $entity->toArray();
 
-        var_dump($this->ignoreKeys);
         if (is_array($this->ignoreKeys) && !empty($this->ignoreKeys)) {
             foreach ($this->ignoreKeys as $key) {
                 unset($data[$key]);
