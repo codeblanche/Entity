@@ -24,7 +24,7 @@ class QueryStringTest extends \PHPUnit_Framework_TestCase
         $this->object = new QueryString(array('var3'));
     }
 
-    protected function testConstruct()
+    public function testConstruct()
     {
         $this->object = new QueryString(array('var3'));
     }
