@@ -1,7 +1,7 @@
 EntityMarshal 0.1.0
 ===================
 
-![Build Status](https://jenkins.loki.kicks-ass.net/job/EntityMarshal/badge/icon)
+[![Build Status](http://jenkins.loki.kicks-ass.net/job/EntityMarshal/badge/icon)](http://jenkins.loki.kicks-ass.net/job/EntityMarshal/)
 
 Example
 -------
