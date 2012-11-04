@@ -1,7 +1,7 @@
 EntityMarshal v0.?.?
 ===================
 
-Build status: ![Build Status](http://jenkins.loki.kicks-ass.net/job/EntityMarshal/badge/icon)
+Build status: ![Build Status](https://jenkins.loki.kicks-ass.net/job/EntityMarshal/badge/icon)
 
 Tame your entities & Marshal them like a boss
 =============================================
