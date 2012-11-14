@@ -83,7 +83,7 @@
   <exec executable="phpmd">
    <arg path="${basedir}/src" />
    <arg value="xml" />
-   <arg value="${basedir}/build/phpmd.xml" />
+   <arg value="codesize,unusedcode,naming,design" />
    <arg value="--reportfile" />
    <arg value="${basedir}/build/logs/pmd.xml" />
   </exec>
@@ -101,7 +101,7 @@
   <exec executable="phpcs" output="/dev/null">
    <arg value="--report=checkstyle" />
    <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
-   <arg value="--standard=${basedir}/build/phpcs.xml" />
+   <arg value="--standard=PSR2" />
    <arg path="${basedir}/src" />
   </exec>
  </target>
