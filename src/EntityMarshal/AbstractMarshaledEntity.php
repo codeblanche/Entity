@@ -54,17 +54,16 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
      * @var array       Maps phpdoc types to native types for casting.
      */
     private $castMap = array(
-        'int'       => 'int',
+        'int'       => 'integer',
         'integer'   => 'integer',
-        'long'      => 'long',
-        'bool'      => 'bool',
+        'long'      => 'integer',
+        'bool'      => 'boolean',
         'boolean'   => 'boolean',
         'float'     => 'float',
-        'double'    => 'double',
-        'real'      => 'real',
+        'double'    => 'float',
+        'real'      => 'float',
         'string'    => 'string',
-        'unset'     => 'unset',
-        'null'      => 'unset',
+        'charr'     => 'string',
     );
 
     /**
@@ -402,7 +401,7 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
             : null;
 
         if (!is_null($castType) && is_scalar($value)) {
-            $casted = $this->cast($value, $castType);
+            $casted = $this->castScalar($value, $castType);
 
             if (empty($value)) {
                 $value = $casted;
@@ -427,6 +426,10 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
         $mappedType = isset($this->typeMap[$type])
             ? $this->typeMap[$type]
             : $this->typeMap['*'];
+
+        if ($mappedType === 'null') {
+            return null;
+        }
 
         if (
             $mappedType === 'object' &&
@@ -496,52 +499,27 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
     }
 
     /**
-     * Cast a value to the desired type.
+     * Cast a value to the desired scalar type. Value remains unchanged if type is not scalar.
      *
      * @param mixed  $value The value you went to cast
      * @param string $type  The type you want to cast to
      *
      * @return mixed
-     * @throws RuntimeException
      */
-    private function cast($value, $type)
+    private function castScalar($value, $type)
     {
         switch ($type) {
-            case 'int':
             case 'integer':
-            case 'long':
-                if (is_numeric($value)) {
-                    $value = (integer) $value;
-                }
+                $value = (integer) $value;
                 break;
-            case 'bool':
             case 'boolean':
                 $value = (boolean) $value;
                 break;
             case 'float':
-            case 'double':
-            case 'real':
                 $value = (float) $value;
                 break;
             case 'string':
                 $value = (string) $value;
-                break;
-            case 'array':
-                $value = (array) $value;
-                break;
-            case 'object':
-                $value = (object) $value;
-                break;
-            case 'unset':
-                $value = (unset) $value;
-                break;
-            default:
-                throw new RuntimeException(
-                    sprintf(
-                        "Attempt to cast value to invalid type '%s'",
-                        $type
-                    )
-                );
                 break;
         }
 

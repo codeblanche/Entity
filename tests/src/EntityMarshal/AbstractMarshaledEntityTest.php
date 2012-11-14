@@ -249,6 +249,7 @@ class AbstractMarshaledEntityTest extends PHPUnit_Framework_TestCase
         $this->object->set('nil1', 0);
         $this->assertNull($this->object->get('nil1'));
     }
+
 }
 
 

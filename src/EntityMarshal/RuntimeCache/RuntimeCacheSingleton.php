@@ -37,7 +37,7 @@ final class RuntimeCacheSingleton implements RuntimeCacheInterface, Serializable
     }
 
     /**
-     * Private constructor to ensure singletonnnnness
+     * Private constructor to ensure singularity
      */
     private function __construct()
     {
