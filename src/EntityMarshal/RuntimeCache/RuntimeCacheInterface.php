@@ -5,11 +5,6 @@ namespace EntityMarshal\RuntimeCache;
 interface RuntimeCacheInterface
 {
     /**
-     * @return RuntimeCacheInterface
-     */
-    public static function getInstance();
-
-    /**
      * Switch runtime cache to non-global scope
      *
      * @param string $scope
