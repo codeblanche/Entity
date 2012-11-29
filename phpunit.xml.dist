@@ -19,6 +19,7 @@
     <filter>
         <blacklist>
             <directory suffic=".php">vendor</directory>
+            <directory suffic=".php">examples</directory>
         </blacklist>
     </filter>
     <logging>
