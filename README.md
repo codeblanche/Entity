@@ -53,5 +53,8 @@ class StdObjectPropertyMarshaledEntity extends \EntityMarshal\Entity\Marshaled\O
     public $testTypedArray4;
 
 }
+
+// omit closing tag from files containing only php.
+?>
 ```
 
