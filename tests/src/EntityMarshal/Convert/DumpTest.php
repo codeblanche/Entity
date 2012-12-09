@@ -115,9 +115,7 @@ EOE;
             'o5'    => null,
         ));
 
-        $result = $root->convert(new Dump);
-
-        echo $result;
+        echo $root->convert(new Dump);
     }
 
 
