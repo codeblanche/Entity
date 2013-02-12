@@ -7,8 +7,6 @@ Example
 -------
 
 ```php
-<?php
-
 class StdObjectPropertyMarshaledEntity extends \EntityMarshal\Entity\Marshaled\ObjectPropertyEntity
 {
 
@@ -54,4 +52,3 @@ class StdObjectPropertyMarshaledEntity extends \EntityMarshal\Entity\Marshaled\O
 
 }
 ```
-
