@@ -2,8 +2,8 @@
 
 namespace EntityMarshal\Definition;
 
+use EntityMarshal\Definition\Abstraction\PropertyDefinitionInterface;
 use EntityMarshal\Definition\PropertyDefinition;
-use EntityMarshal\Definition\PropertyDefinitionCollection;
 use EntityMarshal\Exception\InvalidArgumentException;
 use Iterator;
 
@@ -21,18 +21,22 @@ class PropertyDefinitionCollection
     private static $propertyPrototype;
 
     /**
-     * @var     array   Associative collection of properties by $name => PropertyInterface
+     * @var array Associative collection of properties by $name => PropertyInterface
      */
     protected $collection = array();
 
     /**
      * Constructor override
      *
-     * @param   PropertyDefnitionInterface $propertyPrototype
+     * @param PropertyDefnitionInterface $propertyPrototype
      */
-    public function __construct($propertyPrototype = null)
+    public function __construct(PropertyDefnitionInterface $propertyPrototype = null)
     {
-        self::$propertyPrototype = $propertyPrototype instanceof PropertyDefnitionInterface ? $propertyPrototype : new PropertyDefinition;
+        if (!($propertyPrototype instanceof PropertyDefinitionInterface)) {
+            $propertyPrototype = new PropertyDefinition();
+        }
+
+        self::$propertyPrototype = $propertyPrototype;
     }
 
     /**
@@ -70,21 +74,6 @@ class PropertyDefinitionCollection
     }
 
     /**
-     * Add a single property and type
-     *
-     * @param   string $name
-     * @param   string $type
-     */
-    public function add($name, $type)
-    {
-        $property = clone self::$propertyPrototype;
-
-        $this->collection[$name] = $property->setName($name)->setRawTypeType($type);
-
-        return $this;
-    }
-
-    /**
      * Add a list of properties and types
      *
      * @param   array $list   key=>type pair list of properties and types.
@@ -101,6 +90,23 @@ class PropertyDefinitionCollection
         foreach ($list as $name => $type) {
             $this->add($name, $type);
         }
+
+        return $this;
+    }
+
+    /**
+     * Add a single property and type
+     *
+     * @param string $name
+     * @param string $type
+     *
+     * @return PropertyDefinitionCollection
+     */
+    public function add($name, $type)
+    {
+        $property = clone self::$propertyPrototype;
+
+        $this->collection[$name] = $property->setName($name)->setRawTypeType($type);
 
         return $this;
     }

@@ -2,7 +2,7 @@
 
 namespace EntityMarshal\Definition;
 
-use EntityMarshal\Definition\PropertyDefnitionInterface;
+use EntityMarshal\Definition\Abstraction\PropertyDefinitionInterface;
 
 /**
  * Class Property
@@ -10,7 +10,7 @@ use EntityMarshal\Definition\PropertyDefnitionInterface;
  * @author    Merten van Gerven
  * @copyright (c) 2013, Merten van Gerven
  */
-class PropertyDefinition implements PropertyDefnitionInterface
+class PropertyDefinition implements PropertyDefinitionInterface
 {
     /**
      * @var     string      Property name

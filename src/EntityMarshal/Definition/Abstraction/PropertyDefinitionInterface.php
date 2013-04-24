@@ -1,6 +1,6 @@
 <?php
 
-namespace EntityMarshal\Definition;
+namespace EntityMarshal\Definition\Abstraction;
 
 /**
  * Interface PropertyDefnitionInterface
