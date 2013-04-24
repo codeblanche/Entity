@@ -1,6 +1,6 @@
 <?php
 
-namespace EntityMarshal;
+namespace EntityMarshal\Abstraction;
 
 /**
  * Allows dynamic properties to be set on EntityMarshal(S) implementing this interface.

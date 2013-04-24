@@ -1,13 +1,13 @@
 <?php
 
-namespace EntityMarshal\Exception;
+namespace EntityMarshal\Converter\Exception;
 
 /**
  * @author     Merten van Gerven
  * @package    EntityMarshal
  * @subpackage Exception
  */
-class InvalidArgumentException extends \InvalidArgumentException
+class RuntimeException extends \RuntimeException
 {
 }
 

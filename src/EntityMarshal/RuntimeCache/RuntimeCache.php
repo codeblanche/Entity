@@ -2,15 +2,16 @@
 
 namespace EntityMarshal\RuntimeCache;
 
+use EntityMarshal\RuntimeCache\Abstraction\RuntimeCacheInterface;
 use Serializable;
 
-final class RuntimeCache implements RuntimeCacheInterface, Serializable
+final class RuntimeCache implements RuntimeCacheInterfacee, Serializable
 {
     const SCOPE_DEFAULT = 'global';
 
     /**
-    * @var array
-    */
+     * @var array
+     */
     private $cache = array();
 
     /**
@@ -65,9 +66,7 @@ final class RuntimeCache implements RuntimeCacheInterface, Serializable
     {
         $scope = is_null($scope) ? $this->getScope() : $scope;
 
-        return $this->has($key, $scope)
-            ? $this->cache[$scope][$key]
-            : null;
+        return $this->has($key, $scope) ? $this->cache[$scope][$key] : null;
     }
 
     /**

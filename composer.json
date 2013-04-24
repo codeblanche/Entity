@@ -1,18 +1,27 @@
 {
-    "name"          : "mertenvg/entitymarshal",
-    "description"   : "A marshal for your entity",
-    "license"       : "MIT",
-    "keywords"      : [
+    "name"              : "mertenvg/entitymarshal",
+    "description"       : "A marshal for your entity",
+    "authors"           : [
+        {
+            "name"  : "Merten van Gerven",
+            "email" : "merten@codeblanche.com"
+        }
+    ],
+    "minimum-stability" : "dev",
+    "license"           : "MIT",
+    "keywords"          : [
         "EntityMarshal",
         "PHP EntityMarshal",
         "PHP"
     ],
-    "require"       : {
-        "php": ">=5.3.3"
+    "require"           : {
+        "php" : ">=5.3.3"
     },
-    "autoload"      : {
-        "psr-0": {"EntityMarshal": "src/"},
-        "classmap": ["./"]
+    "autoload"          : {
+        "classmap" : ["./"],
+        "psr-0"    : {
+            "EntityMarshal" : "src/"
+        }
     }
 }
 

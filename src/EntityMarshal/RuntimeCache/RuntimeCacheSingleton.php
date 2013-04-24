@@ -2,12 +2,12 @@
 
 namespace EntityMarshal\RuntimeCache;
 
-final class RuntimeCacheSingleton implements RuntimeCacheSingletonInterface
+final class RuntimeCacheSingleton
 {
     const SCOPE_DEFAULT = 'global';
 
     /**
-     * @var RuntimeCacheInterface Singleton instance.
+     * @var RuntimeCache Singleton instance.
      */
     protected static $instance;
 

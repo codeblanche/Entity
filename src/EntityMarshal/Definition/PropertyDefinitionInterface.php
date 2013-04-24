@@ -5,7 +5,7 @@ namespace EntityMarshal\Definition;
 /**
  * Interface PropertyDefnitionInterface
  *
- * @author Merten van Gerven
+ * @author    Merten van Gerven
  * @copyright (c) 2013, Merten van Gerven
  */
 interface PropertyDefinitionInterface
@@ -16,7 +16,8 @@ interface PropertyDefinitionInterface
     public function getName();
 
     /**
-     * @param   string      $name
+     * @param   string $name
+     *
      * @return  \EntityMarshal\Definition\PropertyDefinition
      */
     public function setName($name);
@@ -27,7 +28,8 @@ interface PropertyDefinitionInterface
     public function getRawType();
 
     /**
-     * @param   string      $rawType
+     * @param   string $rawType
+     *
      * @return  \EntityMarshal\Definition\PropertyDefinition
      */
     public function setRawType($rawType);
@@ -38,7 +40,8 @@ interface PropertyDefinitionInterface
     public function getType();
 
     /**
-     * @param   string      $type
+     * @param   string $type
+     *
      * @return  \EntityMarshal\Definition\PropertyDefinition
      */
     public function setType($type);
@@ -49,7 +52,8 @@ interface PropertyDefinitionInterface
     public function getGenericType();
 
     /**
-     * @param   string      $generic
+     * @param   string $generic
+     *
      * @return  \EntityMarshal\Definition\PropertyDefinition
      */
     public function setGenericType($genericType);

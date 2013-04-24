@@ -2,13 +2,15 @@
 
 namespace EntityMarshal\Converter\Abstraction;
 
+use EntityMarshal\Converter\Abstraction\ConverterStrategyInterface;
+
 /**
  * @author      Merten van Gerven
  * @category    EntityMarshal
  * @package     EntityMarshal\ConverterStrategy
  * @abstract
  */
-abstract class AbstractEntityConversionStrategy implements EntityConversionStrategyInterface
+abstract class ConverterStrategy implements ConverterStrategyInterface
 {
     /**
      * @var     array   List of object references to check for circular referencing.
@@ -17,6 +19,7 @@ abstract class AbstractEntityConversionStrategy implements EntityConversionStrat
 
     /**
      * @param  object|array $value
+     *
      * @return boolean
      */
     protected function isCircularReference(&$value)

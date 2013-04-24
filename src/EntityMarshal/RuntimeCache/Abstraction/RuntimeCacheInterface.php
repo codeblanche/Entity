@@ -1,6 +1,6 @@
 <?php
 
-namespace EntityMarshal\RuntimeCache;
+namespace EntityMarshal\RuntimeCache\Abstraction;
 
 interface RuntimeCacheInterface
 {

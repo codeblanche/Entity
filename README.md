@@ -1,14 +1,12 @@
 EntityMarshal 0.1.0
 ===================
 
-[![Build Status](http://jenkins.loki.kicks-ass.net/job/EntityMarshal/badge/icon)](http://jenkins.loki.kicks-ass.net/job/EntityMarshal/)
-
 Example
 -------
 
 ```php
 
-class StdObjectPropertyMarshaledEntity extends \EntityMarshal\Entity\Marshaled\ObjectPropertyEntity
+class MyEntity extends \EntityMarshal\Entity\Marshaled\ObjectPropertyEntity
 {
 
     /**
@@ -52,12 +50,5 @@ class StdObjectPropertyMarshaledEntity extends \EntityMarshal\Entity\Marshaled\O
     public $testTypedArray4;
 
 }
-<<<<<<< HEAD
-=======
-
-// omit closing tag from files containing only php.
-?>
-```
->>>>>>> 18c2df6fbf017bcc3ae51bec6596ba923b639546
 
 ```

@@ -1,13 +1,13 @@
 <?php
 
-namespace EntityMarshal\RuntimeCache;
+namespace EntityMarshal\RuntimeCache\Abstraction;
 
 interface RuntimeCacheEnabledInterface
 {
     /**
      * Get the runtime cache instance.
      *
-     * @return RuntimeCacheInterface
+     * @return RuntimeCacheInterfacee
      */
     public function getRuntimeCache();
 }

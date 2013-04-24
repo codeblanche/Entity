@@ -7,7 +7,7 @@ use EntityMarshal\Definition\PropertyDefnitionInterface;
 /**
  * Class Property
  *
- * @author Merten van Gerven
+ * @author    Merten van Gerven
  * @copyright (c) 2013, Merten van Gerven
  */
 class PropertyDefinition implements PropertyDefnitionInterface
@@ -125,7 +125,7 @@ class PropertyDefinition implements PropertyDefnitionInterface
     /**
      * Extract the generic subtype from the specified type if there is one.
      *
-     * @param   string      $type
+     * @param   string $type
      *
      * @return  string|null
      */

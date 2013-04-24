@@ -27,7 +27,6 @@ class PropertyCollectionTest extends \PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-
     }
 
     /**
@@ -37,9 +36,7 @@ class PropertyCollectionTest extends \PHPUnit_Framework_TestCase
     public function testAdd()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
@@ -49,9 +46,7 @@ class PropertyCollectionTest extends \PHPUnit_Framework_TestCase
     public function testImport()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
@@ -61,8 +56,6 @@ class PropertyCollectionTest extends \PHPUnit_Framework_TestCase
     public function testExport()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 }

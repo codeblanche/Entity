@@ -10,7 +10,7 @@ use Iterator;
 /**
  * Class PropertyCollection
  *
- * @author Merten van Gerven
+ * @author    Merten van Gerven
  * @copyright (c) 2013, Merten van Gerven
  */
 class PropertyDefinitionCollection
@@ -28,7 +28,7 @@ class PropertyDefinitionCollection
     /**
      * Constructor override
      *
-     * @param   PropertyDefnitionInterface   $propertyPrototype
+     * @param   PropertyDefnitionInterface $propertyPrototype
      */
     public function __construct($propertyPrototype = null)
     {
@@ -38,7 +38,8 @@ class PropertyDefinitionCollection
     /**
      * Check whether collection contains a specified key
      *
-     * @param   string      $name
+     * @param   string $name
+     *
      * @return  boolean
      */
     public function has($name)
@@ -49,14 +50,13 @@ class PropertyDefinitionCollection
     /**
      * Retrieve the property definition by name.
      *
-     * @param   string      $name
+     * @param   string $name
+     *
      * @return  PropertyDefnitionInterface
      */
     public function get($name)
     {
-        return isset($this->collection[$name])
-            ? $this->collection[$name]
-            : null;
+        return isset($this->collection[$name]) ? $this->collection[$name] : null;
     }
 
     /**
@@ -72,8 +72,8 @@ class PropertyDefinitionCollection
     /**
      * Add a single property and type
      *
-     * @param   string  $name
-     * @param   string  $type
+     * @param   string $name
+     * @param   string $type
      */
     public function add($name, $type)
     {
@@ -87,7 +87,8 @@ class PropertyDefinitionCollection
     /**
      * Add a list of properties and types
      *
-     * @param   array   $list   key=>type pair list of properties and types.
+     * @param   array $list   key=>type pair list of properties and types.
+     *
      * @return  PropertyDefinitionCollection
      * @throws  InvalidArgumentException
      */
@@ -113,7 +114,8 @@ class PropertyDefinitionCollection
     {
         $result = array();
 
-        foreach ($this->collection as $name => $property) { /* @var $property PropertyDefnitionInterface */
+        foreach ($this->collection as $name => $property) {
+            /* @var $property PropertyDefnitionInterface */
             $result[$name] = $property->getRawType();
         }
 

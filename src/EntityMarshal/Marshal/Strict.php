@@ -5,7 +5,7 @@ namespace EntityMarshal\Marshal;
 /**
  * Class Strict
  *
- * @author Merten van Gerven
+ * @author    Merten van Gerven
  * @copyright (c) 2013, Merten van Gerven
  */
 class Strict extends Named
@@ -21,5 +21,4 @@ class Strict extends Named
 
         return $value;
     }
-
 }

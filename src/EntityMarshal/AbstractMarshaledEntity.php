@@ -18,52 +18,50 @@ use Traversable;
  * @category    EntityMarshal
  * @package     EntityMarshal
  */
-abstract class AbstractMarshaledEntity extends AbstractEntity implements
-     MarshaledEntityInterface,
-     RuntimeCacheEnabledInterface
+abstract class AbstractMarshaledEntity extends AbstractEntity implements MarshaledEntityInterface, RuntimeCacheEnabledInterface
 {
     /**
      * @var array       Maps phpdoc types to native (is_*) and/or user defined (instancof) types for validation.
      */
     private $typeMap = array(
-        'array'     => 'array',
-        'bool'      => 'bool',
-        'callable'  => 'callable',
-        'double'    => 'double',
-        'float'     => 'float',
-        'int'       => 'int',
-        'integer'   => 'integer',
-        'long'      => 'long',
-        'null'      => 'null',
-        'numeric'   => 'numeric',
-        'object'    => 'object',
-        'real'      => 'real',
-        'resource'  => 'resource',
-        'scalar'    => 'scalar',
-        'string'    => 'string',
-        'boolean'   => 'bool',
-        'int'       => 'numeric',
-        'integer'   => 'numeric',
-        'double'    => 'numeric',
-        'float'     => 'numeric',
+        'array'    => 'array',
+        'bool'     => 'bool',
+        'callable' => 'callable',
+        'double'   => 'double',
+        'float'    => 'float',
+        'int'      => 'int',
+        'integer'  => 'integer',
+        'long'     => 'long',
+        'null'     => 'null',
+        'numeric'  => 'numeric',
+        'object'   => 'object',
+        'real'     => 'real',
+        'resource' => 'resource',
+        'scalar'   => 'scalar',
+        'string'   => 'string',
+        'boolean'  => 'bool',
+        'int'      => 'numeric',
+        'integer'  => 'numeric',
+        'double'   => 'numeric',
+        'float'    => 'numeric',
         // default
-        '*'         => 'object',
+        '*'        => 'object',
     );
 
     /**
      * @var array       Maps phpdoc types to native types for casting.
      */
     private $castMap = array(
-        'int'       => 'integer',
-        'integer'   => 'integer',
-        'long'      => 'integer',
-        'bool'      => 'boolean',
-        'boolean'   => 'boolean',
-        'float'     => 'float',
-        'double'    => 'float',
-        'real'      => 'float',
-        'string'    => 'string',
-        'charr'     => 'string',
+        'int'     => 'integer',
+        'integer' => 'integer',
+        'long'    => 'integer',
+        'bool'    => 'boolean',
+        'boolean' => 'boolean',
+        'float'   => 'float',
+        'double'  => 'float',
+        'real'    => 'float',
+        'string'  => 'string',
+        'charr'   => 'string',
     );
 
     /**
@@ -94,14 +92,15 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
      */
     protected function initialize()
     {
-        $class          = $this->calledClassName();
-        $cache          = $this->getRuntimeCache();
-        $definitions    = $cache->get($class);
+        $class       = $this->calledClassName();
+        $cache       = $this->getRuntimeCache();
+        $definitions = $cache->get($class);
 
         if (!is_null($definitions)) {
-            $this->types     = $definitions['types'];
-            $this->generics  = $definitions['generics'];
-        } else {
+            $this->types    = $definitions['types'];
+            $this->generics = $definitions['generics'];
+        }
+        else {
             $defaultType = $this->defaultPropertyType();
             $defaults    = $this->defaultValues();
             $properties  = $this->propertiesAndTypes();
@@ -109,21 +108,16 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
             $this->initializeProperty('*', $defaultType);
 
             foreach ($properties as $name => $type) {
-                $value = isset($defaults[$name])
-                    ? $defaults[$name]
-                    : null;
+                $value = isset($defaults[$name]) ? $defaults[$name] : null;
 
                 $this->initializeProperty($name, $type);
                 $this->set($name, $value);
             }
 
-            $cache->set(
-                $class,
-                array(
-                    'types'     => $this->types,
-                    'generics'  => $this->generics,
-                )
-            );
+            $cache->set($class, array(
+                                     'types'    => $this->types,
+                                     'generics' => $this->generics,
+                                ));
         }
 
         parent::initialize();
@@ -134,32 +128,18 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
         if (empty($type)) {
             $type    = $this->types['*'];
             $generic = $this->generics['*'];
-        } else {
+        }
+        else {
             $generic = $this->extractGeneric($type);
         }
 
         if (strpos($type, '|')) {
-            throw new RuntimeException(
-                sprintf(
-                    "'%s' indicates a 'mixed' type in phpdoc for property '%s' of class '%s'. ".
-                    "Please use 'mixed' instead.",
-                    $type,
-                    $name,
-                    $this->calledClassName()
-                )
-            );
+            throw new RuntimeException(sprintf("'%s' indicates a 'mixed' type in phpdoc for property '%s' of class '%s'. " . "Please use 'mixed' instead.", $type, $name, $this->calledClassName()));
         }
 
         if (!is_null($generic)) {
             if (!$this->isValidType($generic)) {
-                throw new RuntimeException(
-                    sprintf(
-                        "'%s' is not a valid native or object/class type in phpdoc for property '%s' of class '%s'",
-                        $generic,
-                        $name,
-                        $this->calledClassName()
-                    )
-                );
+                throw new RuntimeException(sprintf("'%s' is not a valid native or object/class type in phpdoc for property '%s' of class '%s'", $generic, $name, $this->calledClassName()));
             }
 
             $this->generics[$name] = $generic;
@@ -168,19 +148,11 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
         }
 
         if (!$this->isValidType($type)) {
-            throw new RuntimeException(
-                sprintf(
-                    "'%s' is not a valid native or object/class type in phpdoc for property '%s' of class '%s'",
-                    $type,
-                    $name,
-                    $this->calledClassName()
-                )
-            );
+            throw new RuntimeException(sprintf("'%s' is not a valid native or object/class type in phpdoc for property '%s' of class '%s'", $type, $name, $this->calledClassName()));
         }
 
         $this->types[$name] = $type;
     }
-
 
     /**
      * Check if the specified type is valid.
@@ -191,10 +163,7 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
      */
     private function isValidType($type)
     {
-        if (
-            !isset($this->typeMap[$type]) &&
-            $type !== 'mixed' &&
-            !class_exists($this->namespaced($type))
+        if (!isset($this->typeMap[$type]) && $type !== 'mixed' && !class_exists($this->namespaced($type))
         ) {
             return false;
         }
@@ -231,9 +200,8 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
 
         if (substr($type, -2) === '[]') {
             $generic = substr($type, 0, -2);
-        } elseif (
-            strtolower(substr($type, 0, 6)) === 'array<' &&
-            substr($type, -1) === '>'
+        }
+        elseif (strtolower(substr($type, 0, 6)) === 'array<' && substr($type, -1) === '>'
         ) {
             $generic = preg_replace('/^array<([^>]+)>$/i', '$1', $type);
         }
@@ -249,35 +217,23 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
         if (!isset($this->types[$name])) {
             if ($this instanceof DynamicPropertyInterface) {
                 $generic = $this->getGeneric('*');
-                $type    = !is_null($generic)
-                    ? "{$generic}[]"
-                    : $this->getType('*');
+                $type    = !is_null($generic) ? "{$generic}[]" : $this->getType('*');
 
                 $this->initializeProperty($name, $type);
-            } else {
+            }
+            else {
                 if ($this->graceful) {
                     return $this;
                 }
 
-                throw new RuntimeException(
-                    sprintf(
-                        "Attempt to set property '%s' of class '%s' failed. Property does not exist.",
-                        $name,
-                        $this->calledClassName()
-                    )
-                );
+                throw new RuntimeException(sprintf("Attempt to set property '%s' of class '%s' failed. Property does not exist.", $name, $this->calledClassName()));
             }
         }
 
         if (!is_null($value)) {
             $type    = $this->getType($name);
             $generic = $this->getGeneric($name);
-            $value   = $this->prepareValue(
-                $value,
-                $type,
-                $generic,
-                $name
-            );
+            $value   = $this->prepareValue($value, $type, $generic, $name);
         }
 
         return parent::set($name, $value);
@@ -290,16 +246,14 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
     {
         if (!is_array($data) && !($data instanceof Traversable)) {
             $className = $this->calledClassName();
-            throw new Exception\RuntimeException(
-                "Unable to import from array in class '$className' failed. Argument must be an array or Traversable"
-            );
+            throw new Exception\RuntimeException("Unable to import from array in class '$className' failed. Argument must be an array or Traversable");
         }
 
         if ($this instanceof DynamicPropertyInterface) {
             return parent::fromArray($data);
         }
 
-        $types  = $this->types;
+        $types = $this->types;
 
         unset($types['*']);
 
@@ -308,8 +262,9 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
 
         foreach ($names as $name) {
             if (array_key_exists($name, $data)) {
-                $usable[$name] = &$data[$name];
-            } else {
+                $usable[$name] = & $data[$name];
+            }
+            else {
                 $usable[$name] = null;
             }
         }
@@ -350,31 +305,29 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
     }
 
     /**
-    * Prepare a value for storage according to required types.
-    *
-    * @param mixed $value
-    * @param string $type
-    * @param string $generic
-    * @param string $name
-    *
-    * @return mixed
-    *
-    * @throws RuntimeException
-    */
+     * Prepare a value for storage according to required types.
+     *
+     * @param mixed  $value
+     * @param string $type
+     * @param string $generic
+     * @param string $name
+     *
+     * @return mixed
+     * @throws RuntimeException
+     */
     private function prepareValue($value, $type, $generic = null, $name = '')
     {
         $definedType = $type;
 
-        $castType = isset($this->castMap[$type])
-            ? $this->castMap[$type]
-            : null;
+        $castType = isset($this->castMap[$type]) ? $this->castMap[$type] : null;
 
         if (!is_null($castType) && is_scalar($value)) {
             $casted = $this->castScalar($value, $castType);
 
             if (empty($value)) {
                 $value = $casted;
-            } elseif ($value == $casted) {
+            }
+            elseif ($value == $casted) {
                 $value = $casted;
             }
 
@@ -383,51 +336,24 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
 
         if (!is_null($generic) && (is_array($value) || $value instanceof Traversable)) {
             foreach ($value as $key => $val) {
-                $value[$key] = $this->prepareValue(
-                    $val,
-                    $generic,
-                    null,
-                    "{$name}[{$key}]"
-                );
+                $value[$key] = $this->prepareValue($val, $generic, null, "{$name}[{$key}]");
             }
         }
 
-        $mappedType = isset($this->typeMap[$type])
-            ? $this->typeMap[$type]
-            : $this->typeMap['*'];
+        $mappedType = isset($this->typeMap[$type]) ? $this->typeMap[$type] : $this->typeMap['*'];
 
         if ($mappedType === 'null') {
             return null;
         }
 
-        if (
-            $mappedType === 'object' &&
-            !is_object($value) && (
-                is_array($value) ||
-                $value instanceof Traversable
-        )) {
+        if ($mappedType === 'object' && !is_object($value) && (is_array($value) || $value instanceof Traversable)) {
             $value = $this->castToObject($value, $definedType);
         }
 
-        if (!$this->graceful && $type !== 'mixed' && !is_null($value) && (
-            !call_user_func("is_$mappedType", $value) || (
-                $mappedType === 'object' &&
-                $type !== 'object' &&
-                !($value instanceof $type)
-        ))) {
+        if (!$this->graceful && $type !== 'mixed' && !is_null($value) && (!call_user_func("is_$mappedType", $value) || ($mappedType === 'object' && $type !== 'object' && !($value instanceof $type)))) {
             $valueType = gettype($value);
 
-            throw new RuntimeException(
-                sprintf(
-                    "Attempt to set property '%s' of class '%s' failed. ".
-                    "Property type '%s' expected while type '%s' was given for value '%s'",
-                    $name,
-                    $this->calledClassName(),
-                    $type,
-                    $valueType,
-                    var_export($value, true)
-                )
-            );
+            throw new RuntimeException(sprintf("Attempt to set property '%s' of class '%s' failed. " . "Property type '%s' expected while type '%s' was given for value '%s'", $name, $this->calledClassName(), $type, $valueType, var_export($value, true)));
         }
 
         return $value;
@@ -447,15 +373,12 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
             return $value;
         }
 
-        if (
-            class_exists($type) &&
-            is_subclass_of($type, '\EntityMarshal\AbstractEntity')
+        if (class_exists($type) && is_subclass_of($type, '\EntityMarshal\AbstractEntity')
         ) {
             $value = new $type($value);
-        } else {
-            $obj = $type === 'object'
-                ? new stdClass()
-                : new $type();
+        }
+        else {
+            $obj = $type === 'object' ? new stdClass() : new $type();
 
             foreach ($value as $key => $val) {
                 $obj->$key = $val;
@@ -479,16 +402,16 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
     {
         switch ($type) {
             case 'integer':
-                $value = (integer) $value;
+                $value = (integer)$value;
                 break;
             case 'boolean':
-                $value = (boolean) $value;
+                $value = (boolean)$value;
                 break;
             case 'float':
-                $value = (float) $value;
+                $value = (float)$value;
                 break;
             case 'string':
-                $value = (string) $value;
+                $value = (string)$value;
                 break;
         }
 
@@ -549,13 +472,11 @@ abstract class AbstractMarshaledEntity extends AbstractEntity implements
      */
     public function serialize()
     {
-        return serialize(
-            array(
-                'types'      => $this->types,
-                'generics'   => $this->generics,
-                'properties' => parent::serialize(),
-            )
-        );
+        return serialize(array(
+                              'types'      => $this->types,
+                              'generics'   => $this->generics,
+                              'properties' => parent::serialize(),
+                         ));
     }
 
     /**
