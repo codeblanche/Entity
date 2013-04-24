@@ -1,6 +1,6 @@
 <?php
 
-namespace EntityMarshal\Marshal;
+namespace EntityMarshal\Marshal\Abstraction;
 
 /**
  * @author      Merten van Gerven

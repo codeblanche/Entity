@@ -10,7 +10,6 @@ use Traversable;
 
 interface EntityInterface extends Iterator, Serializable, Countable
 {
-
     /**
      * Get the the called class name.
      *

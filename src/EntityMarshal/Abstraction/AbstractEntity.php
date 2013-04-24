@@ -398,4 +398,3 @@ abstract class AbstractEntity implements EntityInterface
         return !is_null($key) ? array_key_exists($key, $this->properties) : false;
     }
 }
-
