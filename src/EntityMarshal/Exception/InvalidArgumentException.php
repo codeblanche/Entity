@@ -7,7 +7,7 @@ namespace EntityMarshal\Exception;
  * @package    EntityMarshal
  * @subpackage Exception
  */
-class RuntimeException extends \RuntimeException implements ExceptionInterface
+class InvalidArgumentException extends \InvalidArgumentException implements ExceptionInterface
 {
 }
 

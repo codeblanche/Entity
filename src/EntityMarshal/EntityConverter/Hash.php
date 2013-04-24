@@ -1,6 +1,6 @@
 <?php
 
-namespace EntityMarshal\Convert;
+namespace EntityMarshal\EntityConversion;
 
 use EntityMarshal\EntityInterface;
 

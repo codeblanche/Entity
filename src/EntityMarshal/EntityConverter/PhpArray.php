@@ -1,16 +1,14 @@
 <?php
 
-namespace EntityMarshal\Convert;
+namespace EntityMarshal\EntityConversion;
 
 use EntityMarshal\EntityInterface;
 use Traversable;
 
 /**
 * Convert and entity to a Dump string
-*
-* @package      EntityMarshal\ConverterStrategy
 */
-class PhpArray extends AbstractConvert
+class PhpArray extends AbstractEntityConversionStrategy
 {
     /**
      * @var boolean

@@ -61,5 +61,19 @@ abstract class ObjectPropertyEntity extends AbstractMarshaledEntity implements O
     {
         $this->set($name, $value);
     }
+
+    /**
+    * {@inheritdoc}
+    */
+    protected function unsetProperties($keys)
+    {
+        if (!is_array($keys) || empty($keys)) {
+            return;
+        }
+
+        foreach ($keys as $key) {
+            unset($this->$key);
+        }
+    }
 }
 

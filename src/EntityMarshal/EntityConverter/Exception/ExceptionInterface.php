@@ -1,6 +1,6 @@
 <?php
 
-namespace EntityMarshal\Convert\Exception;
+namespace EntityMarshal\EntityConversion\Exception;
 
 /**
  * The interface to be implemented by exceptions in the EntityMarshal namespace

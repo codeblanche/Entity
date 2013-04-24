@@ -3,13 +3,14 @@
 namespace EntityMarshal;
 
 use Countable;
-use EntityMarshal\Convert\Strategy\StrategyInterface;
+use EntityMarshal\EntityConversion\EntityConversionStrategyInterface;
 use Iterator;
 use Serializable;
 use Traversable;
 
 interface EntityInterface extends Iterator, Serializable, Countable
 {
+
     /**
      * Get the the called class name.
      *
@@ -53,17 +54,10 @@ interface EntityInterface extends Iterator, Serializable, Countable
     /**
      * Convert the entity using the specified strategy.
      *
-     * @param  StrategyInterface $strategy
+     * @param  EntityConversionStrategyInterface $strategy
      * @return mixed
      */
-    public function convert(StrategyInterface $strategy);
-
-    /**
-     * Convert and print the entity
-     *
-     * @param StrategyInterface $strategy
-     */
-    public function output(StrategyInterface $strategy);
+    public function convert(EntityConversionStrategyInterface $strategy);
 
     /**
      * Shortcut to converting and printing the Dump ConverterStrategy.

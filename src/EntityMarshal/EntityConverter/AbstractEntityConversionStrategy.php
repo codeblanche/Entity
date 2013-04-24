@@ -1,8 +1,6 @@
 <?php
 
-namespace EntityMarshal\Convert;
-
-use EntityMarshal\Convert\Strategy\StrategyInterface;
+namespace EntityMarshal\EntityConversion;
 
 /**
  * @author      Merten van Gerven
@@ -10,7 +8,7 @@ use EntityMarshal\Convert\Strategy\StrategyInterface;
  * @package     EntityMarshal\ConverterStrategy
  * @abstract
  */
-abstract class AbstractConvert implements StrategyInterface
+abstract class AbstractEntityConversionStrategy implements EntityConversionStrategyInterface
 {
     /**
      * @var     array   List of object references to check for circular referencing.

@@ -1,8 +1,8 @@
 <?php
 
-namespace EntityMarshal\Convert\Strategy;
+namespace EntityMarshal\EntityConversion;
 
-interface StrategyInterface
+interface EntityConversionStrategyInterface
 {
     /**
      * @param  \EntityMarshal\EntityInterface  $entity Entity instance
