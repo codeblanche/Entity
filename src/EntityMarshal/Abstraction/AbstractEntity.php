@@ -2,8 +2,6 @@
 
 namespace EntityMarshal;
 
-use EntityMarshal\Convert\Dump;
-use EntityMarshal\Convert\Strategy\StrategyInterface;
 use EntityMarshal\Definition\PropertyDefinition;
 use EntityMarshal\Definition\PropertyDefinitionCollection;
 use EntityMarshal\Definition\PropertyDefnitionInterface;
@@ -140,7 +138,7 @@ abstract class AbstractEntity implements EntityInterface
             return $this->properties;
         }
 
-        return $this->convert(new Convert\PhpArray());
+        return $this->convert(new Converter\PhpArray());
     }
 
     /**

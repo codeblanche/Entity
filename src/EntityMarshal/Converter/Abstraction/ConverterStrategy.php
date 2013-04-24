@@ -1,6 +1,6 @@
 <?php
 
-namespace EntityMarshal\EntityConversion;
+namespace EntityMarshal\Converter\Abstraction;
 
 /**
  * @author      Merten van Gerven
