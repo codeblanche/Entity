@@ -86,10 +86,7 @@ class Dump extends AbstractConvert
 
         if (is_array($data)) {
             $len  = count($data);
-
-            if (is_null($type)) {
-                $type = 'array';
-            }
+            $type = $type ?: 'array';
 
             $this->out[] = "{$this->makeDefinition($type, $len, $name)} {";
 
@@ -115,20 +112,17 @@ class Dump extends AbstractConvert
                 $data = get_object_vars($data);
             }
 
-            $len = count($data);
+            $len    = count($data);
+            $type   = $type ?: get_class($data);
 
             $this->out[] = "{$this->makeDefinition($type, $len, $name)} {";
 
             $this->depth++;
 
             foreach ($data as $key => $val) {
-                $valType = null;
-                if ($data instanceof EntityInterface) {
-                    $valType = $data->typeof($key);
-                } elseif (is_object($val)) {
-                    $valType = get_class($val);
-                }
-
+                $valType = $data instanceof EntityInterface
+                    ? $data->typeof($key)
+                    : null;
                 $this->recurse($val, $key, $valType);
             }
 
@@ -137,7 +131,7 @@ class Dump extends AbstractConvert
             $this->out[] = "{$lpad}}";
 
         } else {
-            $this->convertScalar($data, $name, $type);
+            $this->makeScalarDefinition($data, $name, $type);
 
         }
     }
@@ -164,13 +158,10 @@ class Dump extends AbstractConvert
     /**
      * @param type $value
      */
-    protected function convertScalar($value, $name, $type = null)
+    protected function makeScalarDefinition($value, $name, $type = null)
     {
         $len    = strlen($value);
-
-        if (is_null($type)) {
-            $type = strtolower(gettype($value));
-        }
+        $type   = $type ?: strtolower(gettype($value));
 
         if ($type === 'string') {
             $value = "\"$value\"";

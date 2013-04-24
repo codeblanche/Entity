@@ -13,7 +13,7 @@
 
     <testsuites>
         <testsuite name="EntityMarshal">
-            <directory suffix="Test.php">tests</directory>
+            
         </testsuite>
     </testsuites>
     <filter>
