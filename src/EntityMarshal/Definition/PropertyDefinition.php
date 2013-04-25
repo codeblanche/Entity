@@ -67,9 +67,10 @@ class PropertyDefinition implements PropertyDefinitionInterface
 
         $generic = $this->extractGeneric($rawType);
 
+        $this->setGenericType($generic);
+
         if (!is_null($generic)) {
             $this->setType('array');
-            $this->setGenericType($generic);
         }
         else {
             $this->setType($this->getRawType());
@@ -119,7 +120,7 @@ class PropertyDefinition implements PropertyDefinitionInterface
      */
     public function isGeneric()
     {
-        return !empty($this->genericType);
+        return $this->type === 'array' && !empty($this->genericType);
     }
 
     /**
@@ -141,7 +142,7 @@ class PropertyDefinition implements PropertyDefinitionInterface
             $generic = substr($type, 0, -2);
         }
         elseif (strtolower(substr($type, 0, 6)) === 'array<' && substr($type, -1) === '>') {
-            $generic = preg_replace('/^array<([^>]+)>$/i', '$1', $type);
+            $generic = preg_replace('/^array<([^>]*)>$/i', '$1', $type);
         }
 
         return $generic;
