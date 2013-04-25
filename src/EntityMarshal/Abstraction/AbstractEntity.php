@@ -3,15 +3,16 @@
 namespace EntityMarshal\Abstraction;
 
 use EntityMarshal\Converter\Abstraction\ConverterStrategyInterface;
+use EntityMarshal\Converter\Dump;
 use EntityMarshal\Converter\PhpArray;
-use EntityMarshal\Definition\PropertyDefinition;
+use EntityMarshal\Definition\Abstraction\PropertyDefinitionCollectionInterface;
+use EntityMarshal\Definition\Abstraction\PropertyDefinitionInterface;
 use EntityMarshal\Definition\PropertyDefinitionCollection;
-use EntityMarshal\Definition\PropertyDefnitionInterface;
-use EntityMarshal\EntityInterface;
 use EntityMarshal\Exception\RuntimeException;
-use EntityMarshal\Marshal\MarshalInterface;
+use EntityMarshal\Marshal\Abstraction\MarshalInterface;
+use EntityMarshal\Marshal\Exception\InvalidArgumentException;
 use EntityMarshal\Marshal\Strict;
-use EntityMarshal\RuntimeCache\RuntimeCacheInterface;
+use EntityMarshal\RuntimeCache\Abstraction\RuntimeCacheInterface;
 use EntityMarshal\RuntimeCache\RuntimeCacheSingleton;
 use Traversable;
 
@@ -34,11 +35,6 @@ abstract class AbstractEntity implements EntityInterface
     private $marshal;
 
     /**
-     * @var PropertyDefnitionInterface
-     */
-    private $propertyDefinitionPrototype;
-
-    /**
      * @var RuntimeCacheInterface
      */
     private $runtimeCache;
@@ -49,7 +45,7 @@ abstract class AbstractEntity implements EntityInterface
     private $properties = array();
 
     /**
-     * @var PropertyDefinitionCollection
+     * @var PropertyDefinitionCollectionInterface
      */
     private $definitions;
 
@@ -68,29 +64,35 @@ abstract class AbstractEntity implements EntityInterface
     /**
      * Default constructor.
      *
-     * @param Traversable                $data
-     * @param MarshalInterface           $marshal
-     * @param PropertyDefnitionInterface $propertyDefinitionPrototype
-     * @param RuntimeCacheInterface      $runtimeCache
+     * @param Traversable                           $data
+     * @param MarshalInterface                      $marshal
+     * @param PropertyDefinitionCollectionInterface $propertyDefinitionCollection
+     * @param RuntimeCacheInterface                 $runtimeCache
      */
-    final public function __construct($data = null, MarshalInterface $marshal = null, PropertyDefnitionInterface $propertyDefinitionPrototype = null, RuntimeCacheInterface $runtimeCache = null)
-    {
+    public function __construct(
+        $data = null,
+        MarshalInterface $marshal = null,
+        PropertyDefinitionCollectionInterface $propertyDefinitionCollection = null,
+        RuntimeCacheInterface $runtimeCache = null
+    ) {
         if (!($marshal instanceof MarshalInterface)) {
             $marshal = $this->defaultMarshal();
         }
-        if (!($propertyDefinitionPrototype instanceof PropertyDefnitionInterface)) {
-            $propertyDefinitionPrototype = $this->defaultPropertyDefinition();
+        if (!($propertyDefinitionCollection instanceof PropertyDefinitionCollectionInterface)) {
+            $propertyDefinitionCollection = $this->defaultPropertyDefinitionCollection();
         }
         if (!($runtimeCache instanceof RuntimeCacheInterface)) {
             $runtimeCache = $this->defaultRuntimeCache();
         }
 
-        $this->position                    = 0;
-        $this->marshal                     = $marshal;
-        $this->propertyDefinitionPrototype = $propertyDefinitionPrototype;
-        $this->runtimeCache                = $runtimeCache;
+        $this->position     = 0;
+        $this->marshal      = $marshal;
+        $this->runtimeCache = $runtimeCache;
+        $this->definitions  = $propertyDefinitionCollection;
 
-        $this->initialize();
+        $this->definitions->import($this->propertiesAndTypes());
+        $this->unsetProperties($this->definitions->keys());
+        $this->fromArray($this->defaultValues());
 
         if (!is_null($data)) {
             $this->fromArray($data);
@@ -110,33 +112,22 @@ abstract class AbstractEntity implements EntityInterface
     /**
      * Retrieve an instance of the default property definition object
      *
-     * @return PropertyDefinition
+     * @return PropertyDefinitionCollection
      */
-    protected function defaultPropertyDefinition()
+    protected function defaultPropertyDefinitionCollection()
     {
-        return new PropertyDefinition;
+        return new PropertyDefinitionCollection();
     }
 
     /**
      * Retrieve an instance of the default runtime cache object
      *§
+     *
      * @return \EntityMarshal\RuntimeCache\Abstraction\RuntimeCacheInterface
      */
     protected function defaultRuntimeCache()
     {
         return RuntimeCacheSingleton::getInstance();
-    }
-
-    /**
-     * Initialize the entity.
-     */
-    protected function initialize()
-    {
-        $this->definitions->import($this->propertiesAndTypes());
-
-        $this->unsetProperties($this->definitions->keys());
-
-        $this->fromArray($this->defaultValues());
     }
 
     /**
@@ -166,11 +157,19 @@ abstract class AbstractEntity implements EntityInterface
     public function fromArray($data)
     {
         if (!is_array($data) && !($data instanceof Traversable)) {
-            throw new Exception\RuntimeException(sprintf("Unable to import from array in class '%s' failed. Argument must be an array or Traversable", $this->calledClassName()));
+            throw new RuntimeException(sprintf(
+                "Unable to import from array in class '%s' failed. Argument must be an array or Traversable",
+                $this->calledClassName()
+            ));
         }
 
         foreach ($data as $name => $value) {
-            $this->set($name, $value);
+            try {
+                $this->set($name, $value);
+            }
+            catch (InvalidArgumentException $e) {
+                continue;
+            }
         }
 
         return $this;
@@ -214,7 +213,7 @@ abstract class AbstractEntity implements EntityInterface
     /**
      * Standard __call method handler for subclass use.
      *
-     * @param string $name
+     * @param string $method
      * @param array  $arguments
      *
      * @return mixed
@@ -224,7 +223,7 @@ abstract class AbstractEntity implements EntityInterface
         $matches = array();
 
         if (!preg_match('/^(?:(get|set|is)_?)(\w+)$/i', $method, $matches)) {
-            return;
+            return null;
         }
 
         $action = $matches[1];
@@ -250,7 +249,12 @@ abstract class AbstractEntity implements EntityInterface
      */
     public function set($name, $value)
     {
-        $this->properties[$name] = $this->marshal->ratify($name, $this->typeof($name), $value, $this->definitions->has($name));
+        $this->properties[$name] = $this->marshal->ratify(
+            $name,
+            $this->typeof($name),
+            $value,
+            $this->definitions->has($name)
+        );
 
         return $this;
     }
@@ -262,9 +266,11 @@ abstract class AbstractEntity implements EntityInterface
     {
         $definition = $this->definitions->get($name);
 
-        /* @var $definition PropertyDefnitionInterface */
+        /* @var $definition PropertyDefinitionInterface */
 
-        return $definition ? $definition->getType() : $this->defaultPropertyType();
+        return $definition instanceof PropertyDefinitionInterface
+            ? $definition->getType()
+            : $this->defaultPropertyType();
     }
 
     /**
@@ -280,32 +286,20 @@ abstract class AbstractEntity implements EntityInterface
 
     /**
      * {@inheritdoc}
-     */
-    public function convert(ConverterStrategyInterface $strategy)
-    {
-        return $strategy->convert($this);
-    }
-
-    /**
-     * {@inheritdoc}
      *
      * @throws RuntimeException
      */
     public function &get($name)
     {
         if (!array_key_exists($name, $this->properties)) {
-            throw new RuntimeException(sprintf("Attempt to access property '%s' of class '%s' failed. Property does not exist.", $name, $this->calledClassName()));
+            throw new RuntimeException(sprintf(
+                "Attempt to access property '%s' of class '%s' failed. Property does not exist.",
+                $name,
+                $this->calledClassName()
+            ));
         }
 
         return $this->properties[$name];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function count()
-    {
-        return count($this->properties);
     }
 
     /**
@@ -321,28 +315,9 @@ abstract class AbstractEntity implements EntityInterface
     /**
      * {@inheritdoc}
      */
-    public function current()
-    {
-        $keys = array_keys($this->properties);
-        $key  = $keys[$this->position];
-
-        return $this->properties[$key];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function next()
     {
         ++$this->position;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    final public function dump($html = true)
-    {
-        echo $this->convert(new Dump($html));
     }
 
     /**
@@ -381,8 +356,6 @@ abstract class AbstractEntity implements EntityInterface
         $this->properties = unserialize($serialized);
     }
 
-    // Implement Iterator
-
     /**
      * {@inheritdoc}
      */
@@ -397,4 +370,41 @@ abstract class AbstractEntity implements EntityInterface
 
         return !is_null($key) ? array_key_exists($key, $this->properties) : false;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function convert(ConverterStrategyInterface $strategy)
+    {
+        return $strategy->convert($this);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function count()
+    {
+        return count($this->properties);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function current()
+    {
+        $keys = array_keys($this->properties);
+        $key  = $keys[$this->position];
+
+        return $this->properties[$key];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    final public function dump($html = true)
+    {
+        echo $this->convert(new Dump($html));
+    }
+    // Implement Iterator
+
 }

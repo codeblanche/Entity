@@ -5,7 +5,7 @@ namespace EntityMarshal\RuntimeCache;
 use EntityMarshal\RuntimeCache\Abstraction\RuntimeCacheInterface;
 use Serializable;
 
-final class RuntimeCache implements RuntimeCacheInterfacee, Serializable
+final class RuntimeCache implements RuntimeCacheInterface, Serializable
 {
     const SCOPE_DEFAULT = 'global';
 
@@ -28,7 +28,7 @@ final class RuntimeCache implements RuntimeCacheInterfacee, Serializable
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setScope($scope = null)
     {
@@ -91,6 +91,9 @@ final class RuntimeCache implements RuntimeCacheInterfacee, Serializable
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function remove($key, $scope = null)
     {
         $scope = is_null($scope) ? $this->getScope() : $scope;

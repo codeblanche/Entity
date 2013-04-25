@@ -2,6 +2,9 @@
 
 namespace EntityMarshal\Marshal;
 
+use EntityMarshal\Marshal\Abstraction\MarshalInterface;
+use EntityMarshal\Marshal\Exception\InvalidArgumentException;
+
 /**
  * Class Named
  *

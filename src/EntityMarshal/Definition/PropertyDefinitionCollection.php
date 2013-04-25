@@ -2,6 +2,7 @@
 
 namespace EntityMarshal\Definition;
 
+use EntityMarshal\Definition\Abstraction\PropertyDefinitionCollectionInterface;
 use EntityMarshal\Definition\Abstraction\PropertyDefinitionInterface;
 use EntityMarshal\Definition\PropertyDefinition;
 use EntityMarshal\Exception\InvalidArgumentException;
@@ -13,10 +14,10 @@ use Iterator;
  * @author    Merten van Gerven
  * @copyright (c) 2013, Merten van Gerven
  */
-class PropertyDefinitionCollection
+class PropertyDefinitionCollection implements PropertyDefinitionCollectionInterface
 {
     /**
-     * @var PropertyDefnitionInterface
+     * @var PropertyDefinitionInterface
      */
     private static $propertyPrototype;
 
@@ -28,9 +29,9 @@ class PropertyDefinitionCollection
     /**
      * Constructor override
      *
-     * @param PropertyDefnitionInterface $propertyPrototype
+     * @param PropertyDefinitionInterface $propertyPrototype
      */
-    public function __construct(PropertyDefnitionInterface $propertyPrototype = null)
+    public function __construct(PropertyDefinitionInterface $propertyPrototype = null)
     {
         if (!($propertyPrototype instanceof PropertyDefinitionInterface)) {
             $propertyPrototype = new PropertyDefinition();
@@ -106,7 +107,7 @@ class PropertyDefinitionCollection
     {
         $property = clone self::$propertyPrototype;
 
-        $this->collection[$name] = $property->setName($name)->setRawTypeType($type);
+        $this->collection[$name] = $property->setName($name)->setRawType($type);
 
         return $this;
     }

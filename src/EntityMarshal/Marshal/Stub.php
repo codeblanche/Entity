@@ -1,6 +1,8 @@
 <?php
 namespace EntityMarshal\Marshal;
 
+use EntityMarshal\Marshal\Abstraction\MarshalInterface;
+
 /**
  * Class Stub
  *

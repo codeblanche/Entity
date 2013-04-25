@@ -2,8 +2,8 @@
 
 namespace EntityMarshal\Converter;
 
+use EntityMarshal\Abstraction\EntityInterface;
 use EntityMarshal\Converter\Abstraction\ConverterStrategy;
-use EntityMarshal\EntityInterface;
 use Traversable;
 
 /**

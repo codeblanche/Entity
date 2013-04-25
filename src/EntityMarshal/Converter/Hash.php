@@ -2,9 +2,10 @@
 
 namespace EntityMarshal\Converter;
 
-use EntityMarshal\EntityInterface;
+use EntityMarshal\Abstraction\EntityInterface;
+use EntityMarshal\Converter\Abstraction\ConverterStrategy;
 
-class Hash extends AbstractConvert
+class Hash extends ConverterStrategy
 {
     const HASH_TYPE_SHA256 = 'sha256';
 

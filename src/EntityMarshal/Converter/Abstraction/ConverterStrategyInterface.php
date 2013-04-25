@@ -2,6 +2,8 @@
 
 namespace EntityMarshal\Converter\Abstraction;
 
+use EntityMarshal\Abstraction\EntityInterface;
+
 interface ConverterStrategyInterface
 {
     /**
@@ -9,6 +11,6 @@ interface ConverterStrategyInterface
      *
      * @return string
      */
-    public function convert(\EntityMarshal\EntityInterface $entity);
+    public function convert(EntityInterface $entity);
 }
 
