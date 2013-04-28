@@ -18,7 +18,7 @@ interface PropertyDefinitionCollectionInterface
      *
      * @param   string $name
      *
-     * @return  PropertyDefnitionInterface
+     * @return  PropertyDefinitionInterface
      */
     public function get($name);
 

@@ -2,6 +2,7 @@
 
 namespace EntityMarshal\Marshal;
 
+use EntityMarshal\Definition\Abstraction\PropertyDefinitionInterface;
 use EntityMarshal\Marshal\Abstraction\MarshalInterface;
 use EntityMarshal\Marshal\Exception\InvalidArgumentException;
 
@@ -10,16 +11,19 @@ use EntityMarshal\Marshal\Exception\InvalidArgumentException;
  *
  * @author    Merten van Gerven
  * @copyright (c) 2013, Merten van Gerven
+ * @package   EntityMarshal\Marshal
  */
-class Named implements MarshalInterface
+class Named extends Typed
 {
     /**
      * {@inheritdoc}
      */
-    public function ratify($name, $type, $value, $defined)
+    public function ratify($value, PropertyDefinitionInterface $definition = null)
     {
-        if (!$defined) {
-            throw new InvalidArgumentException("Property '$name' is not a valid property");
+        $value = parent::ratify($value, $definition);
+
+        if (is_null($definition)) {
+            throw new InvalidArgumentException("Property is not a named (defined) property");
         }
 
         return $value;

@@ -19,7 +19,7 @@ class PhpArray extends ConverterStrategy
     /**
      * Configure the array converter strategy
      *
-     * @param   string $graceful   Return null for circular references when true.
+     * @param bool $graceful Return null for circular references when true.
      */
     public function __construct($graceful = false)
     {
@@ -37,6 +37,7 @@ class PhpArray extends ConverterStrategy
     /**
      * @param   object|array $data
      *
+     * @throws Exception\RuntimeException
      * @return  array
      */
     protected function recurse($data)

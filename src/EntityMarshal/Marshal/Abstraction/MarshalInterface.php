@@ -2,6 +2,8 @@
 
 namespace EntityMarshal\Marshal\Abstraction;
 
+use EntityMarshal\Definition\Abstraction\PropertyDefinitionInterface;
+
 /**
  * @author      Merten van Gerven
  * @category    EntityMarshal
@@ -12,12 +14,10 @@ interface MarshalInterface
     /**
      * Marshal a given value and return the result or throw an exception
      *
-     * @param   string  $name       Property name
-     * @param   string  $type       Expected/desired type for the value
-     * @param   mixed   $value      Value to be allocated to property name
-     * @param   boolean $defined    Indicates whether property is defined (true) or dynamic (false)
+     * @param   mixed                       $value         Value to be allocated to property name
+     * @param   PropertyDefinitionInterface $definition    Property definition object if there is one.
      *
-     * @return  mixed               Marshaled value
+     * @return  mixed                       Marshaled value
      */
-    public function ratify($name, $type, $value, $defined);
+    public function ratify($value, PropertyDefinitionInterface $definition = null);
 }

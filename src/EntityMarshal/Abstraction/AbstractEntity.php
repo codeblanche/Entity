@@ -13,6 +13,7 @@ use EntityMarshal\Marshal\Abstraction\MarshalInterface;
 use EntityMarshal\Marshal\Exception\InvalidArgumentException;
 use EntityMarshal\Marshal\Strict;
 use EntityMarshal\RuntimeCache\Abstraction\RuntimeCacheInterface;
+use EntityMarshal\RuntimeCache\RuntimeCache;
 use EntityMarshal\RuntimeCache\RuntimeCacheSingleton;
 use Traversable;
 
@@ -29,6 +30,21 @@ use Traversable;
  */
 abstract class AbstractEntity implements EntityInterface
 {
+    /**
+     * @var MarshalInterface Default marshal instance (shared with all entities)
+     */
+    private static $defaultMarshal;
+
+    /**
+     * @var RuntimeCacheInterface Default runtime cache instance (shared with all entities)
+     */
+    private static $defaultRuntimeCache;
+
+    /**
+     * @var PropertyDefinitionCollectionInterface Prototype of PropertyDefinitionCollectionInterface for cloning.
+     */
+    private static $prototypePropertyDefinitionCollection;
+
     /**
      * @var MarshalInterface
      */
@@ -57,13 +73,6 @@ abstract class AbstractEntity implements EntityInterface
     /**
      * Default constructor.
      *
-     * @param Traversable      $data       array of key/value pairs.
-     * @param MarshalInterface $marshal    marshal to be used on this entity
-     */
-
-    /**
-     * Default constructor.
-     *
      * @param Traversable                           $data
      * @param MarshalInterface                      $marshal
      * @param PropertyDefinitionCollectionInterface $propertyDefinitionCollection
@@ -79,7 +88,7 @@ abstract class AbstractEntity implements EntityInterface
             $marshal = $this->defaultMarshal();
         }
         if (!($propertyDefinitionCollection instanceof PropertyDefinitionCollectionInterface)) {
-            $propertyDefinitionCollection = $this->defaultPropertyDefinitionCollection();
+            $propertyDefinitionCollection = $this->createPropertyDefinitionCollection();
         }
         if (!($runtimeCache instanceof RuntimeCacheInterface)) {
             $runtimeCache = $this->defaultRuntimeCache();
@@ -106,28 +115,39 @@ abstract class AbstractEntity implements EntityInterface
      */
     protected function defaultMarshal()
     {
-        return new Strict;
+        if (is_null(self::$defaultMarshal)) {
+            self::$defaultMarshal = new Strict();
+        }
+
+        return self::$defaultMarshal;
     }
 
     /**
      * Retrieve an instance of the default property definition object
      *
-     * @return PropertyDefinitionCollection
+     * @return PropertyDefinitionCollectionInterface
      */
-    protected function defaultPropertyDefinitionCollection()
+    protected function createPropertyDefinitionCollection()
     {
-        return new PropertyDefinitionCollection();
+        if (is_null(self::$prototypePropertyDefinitionCollection)) {
+            self::$prototypePropertyDefinitionCollection = new PropertyDefinitionCollection();
+        }
+
+        return clone self::$prototypePropertyDefinitionCollection;
     }
 
     /**
      * Retrieve an instance of the default runtime cache object
-     *§
      *
      * @return \EntityMarshal\RuntimeCache\Abstraction\RuntimeCacheInterface
      */
     protected function defaultRuntimeCache()
     {
-        return RuntimeCacheSingleton::getInstance();
+        if (is_null(self::$defaultRuntimeCache)) {
+            self::$defaultRuntimeCache = new RuntimeCache();
+        }
+
+        return self::$defaultRuntimeCache;
     }
 
     /**
@@ -250,10 +270,8 @@ abstract class AbstractEntity implements EntityInterface
     public function set($name, $value)
     {
         $this->properties[$name] = $this->marshal->ratify(
-            $name,
-            $this->typeof($name),
             $value,
-            $this->definitions->has($name)
+            $this->definitions->get($name)
         );
 
         return $this;
@@ -266,22 +284,11 @@ abstract class AbstractEntity implements EntityInterface
     {
         $definition = $this->definitions->get($name);
 
-        /* @var $definition PropertyDefinitionInterface */
+        if ($definition instanceof PropertyDefinitionInterface) {
+            return $definition->getType();
+        }
 
-        return $definition instanceof PropertyDefinitionInterface
-            ? $definition->getType()
-            : $this->defaultPropertyType();
-    }
-
-    /**
-     * Get the default property type to be used when no type is provided.
-     * Default is 'mixed'
-     *
-     * @return string
-     */
-    protected function defaultPropertyType()
-    {
-        return 'mixed';
+        return '';
     }
 
     /**

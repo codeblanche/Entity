@@ -52,7 +52,7 @@ class Hash extends ConverterStrategy
      */
     public function convert(EntityInterface $entity)
     {
-        $data = $entity->toArray();
+        $data = $entity->toArray(false);
 
         if (is_array($this->ignoreKeys) && !empty($this->ignoreKeys)) {
             foreach ($this->ignoreKeys as $key) {
@@ -60,7 +60,25 @@ class Hash extends ConverterStrategy
             }
         }
 
-        return hash($this->type, $this->prefix . implode('', array_values($data)) . $this->suffix);
+        $output = $this->flatten($data);
+
+        return hash($this->type, $this->prefix . implode('', array_values($output)) . $this->suffix);
+    }
+
+    protected function flatten(&$source, &$destination = array(), $keysAsDotPath = false, $prefix = '')
+    {
+        foreach ($source as $key => $value) {
+            $destinationKey = $keysAsDotPath ? trim($prefix . '.' . $key, '.') : $key;
+
+            if (is_array($value) || is_object($value)) {
+                $this->flatten($value, $destination, $keysAsDotPath, $destinationKey);
+            }
+            else {
+                $destination[$destinationKey] = $value;
+            }
+        }
+
+        return $destination;
     }
 }
 

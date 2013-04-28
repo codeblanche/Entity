@@ -35,6 +35,24 @@ class PropertyDefinition implements PropertyDefinitionInterface
     /**
      * @inheritdoc
      */
+    public function getGenericType()
+    {
+        return $this->genericType;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setGenericType($genericType)
+    {
+        $this->genericType = $genericType;
+
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function getName()
     {
         return $this->name;
@@ -80,50 +98,6 @@ class PropertyDefinition implements PropertyDefinitionInterface
     }
 
     /**
-     * @inheritdoc
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getGenericType()
-    {
-        return $this->genericType;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setGenericType($genericType)
-    {
-        $this->genericType = $genericType;
-
-        return $this;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function isGeneric()
-    {
-        return $this->type === 'array' && !empty($this->genericType);
-    }
-
-    /**
      * Extract the generic subtype from the specified type if there is one.
      *
      * @param   string $type
@@ -146,5 +120,31 @@ class PropertyDefinition implements PropertyDefinitionInterface
         }
 
         return $generic;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isGeneric()
+    {
+        return $this->type === 'array' && !empty($this->genericType);
     }
 }

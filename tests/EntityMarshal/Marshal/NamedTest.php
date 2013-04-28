@@ -2,6 +2,7 @@
 
 namespace EntityMarshal\Marshal;
 
+use EntityMarshal\Definition\PropertyDefinition;
 use EntityMarshal\Marshal\Exception\InvalidArgumentException;
 
 class NamedTest extends \PHPUnit_Framework_TestCase
@@ -11,10 +12,16 @@ class NamedTest extends \PHPUnit_Framework_TestCase
      */
     protected $obj;
 
+    /**
+     * @var PropertyDefinition
+     */
+    protected $definition;
+
     public function testRatify()
     {
         $expected = 'someValue';
-        $actual   = $this->obj->ratify('someProperty', 'string', $expected, true);
+
+        $actual = $this->obj->ratify($expected, $this->definition);
 
         $this->assertEquals($expected, $actual);
     }
@@ -24,11 +31,14 @@ class NamedTest extends \PHPUnit_Framework_TestCase
      */
     public function testRatifyException()
     {
-        $this->obj->ratify('someProperty', 'string', 'someValue', false);
+        $this->obj->ratify('someValue', null);
     }
 
     protected function setUp()
     {
-        $this->obj = new Named();
+        $this->obj        = new Named();
+        $this->definition = new PropertyDefinition();
+
+        $this->definition->setName('someProperty')->setRawType('string');
     }
 }

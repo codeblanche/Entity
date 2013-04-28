@@ -9,7 +9,7 @@
     stopOnFailure="false"
     stopOnSkipped="false"
     stopOnIncomplete="false"
-    bootstrap="../bootstrap.php">
+    bootstrap="./bootstrap.php">
 
     <testsuites>
         <testsuite name="EntityMarshal">

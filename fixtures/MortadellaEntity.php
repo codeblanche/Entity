@@ -2,7 +2,6 @@
 
 /**
  * Class MortadellaEntity
- *
  * @method MortadellaEntity setTestBool(bool $value)
  * @method bool getTestBool()
  * @method MortadellaEntity setTestBoolean(boolean $value)
