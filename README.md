@@ -4,9 +4,11 @@ EntityMarshal 0.1.0
 Example
 -------
 
+See `fixtures/*` for other examples.
+
 ```php
 
-class MyEntity extends \EntityMarshal\Entity\Marshaled\ObjectPropertyEntity
+class MyEntity extends \EntityMarshal\Entity
 {
 
     /**
