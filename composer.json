@@ -1,5 +1,5 @@
 {
-    "name"              : "mertenvg/entitymarshal",
+    "name"              : "CodeBlanche/EntityMarshal",
     "description"       : "A marshal for your entity",
     "authors"           : [
         {
@@ -7,7 +7,7 @@
             "email" : "merten@codeblanche.com"
         }
     ],
-    "minimum-stability" : "dev",
+    "minimum-stability" : "stable",
     "license"           : "MIT",
     "keywords"          : [
         "EntityMarshal",
