@@ -4,5 +4,4 @@ public
 docs
 build
 vendor/*
-
-src/EntityMarshal/__AbstractMarshaledEntity.php
+*.lock
