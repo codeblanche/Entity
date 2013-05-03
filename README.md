@@ -1,10 +1,12 @@
-EntityMarshal 0.1.0
+EntityMarshal 1.0.0
 ===================
+
+More documentation coming soon.
 
 Example
 -------
 
-See `fixtures/*` for other examples.
+See `fixtures/*` for other examples. The most complete of these being `MortadellaEntity`.
 
 ```php
 
