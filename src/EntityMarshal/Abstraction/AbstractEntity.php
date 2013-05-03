@@ -87,9 +87,7 @@ abstract class AbstractEntity implements EntityInterface
         if (!($marshal instanceof MarshalInterface)) {
             $marshal = $this->defaultMarshal();
         }
-        if (!($propertyDefinitionCollection instanceof PropertyDefinitionCollectionInterface)) {
-            $propertyDefinitionCollection = $this->createPropertyDefinitionCollection();
-        }
+
         if (!($runtimeCache instanceof RuntimeCacheInterface)) {
             $runtimeCache = $this->defaultRuntimeCache();
         }
@@ -97,15 +95,30 @@ abstract class AbstractEntity implements EntityInterface
         $this->position     = 0;
         $this->marshal      = $marshal;
         $this->runtimeCache = $runtimeCache;
-        $this->definitions  = $propertyDefinitionCollection;
+        $this->definitions  = $this->resolveDefitions($propertyDefinitionCollection);
 
-        $this->definitions->import($this->propertiesAndTypes());
         $this->unsetProperties($this->definitions->keys());
-        $this->fromArray($this->defaultValues());
+
+        $this->resolveDefaults();
 
         if (!is_null($data)) {
             $this->fromArray($data);
         }
+    }
+
+    protected function resolveDefaults()
+    {
+        $className = $this->calledClassName();
+
+        if ($this->runtimeCache->has($className, __METHOD__)) {
+            $this->properties = $this->runtimeCache->get($className, __METHOD__);
+
+            return;
+        }
+
+        $this->fromArray($this->defaultValues());
+
+        $this->runtimeCache->set($className, $this->properties, __METHOD__);
     }
 
     /**
@@ -123,20 +136,6 @@ abstract class AbstractEntity implements EntityInterface
     }
 
     /**
-     * Retrieve an instance of the default property definition object
-     *
-     * @return PropertyDefinitionCollectionInterface
-     */
-    protected function createPropertyDefinitionCollection()
-    {
-        if (is_null(self::$prototypePropertyDefinitionCollection)) {
-            self::$prototypePropertyDefinitionCollection = new PropertyDefinitionCollection();
-        }
-
-        return clone self::$prototypePropertyDefinitionCollection;
-    }
-
-    /**
      * Retrieve an instance of the default runtime cache object
      *
      * @return \EntityMarshal\RuntimeCache\Abstraction\RuntimeCacheInterface
@@ -148,6 +147,34 @@ abstract class AbstractEntity implements EntityInterface
         }
 
         return self::$defaultRuntimeCache;
+    }
+
+    /**
+     * Resolve and if necessary initialize the property definition collection.
+     *
+     * @param PropertyDefinitionCollectionInterface $propertyDefinitionCollection
+     *
+     * @return PropertyDefinitionCollectionInterface
+     */
+    protected function resolveDefitions(PropertyDefinitionCollectionInterface $propertyDefinitionCollection = null)
+    {
+        if ($propertyDefinitionCollection instanceof PropertyDefinitionCollectionInterface) {
+            return $propertyDefinitionCollection->import($this->propertiesAndTypes());
+        }
+
+        $className = $this->calledClassName();
+
+        if ($this->runtimeCache->has($className, __METHOD__)) {
+            return $this->runtimeCache->get($className, __METHOD__);
+        }
+
+        $propertyDefinitionCollection = $this->createPropertyDefinitionCollection();
+
+        $propertyDefinitionCollection->import($this->propertiesAndTypes());
+
+        $this->runtimeCache->set($className, $propertyDefinitionCollection, __METHOD__);
+
+        return $propertyDefinitionCollection;
     }
 
     /**
@@ -163,6 +190,20 @@ abstract class AbstractEntity implements EntityInterface
      * @return  array
      */
     abstract protected function propertiesAndTypes();
+
+    /**
+     * Retrieve an instance of the default property definition object
+     *
+     * @return PropertyDefinitionCollectionInterface
+     */
+    protected function createPropertyDefinitionCollection()
+    {
+        if (is_null(self::$prototypePropertyDefinitionCollection)) {
+            self::$prototypePropertyDefinitionCollection = new PropertyDefinitionCollection();
+        }
+
+        return clone self::$prototypePropertyDefinitionCollection;
+    }
 
     /**
      * Unset the object properties defined by $keys
@@ -279,20 +320,6 @@ abstract class AbstractEntity implements EntityInterface
 
     /**
      * {@inheritdoc}
-     */
-    public function typeof($name)
-    {
-        $definition = $this->definitions->get($name);
-
-        if ($definition instanceof PropertyDefinitionInterface) {
-            return $definition->getType();
-        }
-
-        return '';
-    }
-
-    /**
-     * {@inheritdoc}
      *
      * @throws RuntimeException
      */
@@ -353,6 +380,20 @@ abstract class AbstractEntity implements EntityInterface
         }
 
         return $this->convert(new PhpArray());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function typeof($name)
+    {
+        $definition = $this->definitions->get($name);
+
+        if ($definition instanceof PropertyDefinitionInterface) {
+            return $definition->getType();
+        }
+
+        return '';
     }
 
     /**

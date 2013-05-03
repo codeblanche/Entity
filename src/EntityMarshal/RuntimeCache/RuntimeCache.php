@@ -64,9 +64,11 @@ final class RuntimeCache implements RuntimeCacheInterface, Serializable
      */
     public function get($key, $scope = null)
     {
-        $scope = is_null($scope) ? $this->getScope() : $scope;
+        if (is_null($scope)) {
+            $scope = $this->scope;
+        }
 
-        return $this->has($key, $scope) ? $this->cache[$scope][$key] : null;
+        return isset($this->cache[$scope][$key]) ? $this->cache[$scope][$key] : null;
     }
 
     /**
@@ -74,7 +76,9 @@ final class RuntimeCache implements RuntimeCacheInterface, Serializable
      */
     public function has($key, $scope = null)
     {
-        $scope = is_null($scope) ? $this->getScope() : $scope;
+        if (is_null($scope)) {
+            $scope = $this->scope;
+        }
 
         return isset($this->cache[$scope][$key]);
     }
@@ -84,7 +88,9 @@ final class RuntimeCache implements RuntimeCacheInterface, Serializable
      */
     public function set($key, $value, $scope = null)
     {
-        $scope = is_null($scope) ? $this->getScope() : $scope;
+        if (is_null($scope)) {
+            $scope = $this->scope;
+        }
 
         $this->cache[$scope][$key] = $value;
 
@@ -96,7 +102,9 @@ final class RuntimeCache implements RuntimeCacheInterface, Serializable
      */
     public function remove($key, $scope = null)
     {
-        $scope = is_null($scope) ? $this->getScope() : $scope;
+        if (is_null($scope)) {
+            $scope = $this->scope;
+        }
 
         unset($this->cache[$scope][$key]);
 

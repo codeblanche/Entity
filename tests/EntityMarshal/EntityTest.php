@@ -2,6 +2,7 @@
 
 namespace EntityMarshal;
 
+use EntityMarshal\Definition\PropertyDefinitionCollection;
 use EntityMarshal\Exception\RuntimeException;
 
 class EntityTest extends \PHPUnit_Framework_TestCase
@@ -15,6 +16,11 @@ class EntityTest extends \PHPUnit_Framework_TestCase
      * @var \NoDocEntity
      */
     protected $obj2;
+
+    /**
+     * @var \MortadellaEntity
+     */
+    protected $obj3;
 
     public function testCalledClassName()
     {
@@ -137,5 +143,6 @@ class EntityTest extends \PHPUnit_Framework_TestCase
     {
         $this->obj  = new \MortadellaEntity();
         $this->obj2 = new \NoDocEntity();
+        $this->obj3 = new \MortadellaEntity(null, null, new PropertyDefinitionCollection(), null);
     }
 }

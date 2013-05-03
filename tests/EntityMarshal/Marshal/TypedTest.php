@@ -16,6 +16,45 @@ class TypedTest extends \PHPUnit_Framework_TestCase
      */
     protected $definition;
 
+    public function testRatifyArrayWithNullItem()
+    {
+        $expected = array(
+            'string1',
+            'string2',
+            null,
+            'string3',
+        );
+        $actual   = $this->obj->ratify($expected, $this->createDefinition('testProperty', 'string[]'));
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testRatifyArrayType()
+    {
+        $expected = array(
+            'string1',
+            'string2',
+            null,
+            'string3',
+        );
+        $actual   = $this->obj->ratify((object) $expected, $this->createDefinition('testProperty', 'array'));
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testRatifyObjectType()
+    {
+        $expected = array(
+            'string1',
+            'string2',
+            null,
+            'string3',
+        );
+        $actual   = $this->obj->ratify($expected, $this->createDefinition('testProperty', 'object'));
+
+        $this->assertTrue($actual instanceof \stdClass);
+    }
+
     public function testRatify()
     {
         $expected = 'someValue';

@@ -149,10 +149,10 @@ class MortadellaEntity extends \EntityMarshal\Entity
     /**
      * @var callable
      */
-    public $testCallable = array('\EntityMarshal\ForeignScope', 'getInstance');
+    public $testCallable = array('\EntityMarshal\Utils', 'makeSetterGetterDoc');
 
     /**
-     * @var MortadellaEntity[]
+     * @var object[]
      */
     public $testTypedArray1 = array();
 

@@ -20,12 +20,10 @@ class Named extends Typed
      */
     public function ratify($value, PropertyDefinitionInterface $definition = null)
     {
-        $value = parent::ratify($value, $definition);
-
         if (is_null($definition)) {
             throw new InvalidArgumentException("Property is not a named (defined) property");
         }
 
-        return $value;
+        return parent::ratify($value, $definition);
     }
 }

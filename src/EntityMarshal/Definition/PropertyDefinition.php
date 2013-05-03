@@ -116,7 +116,7 @@ class PropertyDefinition implements PropertyDefinitionInterface
             $generic = substr($type, 0, -2);
         }
         elseif (strtolower(substr($type, 0, 6)) === 'array<' && substr($type, -1) === '>') {
-            $generic = preg_replace('/^array<([^>]*)>$/i', '$1', $type);
+            $generic = substr($type, 6, -1);
         }
 
         return $generic;

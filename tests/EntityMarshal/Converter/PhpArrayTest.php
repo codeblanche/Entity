@@ -28,9 +28,9 @@ class PhpArrayTest extends \PHPUnit_Framework_TestCase
         'testArray'         => array(0 => 'one', 1 => 2, 2 => 'three',),
         'testStdClass'      => null,
         'testEntityMarshal' => null,
-        'testObject'        => array(),
+        'testObject'        => null,
         'testNull'          => null,
-        'testCallable'      => array(0 => '\\EntityMarshal\\ForeignScope', 1 => 'getInstance',),
+        'testCallable'      => array(0 => '\EntityMarshal\Utils', 1 => 'makeSetterGetterDoc',),
         'testTypedArray1'   => array(),
         'testTypedArray2'   => array(),
         'testTypedArray3'   => array(

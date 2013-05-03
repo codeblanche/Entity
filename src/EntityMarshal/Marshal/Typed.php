@@ -11,7 +11,6 @@ namespace EntityMarshal\Marshal;
 
 use EntityMarshal\Definition\Abstraction\PropertyDefinitionInterface;
 use EntityMarshal\Marshal\Abstraction\MarshalInterface;
-use EntityMarshal\Marshal\Exception\RuntimeException;
 use EntityMarshal\RuntimeCache\Abstraction\RuntimeCacheInterface;
 use EntityMarshal\RuntimeCache\RuntimeCache;
 
@@ -42,6 +41,8 @@ class Typed implements MarshalInterface
         'int'     => 'integer',
         'integer' => 'integer',
         'long'    => 'integer',
+        'numeric' => 'string',
+        'scalar'  => 'string',
         'bool'    => 'boolean',
         'boolean' => 'boolean',
         'float'   => 'float',
@@ -49,6 +50,7 @@ class Typed implements MarshalInterface
         'real'    => 'float',
         'string'  => 'string',
         'char'    => 'string',
+        'null'    => 'unset',
     );
 
     /**
@@ -103,14 +105,18 @@ class Typed implements MarshalInterface
      */
     protected function iterate($value, PropertyDefinitionInterface $definition = null)
     {
-        if (!is_array($value)) {
+        if (empty($value) || !is_array($value)) {
             return $value;
         }
 
-        $type = $definition->getType();
+        $type = $definition->getGenericType();
 
-        foreach ($value as &$item) {
-            $item = $this->castValue($item, $type);
+        foreach ($value as $key => $item) {
+            if (is_null($item)) {
+                continue;
+            }
+
+            $value[$key] = $this->castValue($item, $type);
         }
 
         return $value;
@@ -132,39 +138,19 @@ class Typed implements MarshalInterface
             return $cast == $value ? $cast : $value;
         }
 
+        if (is_null($value)) {
+            return null;
+        }
+
+        if (!is_array($value) && $type === 'array') {
+            return (array) $value;
+        }
+
         if (!is_object($value) && $type === 'object') {
             return (object) $value;
         }
 
         return $this->castToClass($value, $this->resolveNamespace($type));
-    }
-
-    protected function castToClass($value, $class)
-    {
-        if (!is_object($value) && !is_array($value)) {
-            return $value;
-        }
-
-        if (!class_exists($class) || $value instanceof $class) {
-            return $value;
-        }
-
-        if (!$this->runtimeCache->has($class)) {
-            $this->runtimeCache->set($class, new $class());
-        }
-
-        $object = clone $this->runtimeCache->get($class);
-
-        if (is_subclass_of($class, 'EntityMarshal\Abstraction\EntityInterface')) {
-            $object->fromArray($value);
-        }
-        else {
-            foreach ($value as $key => $item) {
-                $object->$key = $value;
-            }
-        }
-
-        return $object;
     }
 
     /**
@@ -191,6 +177,34 @@ class Typed implements MarshalInterface
         }
 
         return $value;
+    }
+
+    protected function castToClass($value, $class)
+    {
+        if (!is_object($value) && !is_array($value)) {
+            return $value;
+        }
+
+        if (!class_exists($class) || $value instanceof $class) {
+            return $value;
+        }
+
+        if (!$this->runtimeCache->has($class)) {
+            $this->runtimeCache->set($class, new $class());
+        }
+
+        $object = clone $this->runtimeCache->get($class);
+
+        if (is_subclass_of($class, 'EntityMarshal\Abstraction\EntityInterface')) {
+            $object->fromArray(is_array($value) || $value instanceof \Traversable ? $value : (array) $value);
+        }
+        else {
+            foreach ($value as $key => $item) {
+                $object->$key = $value;
+            }
+        }
+
+        return $object;
     }
 
     /**
