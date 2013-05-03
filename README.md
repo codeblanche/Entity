@@ -1,15 +1,16 @@
-EntityMarshal 0.1.0
+EntityMarshal 1.0.0
 ===================
 
-[![Build Status](http://jenkins.loki.kicks-ass.net/job/EntityMarshal/badge/icon)](http://jenkins.loki.kicks-ass.net/job/EntityMarshal/)
+More documentation coming soon.
 
 Example
 -------
 
-```php
-<?php
+See `fixtures/*` for other examples. The most complete of these being `MortadellaEntity`.
 
-class StdObjectPropertyMarshaledEntity extends \EntityMarshal\Entity\Marshaled\ObjectPropertyEntity
+```php
+
+class MyEntity extends \EntityMarshal\Entity
 {
 
     /**
@@ -53,5 +54,5 @@ class StdObjectPropertyMarshaledEntity extends \EntityMarshal\Entity\Marshaled\O
     public $testTypedArray4;
 
 }
-```
 
+```
