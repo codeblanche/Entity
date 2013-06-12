@@ -3,7 +3,7 @@
 /**
  * Class IsEntity
  */
-class IsEntity extends \EntityMarshal\Entity
+class IsEntity extends \Entity\Entity
 {
     /**
      * @var boolean

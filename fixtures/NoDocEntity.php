@@ -3,7 +3,7 @@
 /**
  * Class NoDocEntity
  */
-class NoDocEntity extends \EntityMarshal\Entity
+class NoDocEntity extends \Entity\Entity
 {
     public static $testStatic = 'electrifying';
 
@@ -43,7 +43,7 @@ class NoDocEntity extends \EntityMarshal\Entity
 
     public $testNull = null;
 
-    public $testCallable = array('\EntityMarshal\ForeignScope', 'getInstance');
+    public $testCallable = array('\Entity\ForeignScope', 'getInstance');
 
     public $testTypedArray1 = array();
 

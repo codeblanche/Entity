@@ -49,7 +49,7 @@
  * @method MortadellaEntity setTestTypedArray4(array $value)
  * @method array getTestTypedArray4()
  */
-class MortadellaEntity extends \EntityMarshal\Entity
+class MortadellaEntity extends \Entity\Entity
 {
     /**
      * @var string
@@ -149,7 +149,7 @@ class MortadellaEntity extends \EntityMarshal\Entity
     /**
      * @var callable
      */
-    public $testCallable = array('\EntityMarshal\Utils', 'makeSetterGetterDoc');
+    public $testCallable = array('\Entity\Utils', 'makeSetterGetterDoc');
 
     /**
      * @var object[]
