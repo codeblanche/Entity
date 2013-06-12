@@ -3,6 +3,6 @@
 /**
  * Class EmptyEntity
  */
-class EmptyEntity extends \EntityMarshal\Entity
+class EmptyEntity extends \Entity\Entity
 {
 }
