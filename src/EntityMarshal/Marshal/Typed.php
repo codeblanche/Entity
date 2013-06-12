@@ -133,7 +133,7 @@ class Typed implements MarshalInterface
     protected function castValue($value, $type)
     {
         if (isset($this->scalarMap[$type])) {
-            $cast = $this->castToScalar($value, $type);
+            $cast = $this->castToScalar($value, $this->scalarMap[$type]);
 
             return $cast == $value ? $cast : $value;
         }
