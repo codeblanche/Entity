@@ -12,19 +12,19 @@
     bootstrap="./bootstrap.php">
 
     <testsuites>
-        <testsuite name="EntityMarshal">
-            <directory>EntityMarshal</directory>
-            <directory>EntityMarshal/Converter</directory>
-            <directory>EntityMarshal/Definition</directory>
-            <directory>EntityMarshal/Marshal</directory>
-            <directory>EntityMarshal/RuntimeCache</directory>
+        <testsuite name="Entity">
+            <directory>Entity</directory>
+            <directory>Entity/Converter</directory>
+            <directory>Entity/Definition</directory>
+            <directory>Entity/Marshal</directory>
+            <directory>Entity/RuntimeCache</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">../src/</directory>
             <exclude>
-                <file>../src/EntityMarshal/Utils.php</file>
+                <file>../src/Entity/Utils.php</file>
             </exclude>
         </whitelist>
     </filter>
@@ -32,7 +32,7 @@
         <log
             type="coverage-html"
             target="../public/coverage"
-            title="EntityMarshal"
+            title="Entity"
             charset="UTF-8"
             yui="true"
             highlight="true"

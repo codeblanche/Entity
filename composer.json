@@ -1,29 +1,26 @@
 {
-    "name"              : "codeblanche/entitymarshal",
-    "description"       : "A marshal for your entity",
+    "name"              : "codeblanche/entity",
+    "description"       : "All for Entity, and Entity for all",
     "authors"           : [
         {
             "name"  : "Merten van Gerven",
             "email" : "merten@codeblanche.com"
         }
     ],
-    "minimum-stability" : "stable",
-    "license"           : "MIT",
+    "license"           : "BSD-3-Clause",
     "keywords"          : [
-        "EntityMarshal",
-        "PHP EntityMarshal",
+        "CodeBlanche",
+        "Entity",
+        "Marshal",
         "PHP"
     ],
-    "require-dev": {
-        "phpunit/phpunit": "3.7.*"
-    },
     "require"           : {
         "php" : ">=5.3.3"
     },
     "autoload"          : {
         "classmap" : ["./"],
         "psr-0"    : {
-            "EntityMarshal" : "src/"
+            "Entity" : "src/"
         }
     }
 }

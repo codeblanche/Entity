@@ -1,5 +1,7 @@
-EntityMarshal 1.0.0
-===================
+Entity 1.0.1
+============
+
+All for Entity, and Entity for all.
 
 More documentation coming soon.
 
@@ -10,7 +12,7 @@ See `fixtures/*` for other examples. The most complete of these being `Mortadell
 
 ```php
 
-class MyEntity extends \EntityMarshal\Entity
+class MyEntity extends \Entity\Entity
 {
 
     /**
@@ -39,12 +41,12 @@ class MyEntity extends \EntityMarshal\Entity
     public $testArray = array('1', '2', '3');
 
     /**
-     * @var EntityMarshal\Sample\ObjectPropertyEntityMarshal[]
+     * @var Entity\Sample\ObjectPropertyEntityMarshal[]
      */
     public $testTypedArray1;
 
     /**
-     * @var array<EntityMarshal\Sample\ObjectPropertyEntityMarshal>
+     * @var array<Entity\Sample\ObjectPropertyEntityMarshal>
      */
     public $testTypedArray2;
 
