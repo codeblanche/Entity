@@ -1,4 +1,4 @@
-Entity 1.0.1
+Entity v1.0.2
 ============
 
 All for Entity, and Entity for all.
