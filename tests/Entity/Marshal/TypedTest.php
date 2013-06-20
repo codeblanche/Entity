@@ -99,6 +99,19 @@ class TypedTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * https://github.com/CodeBlanche/Entity/issues/23
+     */
+    public function testRatifyCastMapType()
+    {
+        $ratifiedValue =$this->obj->ratify(
+            '10',
+            $this->createDefinition('testProperty', 'int')
+        );
+
+        $this->assertTrue($ratifiedValue === 10);
+    }
+
+    /**
      * @param string $name
      * @param string $rawType
      *
