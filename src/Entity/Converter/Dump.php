@@ -4,6 +4,7 @@ namespace Entity\Converter;
 
 use Entity\Abstraction\EntityInterface;
 use Entity\Converter\Abstraction\ConverterStrategy;
+use Traversable;
 
 /**
  * Convert and entity to a Dump string
@@ -117,7 +118,7 @@ class Dump extends ConverterStrategy
             $this->out[] = "{$lpad}}";
         }
         elseif (is_object($data)) {
-            if (!($data instanceof EntityInterface)) {
+            if (!($data instanceof EntityInterface) && !($data instanceof Traversable)) {
                 $data = get_object_vars($data);
             }
 
@@ -129,6 +130,10 @@ class Dump extends ConverterStrategy
             $this->depth++;
 
             foreach ($data as $key => $val) {
+                if (!isset($data->$key) && !isset($data[$key])) {
+                    continue;
+                }
+
                 $valType = $data instanceof EntityInterface ? $data->typeof($key) : null;
                 $this->recurse($val, $key, $valType);
             }
