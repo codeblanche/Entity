@@ -2,13 +2,14 @@
 
 namespace Entity\Abstraction;
 
+use ArrayAccess;
 use Countable;
 use Entity\Converter\Abstraction\ConverterStrategyInterface;
 use Iterator;
 use Serializable;
 use Traversable;
 
-interface EntityInterface extends Iterator, Serializable, Countable
+interface EntityInterface extends Iterator, Serializable, Countable, ArrayAccess
 {
     /**
      * Get the the called class name.
