@@ -317,6 +317,10 @@ abstract class AbstractEntity implements EntityInterface
      */
     public function set($name, $value)
     {
+        if (array_key_exists($name, $this->privileged)) {
+            return $this;
+        }
+
         $this->properties[$name] = $this->marshal->ratify(
             $value,
             $this->definitions->get($name)
@@ -332,10 +336,6 @@ abstract class AbstractEntity implements EntityInterface
      */
     public function &get($name)
     {
-        if (array_key_exists($name, $this->privileged)) {
-            return $this;
-        }
-
         if (!array_key_exists($name, $this->properties)) {
             throw new RuntimeException(sprintf(
                 "Attempt to access property '%s' of class '%s' failed. Property does not exist.",
@@ -454,7 +454,7 @@ abstract class AbstractEntity implements EntityInterface
         $keys = array_keys($this->properties);
         $key  = $keys[$this->position];
 
-        return $this->get($key);¶
+        return $this->get($key);
     }
 
     /**
