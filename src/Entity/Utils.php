@@ -33,4 +33,32 @@ class Utils
         }
         echo "</pre>\n";
     }
+
+    /**
+     * Generate the public properties PHPDoc declarations to paste into your entity class.
+     * @param array $properties
+     */
+    public static function makePublicProperties(array $properties)
+    {
+        echo '<pre>'."\n";
+
+        foreach ($properties as $key => $value)
+        {
+            $type = gettype($value);
+
+            if ($type === 'object') {
+                $type = get_class($value);
+            }
+
+            echo <<<EODOC
+    /**
+     * @var $type
+     */
+    public \$$key;
+
+EODOC;
+        }
+
+        echo '</pre>'."\n";
+    }
 }
