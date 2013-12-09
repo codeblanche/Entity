@@ -5,6 +5,7 @@ namespace Entity;
 use Entity\Abstraction\AbstractEntity;
 use Entity\Abstraction\Accessor\ClassMethodInterface;
 use Entity\Abstraction\Accessor\ObjectPropertyInterface;
+use ReflectionProperty;
 
 /**
  * @author      Merten van Gerven
@@ -37,13 +38,23 @@ class Entity extends AbstractEntity implements ClassMethodInterface, ObjectPrope
     }
 
     /**
+     * Retrieve the desired reflection properties filter. Defaults to all non-static properties unless overridden.
+     *
+     * @return int
+     */
+    protected function propertiesFilter()
+    {
+        return ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED | ReflectionProperty::IS_PRIVATE;
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function propertiesAndTypes()
     {
         $properties = array();
         $reflection = new \ReflectionClass($this->calledClassName());
-        $publicVars = $reflection->getProperties();
+        $publicVars = $reflection->getProperties($this->propertiesFilter());
 
         foreach ($publicVars as $publicVar) {
             /* @var ReflectionProperty $publicVar */
