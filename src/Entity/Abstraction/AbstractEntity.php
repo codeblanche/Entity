@@ -443,7 +443,7 @@ abstract class AbstractEntity implements EntityInterface
         $keys = array_keys($this->properties);
         $key  = $keys[$this->position];
 
-        return $this->properties[$key];
+        return $this->get($key);
     }
 
     /**
