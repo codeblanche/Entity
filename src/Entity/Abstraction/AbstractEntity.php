@@ -71,6 +71,11 @@ abstract class AbstractEntity implements EntityInterface
     private $position = 0;
 
     /**
+     * @var array
+     */
+    private $privileged = array();
+
+    /**
      * Default constructor.
      *
      * @param Traversable                           $data
@@ -98,6 +103,8 @@ abstract class AbstractEntity implements EntityInterface
         $this->definitions  = $this->resolveDefitions($propertyDefinitionCollection);
 
         $this->unsetProperties($this->definitions->keys());
+
+        $this->privileged = get_object_vars($this);
 
         $this->resolveDefaults();
 
@@ -325,6 +332,10 @@ abstract class AbstractEntity implements EntityInterface
      */
     public function &get($name)
     {
+        if (array_key_exists($name, $this->privileged)) {
+            return $this;
+        }
+
         if (!array_key_exists($name, $this->properties)) {
             throw new RuntimeException(sprintf(
                 "Attempt to access property '%s' of class '%s' failed. Property does not exist.",
@@ -443,7 +454,7 @@ abstract class AbstractEntity implements EntityInterface
         $keys = array_keys($this->properties);
         $key  = $keys[$this->position];
 
-        return $this->get($key);
+        return $this->get($key);¶
     }
 
     /**
