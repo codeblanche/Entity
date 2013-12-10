@@ -14,7 +14,6 @@ use Entity\Marshal\Exception\InvalidArgumentException;
 use Entity\Marshal\Strict;
 use Entity\RuntimeCache\Abstraction\RuntimeCacheInterface;
 use Entity\RuntimeCache\RuntimeCache;
-use Entity\RuntimeCache\RuntimeCacheSingleton;
 use Traversable;
 
 /**
@@ -28,7 +27,7 @@ use Traversable;
  * @package     Entity
  * @abstract
  */
-abstract class AbstractEntity implements EntityInterface
+abstract class AbstractEntity implements EntityInterface, SortableInterface
 {
     /**
      * @var MarshalInterface Default marshal instance (shared with all entities)
@@ -495,5 +494,69 @@ abstract class AbstractEntity implements EntityInterface
     public function offsetUnset($offset)
     {
         unset($this->$offset);
+    }
+
+    /**
+     * Sort the object by value
+     *
+     * @return bool
+     */
+    public function asort()
+    {
+        return asort($this->properties);
+    }
+
+    /**
+     * Sort the object by property/key
+     *
+     * @return bool
+     */
+    public function ksort()
+    {
+        return ksort($this->properties);
+    }
+
+    /**
+     * Sort the object by value using natural order (case insensitive)
+     *
+     * @return bool
+     */
+    public function natcasesort()
+    {
+        return natcasesort($this->properties);
+    }
+
+    /**
+     * Sort the object by value using natural order
+     *
+     * @return bool
+     */
+    public function natsort()
+    {
+        return natsort($this->properties);
+    }
+
+    /**
+     * Sort the object by value with a user defined function
+     *
+     * @param callable $cmp_function
+     *
+     * @return bool
+     */
+    public function uasort(callable $cmp_function)
+    {
+        return uasort($this->properties, $cmp_function);
+    }
+
+    /**
+     * Sort the object by property/key with a user defined function
+     *
+     * @param callable $cmp_function
+     *
+     * @return bool
+     */
+    public function uksort(callable $cmp_function)
+    {
+        return uksort($this->properties, $cmp_function);
     }
 }
