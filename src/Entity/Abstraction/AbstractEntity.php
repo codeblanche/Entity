@@ -388,7 +388,7 @@ abstract class AbstractEntity implements EntityInterface, SortableInterface
         if (!$recursive) {
             $copy = array();
 
-            foreach ($this->properties as $key => $value) {
+            foreach (array_keys($this->properties) as $key) {
                 $copy[$key] = $this->$key;
             }
 
