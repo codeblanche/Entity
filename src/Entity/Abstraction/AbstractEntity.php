@@ -386,7 +386,13 @@ abstract class AbstractEntity implements EntityInterface, SortableInterface
     public function toArray($recursive = true)
     {
         if (!$recursive) {
-            return $this->properties;
+            $copy = array();
+
+            foreach (array_keys($this->properties) as $key) {
+                $copy[$key] = $this->$key;
+            }
+
+            return $copy;
         }
 
         return $this->convert(new PhpArray());
