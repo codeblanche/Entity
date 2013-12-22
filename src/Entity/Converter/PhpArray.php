@@ -51,13 +51,17 @@ class PhpArray extends ConverterStrategy
             return null;
         }
 
+        $this->registerObject($data);
+
+        $iterable = $data;
+
         if (is_object($data) && !($data instanceof Traversable)) {
-            $data = get_object_vars($data);
+            $iterable = get_object_vars($data);
         }
 
         $result = array();
 
-        foreach ($data as $key => $value) {
+        foreach ($iterable as $key => $value) {
             if (is_array($value) || is_object($value)) {
                 $result[$key] = $this->recurse($value);
             }
@@ -65,6 +69,8 @@ class PhpArray extends ConverterStrategy
                 $result[$key] = $value;
             }
         }
+
+        $this->deregisterObject($data);
 
         return $result;
     }

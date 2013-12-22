@@ -41,8 +41,8 @@ class Dump extends ConverterStrategy
     /**
      * Configure the dump converter strategy
      *
-     * @param boolean $html       Output with(out) html
-     * @param integer $maxDepth   Maximum recursion depth (0 = no limit)
+     * @param boolean $html     Output with(out) html
+     * @param integer $maxDepth Maximum recursion depth (0 = no limit)
      */
     public function __construct($html = true, $maxDepth = 5)
     {
@@ -71,43 +71,40 @@ class Dump extends ConverterStrategy
      */
     protected function recurse(&$data, $name = null, $type = null)
     {
-        $lpad = str_repeat($this->indentWith, $this->depth);
+        if (is_scalar($data)) {
+            $this->makeScalarDefinition($data, $name, $type);
+
+            return;
+        }
 
         if ($this->maxDepth > 0 && $this->depth >= $this->maxDepth) {
-            if (is_scalar($data)) {
-                $this->makeScalarDefinition($data, $name, $type);
-
-                return;
-            }
-
-            $this->out[] = "{$this->makeDefinition(
-                $type,
-                null,
-                $name
-            )} <em style='color:#999;'>" . "... depth limit reached</em>";
+            $this->out[] = "{$this->makeDefinition($type, null, $name)} " .
+            "<em style='color:#999;'>... depth limit reached</em>";
 
             return;
         }
 
         if ($this->isCircularReference($data)) {
-            $this->out[] = "{$this->makeDefinition(
-                $type,
-                null,
-                $name
-            )} <em style='color:#999;'>" . "... cirular reference omitted</em>";
+            $this->out[] = "{$this->makeDefinition($type, null, $name)} " .
+            "<em style='color:#999;'>... cirular reference omitted</em>";
 
             return;
         }
 
-        if (is_array($data)) {
-            $len  = count($data);
+        $this->registerObject($data);
+
+        $iterable = $data;
+        $lpad     = str_repeat($this->indentWith, $this->depth);
+
+        if (is_array($iterable)) {
+            $len  = count($iterable);
             $type = $type ? : 'array';
 
             $this->out[] = "{$this->makeDefinition($type, $len, $name)} {";
 
             $this->depth++;
 
-            foreach ($data as $key => $val) {
+            foreach ($iterable as $key => $val) {
                 $valType = gettype($val);
                 if ($val instanceof EntityInterface) {
                     $valType = $val->calledClassName();
@@ -123,24 +120,24 @@ class Dump extends ConverterStrategy
 
             $this->out[] = "{$lpad}}";
         }
-        elseif (is_object($data)) {
-            if (!($data instanceof EntityInterface) && !($data instanceof Traversable)) {
-                $data = get_object_vars($data);
+        elseif (is_object($iterable)) {
+            if (!($iterable instanceof Traversable)) {
+                $iterable = get_object_vars($data);
             }
 
-            $len  = count($data);
-            $type = $type ? : get_class($data);
+            $len  = count($iterable);
+            $type = $type ? : get_class($iterable);
 
             $this->out[] = "{$this->makeDefinition($type, $len, $name)} {";
 
             $this->depth++;
 
-            foreach ($data as $key => $val) {
-                if (!isset($data->$key) && !isset($data[$key])) {
+            foreach ($iterable as $key => $val) {
+                if (!isset($iterable->$key) && !isset($iterable[$key])) {
                     continue;
                 }
 
-                $valType = $data instanceof EntityInterface ? $data->typeof($key) : null;
+                $valType = $iterable instanceof EntityInterface ? $iterable->typeof($key) : null;
                 $this->recurse($val, $key, $valType);
             }
 
@@ -148,9 +145,8 @@ class Dump extends ConverterStrategy
 
             $this->out[] = "{$lpad}}";
         }
-        else {
-            $this->makeScalarDefinition($data, $name, $type);
-        }
+
+        $this->deregisterObject($data);
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace Entity\Converter\Abstraction;
 
-use Entity\Converter\Abstraction\ConverterStrategyInterface;
+use SplObjectStorage;
 
 /**
  * @author      Merten van Gerven
@@ -13,33 +13,58 @@ use Entity\Converter\Abstraction\ConverterStrategyInterface;
 abstract class ConverterStrategy implements ConverterStrategyInterface
 {
     /**
-     * @var     array   List of object references to check for circular referencing.
+     * @var SplObjectStorage   List of object references to check for circular referencing.
      */
-    protected $objectReferences = array();
+    protected $objectRegistry;
 
     /**
-     * @param  object|array $value
+     * @param mixed $var
+     *
+     * @return $this
+     */
+    protected function registerObject(&$var)
+    {
+        if (!is_object($var)) {
+            return $this;
+        }
+
+        if (!($this->objectRegistry instanceof SplObjectStorage)) {
+            $this->objectRegistry = new SplObjectStorage();
+        }
+
+        $this->objectRegistry->attach($var);
+
+        return $this;
+    }
+
+    /**
+     * @param mixed $var
+     *
+     * @return $this
+     */
+    protected function deregisterObject(&$var)
+    {
+        if (!($this->objectRegistry instanceof SplObjectStorage) || !is_object($var)) {
+            return $this;
+        }
+
+        $this->objectRegistry->detach($var);
+
+        return $this;
+    }
+
+    /**
+     * @param mixed $var
      *
      * @return boolean
      */
-    protected function isCircularReference(&$value)
+    protected function isCircularReference(&$var)
     {
-        if (gettype($value) !== 'object') {
+        if (!($this->objectRegistry instanceof SplObjectStorage) || !is_object($var)) {
             return false;
         }
 
-        $referenceFound = false;
-
-        foreach ($this->objectReferences as $reference) {
-            if ($reference === $value) {
-                $referenceFound = true;
-                break;
-            }
-        }
-
-        $this->objectReferences[] = $value;
-
-        return $referenceFound;
+        return $this->objectRegistry->contains($var);
     }
 }
 
