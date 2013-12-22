@@ -74,6 +74,12 @@ class Dump extends ConverterStrategy
         $lpad = str_repeat($this->indentWith, $this->depth);
 
         if ($this->maxDepth > 0 && $this->depth >= $this->maxDepth) {
+            if (is_scalar($data)) {
+                $this->makeScalarDefinition($data, $name, $type);
+
+                return;
+            }
+
             $this->out[] = "{$this->makeDefinition(
                 $type,
                 null,
