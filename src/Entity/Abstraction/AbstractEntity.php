@@ -77,7 +77,7 @@ abstract class AbstractEntity implements EntityInterface, SortableInterface
     /**
      * Default constructor.
      *
-     * @param Traversable                           $data
+     * @param array|Traversable                     $data
      * @param MarshalInterface                      $marshal
      * @param PropertyDefinitionCollectionInterface $propertyDefinitionCollection
      * @param RuntimeCacheInterface                 $runtimeCache
