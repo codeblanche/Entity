@@ -20,7 +20,7 @@ class Json extends ConverterStrategy
     /**
      * Configure the hash converter strategy
      *
-     * @param string $pretty
+     * @param bool $pretty
      */
     public function __construct($pretty = true)
     {
