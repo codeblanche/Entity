@@ -101,11 +101,11 @@ abstract class AbstractEntity implements EntityInterface, SortableInterface
         $this->runtimeCache = $runtimeCache;
         $this->definitions  = $this->resolveDefitions($propertyDefinitionCollection);
 
+        $this->resolveDefaults();
+
         $this->unsetProperties($this->definitions->keys());
 
         $this->privileged = get_object_vars($this);
-
-        $this->resolveDefaults();
 
         if (!is_null($data)) {
             $this->fromArray($data);

@@ -79,7 +79,7 @@ class Entity extends AbstractEntity implements ClassMethodInterface, ObjectPrope
      */
     protected function defaultValues()
     {
-        return get_class_vars($this->calledClassName());
+        return get_object_vars($this);
     }
 
     /**
