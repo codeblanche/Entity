@@ -121,12 +121,12 @@ class Dump extends ConverterStrategy
             $this->out[] = "{$lpad}}";
         }
         elseif (is_object($iterable)) {
+            $len  = count($iterable);
+            $type = $type ? : get_class($iterable);
+            
             if (!($iterable instanceof Traversable)) {
                 $iterable = get_object_vars($data);
             }
-
-            $len  = count($iterable);
-            $type = $type ? : get_class($iterable);
 
             $this->out[] = "{$this->makeDefinition($type, $len, $name)} {";
 
